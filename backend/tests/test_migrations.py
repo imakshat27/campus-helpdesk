@@ -34,7 +34,13 @@ def test_initial_migration_matches_orm_and_downgrades(monkeypatch):
         second=importlib.util.module_from_spec(spec2);spec2.loader.exec_module(second)
         monkeypatch.setattr(second,'op',TestOps())
         second.upgrade()
+        third_path=path.parent/'003_access_control.py'
+        spec3=importlib.util.spec_from_file_location('access_migration',third_path)
+        third=importlib.util.module_from_spec(spec3);spec3.loader.exec_module(third)
+        monkeypatch.setattr(third,'op',TestOps())
+        third.upgrade()
         assert compare_metadata(ctx,Base.metadata)==[]
+        third.downgrade()
         second.downgrade()
         module.downgrade()
         from sqlalchemy import inspect

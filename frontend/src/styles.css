@@ -167,6 +167,8 @@ p { line-height:1.7; }
 
 /* Staff views contain only real queue data. */
 .staff-login-page { max-width: 580px; margin: 0 auto; padding: 62px 30px; }
+.access-page { min-height: 100svh; }
+.access-page .login-card label:first-child { margin-top: 0; }
 .login-heading { text-align: left; }
 .welcome-symbol { display: grid; place-items: center; width: 58px; height: 60px; margin-bottom: 25px; border-radius: 8px; background: var(--blue); color: var(--white); }
 .login-heading .eyebrow { margin: 0 0 14px; }

@@ -1,6 +1,6 @@
 from datetime import datetime, timezone
 import uuid
-from sqlalchemy import String, Text, DateTime, Boolean, ForeignKey, JSON
+from sqlalchemy import String, Text, DateTime, Boolean, ForeignKey, JSON, Integer, BigInteger
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 from pgvector.sqlalchemy import Vector
 
@@ -37,6 +37,13 @@ class Conversation(Base):
     __tablename__ = 'conversations'
     id: Mapped[str] = mapped_column(String(36), primary_key=True, default=new_id)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now)
+    owner: Mapped[str | None] = mapped_column(String(64), nullable=True)
+
+class RequestBudget(Base):
+    __tablename__ = 'request_budgets'
+    key: Mapped[str] = mapped_column(String(160), primary_key=True)
+    window: Mapped[int] = mapped_column(BigInteger, primary_key=True)
+    count: Mapped[int] = mapped_column(Integer, default=0)
 
 class Message(Base):
     __tablename__ = 'messages'

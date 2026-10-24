@@ -2,6 +2,7 @@
 import json
 from pathlib import Path
 import httpx
+from .review_client import authenticate
 from .config import settings
 CASES=[
 ('What choices does FFCS give students?','answered','ffcs'),
@@ -20,6 +21,7 @@ CASES=[
 def run():
  rows=[];s=settings()
  with httpx.Client(base_url='http://127.0.0.1:8000',timeout=150) as client:
+  authenticate(client)
   def count():
    r=client.get('/api/staff/tickets?status=all',auth=(s.staff_username,s.staff_password));r.raise_for_status();return len(r.json())
   before=count()

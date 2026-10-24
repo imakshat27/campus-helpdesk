@@ -10,6 +10,7 @@ from app.models import Base, Document
 from app.schemas import Generation, Source
 from app.seed import sample_documents
 from app.config import settings
+from app.access import require_access,allow_chat
 
 @pytest.fixture
 def database():
@@ -30,6 +31,8 @@ def client(database,monkeypatch):
         with Session(database) as db:
             yield db
     app.dependency_overrides[get_db]=db_override
+    app.dependency_overrides[require_access]=lambda:'test-owner'
+    app.dependency_overrides[allow_chat]=lambda:'test-owner'
     class Resolver:
         def resolve(self,query,history):
             context=' '.join(m['content'] for m in history if m['role']=='user')

@@ -15,6 +15,7 @@ from .retrieval import retrieve
 from .llm import get_generator, get_query_resolver, validate_generation
 from .clarification import clarification_for,asks_for_price,contains_price
 from .conversation import ticket_decision, conversational_reply
+from .access import require_access, allow_chat, AccessLogin, login
 
 app=FastAPI(title='Campus Helpdesk API', version='1.0.0')
 app.add_middleware(CORSMiddleware, allow_origins=settings().cors_origins,allow_credentials=False,allow_methods=['GET','POST','PATCH'],allow_headers=['Authorization','Content-Type'])
@@ -37,6 +38,14 @@ def staff(credentials: HTTPBasicCredentials | None=Depends(security)):
 
 def get_retriever():
     return retrieve
+
+@app.post('/api/auth/session')
+def access_login(body: AccessLogin,request: Request,db: Session=Depends(get_db)):
+    return login(body,request,db)
+
+@app.get('/api/auth/session')
+def access_session(owner: str=Depends(require_access)):
+    return {'authenticated':True}
 
 @app.get('/api/health')
 def health(db: Session=Depends(get_db)):
@@ -99,23 +108,23 @@ def save_reply(db,conversation,query,outcome,message,sources=None,reference=None
     return ChatResponse(conversation_id=conversation.id,user_message_id=user.id,outcome=outcome,message=message,sources=sources or [],ticket_reference=reference,ticket_offer=TicketOffer(message_id=user.id,query=query) if offer else None)
 
 @app.get('/api/conversations/{conversation_id}')
-def conversation_detail(conversation_id: str,db: Session=Depends(get_db)):
-    if not db.get(Conversation,conversation_id):
+def conversation_detail(conversation_id: str,owner: str=Depends(require_access),db: Session=Depends(get_db)):
+    if not db.scalar(select(Conversation).where(Conversation.id==conversation_id,Conversation.owner==owner)):
         raise HTTPException(404,'Conversation not found.')
     messages=db.scalars(select(Message).where(Message.conversation_id==conversation_id).order_by(Message.created_at,Message.id)).all()
     return {'conversation_id':conversation_id,'messages':[{'id':m.id,'role':m.role,'content':m.content,'outcome':m.outcome,'sources':m.sources} for m in messages]}
 
 @app.post('/api/chat',response_model=ChatResponse)
-def chat(body: ChatRequest,db: Session=Depends(get_db),generator=Depends(get_generator),search=Depends(get_retriever),resolver=Depends(get_query_resolver)):
+def chat(body: ChatRequest,owner: str=Depends(allow_chat),db: Session=Depends(get_db),generator=Depends(get_generator),search=Depends(get_retriever),resolver=Depends(get_query_resolver)):
     query=body.message.strip()
     if not query:
         raise HTTPException(422,'Enter a question first.')
     if body.conversation_id:
-        conversation=db.scalar(select(Conversation).where(Conversation.id==str(body.conversation_id)).with_for_update())
+        conversation=db.scalar(select(Conversation).where(Conversation.id==str(body.conversation_id),Conversation.owner==owner).with_for_update())
         if not conversation:
             raise HTTPException(404,'Conversation not found. Start a new conversation.')
     else:
-        conversation=Conversation()
+        conversation=Conversation(owner=owner)
         db.add(conversation)
         db.flush()
     messages=recent_messages(db,conversation.id)
@@ -155,8 +164,8 @@ def chat(body: ChatRequest,db: Session=Depends(get_db),generator=Depends(get_gen
     return save_reply(db,conversation,query,result.outcome,result.message,selected)
 
 @app.post('/api/conversations/{conversation_id}/escalate')
-def escalate(conversation_id: str,body: EscalationRequest,db: Session=Depends(get_db)):
-    if not db.scalar(select(Conversation).where(Conversation.id==conversation_id).with_for_update()):
+def escalate(conversation_id: str,body: EscalationRequest,owner: str=Depends(require_access),db: Session=Depends(get_db)):
+    if not db.scalar(select(Conversation).where(Conversation.id==conversation_id,Conversation.owner==owner).with_for_update()):
         raise HTTPException(404,'Conversation not found.')
     target=db.get(Message,str(body.message_id))
     if not target or target.conversation_id!=conversation_id or target.role!='user':

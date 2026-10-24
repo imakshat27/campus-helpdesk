@@ -8,6 +8,14 @@ class Settings(BaseSettings):
     openrouter_model: str = ''
     staff_username: str = ''
     staff_password: str = ''
+    review_password: str = ''
+    session_secret: str = ''
+    chat_enabled: bool = True
+    session_max_age: int = 28800
+    chat_requests_per_minute: int = 10
+    chat_requests_per_day: int = 100
+    session_requests_per_minute: int = 5
+    session_requests_per_day: int = 30
     embedding_model: str = 'sentence-transformers/all-MiniLM-L6-v2'
     retrieval_threshold: float = 0.35
     knowledge_mode: str = 'official'

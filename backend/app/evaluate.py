@@ -2,6 +2,7 @@
 import argparse,csv,json,re
 from pathlib import Path
 import httpx
+from .review_client import authenticate
 ROOT=Path(__file__).resolve().parents[2]
 
 def normalized_text(value):
@@ -13,6 +14,7 @@ def normalized_text(value):
 def run(base_url):
     rows=[]
     with httpx.Client(base_url=base_url,timeout=100) as client:
+        authenticate(client)
         for case in json.loads((ROOT/'knowledge/evaluation.json').read_text()):
             try:
                 response=client.post('/api/chat',json={'message':case['query']})

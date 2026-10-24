@@ -3,6 +3,7 @@ import json
 from pathlib import Path
 import httpx
 from .config import settings
+from .review_client import authenticate
 ROOT=Path(__file__).resolve().parents[2]
 
 def run():
@@ -12,6 +13,7 @@ def run():
     rows=[]
     s=settings()
     with httpx.Client(base_url='http://127.0.0.1:8000',timeout=100) as c:
+        authenticate(c)
         def ask(query,cid=None):
             r=c.post('/api/chat',json={'message':query,'conversation_id':cid});r.raise_for_status()
             a=r.json();rows.append({'query':query,'outcome':a['outcome'],'answer':a['message'],'sources':[v['title'] for v in a['sources']],'ticket':a['ticket_reference']})

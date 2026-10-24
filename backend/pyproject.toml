@@ -16,6 +16,7 @@ dependencies = [
     "beautifulsoup4>=4.15.0",
     "pypdf>=6.21.2",
     "markdownify>=1.2.3",
+    "itsdangerous>=2.2,<3",
 ]
 [dependency-groups]
 dev = ["pytest>=8,<10"]

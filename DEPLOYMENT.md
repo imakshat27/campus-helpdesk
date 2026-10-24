@@ -36,9 +36,62 @@ Supply these values in Render's environment settings from the existing local
 - `OPENROUTER_MODEL`
 - `STAFF_USERNAME`
 - `STAFF_PASSWORD`
+- `REVIEW_PASSWORD`: a separate random review-access password, at least 16
+  characters. Share only with intended reviewers; never reuse the staff password.
+- `SESSION_SECRET`: a random signing secret, at least 32 characters. Keep it
+  server-only. A Blueprint can generate it; manually created services must set it.
 - `CORS_ORIGINS`: a JSON array containing the exact production frontend origin,
   for example `["https://your-project.vercel.app"]`. Do not include a trailing
   slash or use a wildcard. Add another origin explicitly if a custom domain is used.
+
+## Private review access and cost controls
+
+Deploy the access-control commit to **both** hosts. Chat, conversation retrieval
+and ticket escalation require an expiring signed Bearer session issued after the
+review password is checked by Render. The frontend only stores that session in
+tab storage; neither password nor OpenRouter key is bundled into frontend code.
+Staff queue access additionally requires its separate existing staff credentials.
+Public health and approved knowledge endpoints remain available without model
+calls. CORS alone does not authenticate requests.
+
+Missing or short `REVIEW_PASSWORD` / `SESSION_SECRET` values close chat access with
+503. The existing hosted version remains unprotected until the new backend is
+deployed. Suspend the service in Render for immediate containment while setting
+up deployment access. `CHAT_ENABLED=false` is the backend kill switch after this
+version is deployed. It does not stop requests already running.
+
+Default request budgets use fixed UTC windows in Neon, reserved atomically before
+any retrieval or provider request. Limits survive service restarts, new sessions
+and provider failures:
+
+| Environment variable | Default |
+|---|---:|
+| `CHAT_REQUESTS_PER_MINUTE` | 10 globally |
+| `CHAT_REQUESTS_PER_DAY` | 100 globally |
+| `SESSION_REQUESTS_PER_MINUTE` | 5 per session |
+| `SESSION_REQUESTS_PER_DAY` | 30 per session |
+
+Login is limited to five attempts per server-observed client address per minute
+and 30 per minute globally. No client-supplied forwarding header is read by the
+limiter. These limits can affect multiple people behind one proxy. Limits return
+429 with `Retry-After`; budget database failures close access rather than bypassing
+limits. Fixed windows can allow a burst across a boundary. One chat request can
+make multiple bounded model calls; request budgets are **not dollar spend caps**.
+Set a credit limit on the app's dedicated key in
+[OpenRouter API keys](https://openrouter.ai/settings/keys), and check usage there.
+
+Sessions expire after eight hours by default. Signing out removes the token from
+the tab; a previously copied token stays valid until expiry. Rotate `SESSION_SECRET`
+to invalidate all sessions, including after changing the review password.
+Changing the password alone does not revoke issued tokens. Conversations belong
+to the session that created them; old unowned conversations cannot be claimed by
+a new reviewer. The protected staff queue retains its authorized context access.
+New login starts a new conversation while preserving an unsent draft.
+
+This is a shared-password gate for private prototype review, not student identity,
+institutional SSO or a public multi-user account system. No hosted protection is
+confirmed until unauthenticated `/api/chat` requests return 401 (or 503 when
+configuration is intentionally missing).
 
 The backend build installs the locked CPU dependencies and downloads
 `sentence-transformers/all-MiniLM-L6-v2` into the image. It does not ingest sources
@@ -86,7 +139,7 @@ origin; broad preview-domain wildcard access is not enabled.
 4. Ask an official-source question, inspect its citation, then ask a follow-up.
 5. Ask an unsupported question: an offer should appear with no saved ticket.
    Confirm a ticket only as an explicit demo test, then verify staff access.
-6. Confirm unauthenticated staff requests return 401 and failed requests preserve
+6. Confirm unauthenticated chat and staff requests return 401 and failed requests preserve
    the user's draft. Test the first request after a free-instance idle period.
 
 Do not report the app as hosted until both actual deployment URLs and these

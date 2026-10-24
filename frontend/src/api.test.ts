@@ -1,9 +1,17 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { api } from './api';
+import { saveAccess, clearAccess } from './access';
 
-afterEach(() => { vi.unstubAllEnvs(); vi.unstubAllGlobals(); });
+afterEach(() => { clearAccess(); vi.unstubAllEnvs(); vi.unstubAllGlobals(); });
 
 describe('deployed API connection', () => {
+  it('sends the review session on chat requests', async () => {
+    saveAccess('signed-test-session');
+    const request = vi.fn().mockResolvedValue({ ok: true, json: async () => ({}) });
+    vi.stubGlobal('fetch', request);
+    await api('/chat', { method: 'POST', body: '{"message":"hi"}' });
+    expect(request).toHaveBeenCalledWith('/api/chat', expect.objectContaining({ headers: { 'Content-Type': 'application/json', Authorization: 'Bearer signed-test-session' } }));
+  });
   it('uses the configured Render URL and forwards staff authentication', async () => {
     vi.stubEnv('VITE_API_BASE_URL', 'https://helpdesk.example.onrender.com/api/');
     const request = vi.fn().mockResolvedValue({ ok: true, json: async () => [] });

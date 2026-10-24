@@ -15,6 +15,7 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Dialog as UiDialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogClose, DialogFooter } from '@/components/ui/dialog';
 import { SidebarProvider, Sidebar, SidebarHeader, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupLabel, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarInset, SidebarTrigger, useSidebar } from '@/components/ui/sidebar';
 import { api } from './api';
+import { clearAccess } from './access';
 const SourceContent=lazy(()=>import('./components/SourceContent'));
 import type { ChatReply, Knowledge, Source, Ticket, TicketOffer } from './api';
 
@@ -67,7 +68,7 @@ export default function App() {
   return <SidebarProvider className="helpdesk-shell">
     <a className="skip-link" href="#main">Skip to content</a>
     <CampusSidebar onNew={reset}/>
-    <SidebarInset id="main" className="main-shell"><header className="topbar"><div className="page-location"><SidebarTrigger className="mobile-menu md:hidden" aria-label="Open navigation"/><span>{name}</span></div><span className="workspace-context"><GraduationCap size={18} aria-hidden="true"/>Student support</span></header>
+    <SidebarInset id="main" className="main-shell"><header className="topbar"><div className="page-location"><SidebarTrigger className="mobile-menu md:hidden" aria-label="Open navigation"/><span>{name}</span></div><Button variant="ghost" onClick={clearAccess}>Sign out</Button></header>
       <Routes><Route path="/" element={<Chat key={resetKey}/>} /><Route path="/knowledge" element={<KnowledgeBase/>} /><Route path="/staff" element={<StaffQueue/>} /><Route path="*" element={<div className="page"><h1>Page not found</h1><Button asChild><NavLink to="/">Back to helpdesk</NavLink></Button></div>} /></Routes>
     </SidebarInset>
   </SidebarProvider>;
@@ -116,7 +117,7 @@ function Chat() {
         { role: 'user', text: question, messageId: reply.user_message_id },
         { role: 'assistant', text: reply.message, sources: reply.sources, outcome: reply.outcome, ticket: reply.ticket_reference, messageId: reply.user_message_id, offer: reply.ticket_offer },
       ]);
-    } catch (e) { setError(errorText(e)); setDraft(question); }
+    } catch (e) { setError(errorText(e)); setDraft(question); try { sessionStorage.setItem('campus-draft',question); } catch { /* Keep the draft in memory if storage is unavailable. */ } }
     finally { setPending(false); setPendingQuestion(''); lock.current = false; inputRef.current?.focus(); }
   }
 

@@ -37,6 +37,8 @@ OPENROUTER_API_KEY=your-key
 OPENROUTER_MODEL=your-chosen-model-slug
 STAFF_USERNAME=your-staff-username
 STAFF_PASSWORD=your-staff-password
+REVIEW_PASSWORD=your-separate-review-password-at-least-16-characters
+SESSION_SECRET=your-random-session-signing-secret-at-least-32-characters
 ```
 
 Use the connection string from your Neon console; ordinary `postgresql://` URLs are also accepted. URL-encode special characters in database passwords. Set `OPENROUTER_MODEL` to a model available to your account with JSON mode support. No paid calls happen during installation, seeding, or unit tests.
@@ -71,7 +73,9 @@ If services are unavailable, the interface reports a load/configuration error. I
 6. Unsupported questions ask whether the student wants a support ticket. No ticket is created at this point. Clicking “Yes, raise a ticket” or affirming the pending offer in chat creates it; “No thanks” declines. Explicit handoff from a supported answer also asks for confirmation. The request identifies the exact question to send, so a later message cannot change the ticket target. Saved references appear only after commit succeeds.
 7. Greetings and thanks receive simple conversational replies without knowledge retrieval or ticket creation. Staff authenticate to read confirmed tickets and conversation context, and can mark tickets resolved or reopen them.
 
-Conversations persist in the database; the current browser tab keeps its conversation ID and displayed messages in session storage. New conversation clears that local view. No student account system is included. Conversation UUIDs act as unguessable handles; do not use this prototype for sensitive student records. Staff credentials stay in memory in the UI and are sent only to the backend. Use HTTPS when moving beyond localhost.
+Private review access now requires a separate shared password and an expiring signed session. Chat and conversation endpoints enforce authentication on the backend; conversations are restricted to the session that created them. Global and per-session request budgets persist in Neon and reserve capacity before paid work, including on failed requests. Default global allowance is 100 chat requests per UTC day. These are request caps, not monetary caps; configure an OpenRouter key credit limit too. See [DEPLOYMENT.md](DEPLOYMENT.md) for all settings, session revocation and limitations.
+
+Conversations persist in the database; the current browser tab keeps its signed session, conversation ID and displayed messages in session storage. New conversation clears that local view. No individual student account system is included; do not use this prototype for sensitive student records. Staff credentials stay in memory in the UI and are sent only to the backend. Use HTTPS when moving beyond localhost.
 
 ## Validation
 
@@ -110,6 +114,8 @@ This calls the configured OpenRouter model and database, consumes API credits, a
 | Method | Endpoint | Purpose |
 |---|---|---|
 | GET | `/api/health` | Database connectivity and answer configuration status |
+| POST | `/api/auth/session` | Review password → expiring signed session; login attempts are limited |
+| GET | `/api/auth/session` | Validate the current Bearer session |
 | POST | `/api/chat` | `{message, conversation_id?}` → outcome, answer, sources, question ID, optional ticket offer/reference |
 | GET | `/api/conversations/{id}` | Stored conversation messages |
 | GET | `/api/knowledge?q=&category=` | Approved sources |
@@ -117,6 +123,11 @@ This calls the configured OpenRouter model and database, consumes API credits, a
 | POST | `/api/conversations/{id}/escalate` | Requires `{message_id, confirmed: true}`; send that exact question and reuse an existing open ticket |
 | GET | `/api/staff/tickets?status=open` | Protected queue (`open`, `resolved`, or `all`) |
 | PATCH | `/api/staff/tickets/{id}` | Protected status change: `{status: "resolved"}` |
+
+Chat, conversation retrieval and escalation require `Authorization: Bearer <session>`.
+The live regression scripts authenticate from local backend settings automatically.
+Allow time between runs to respect the configured request limits; do not bypass
+the production limits for evaluation.
 
 ## Design and boundaries
 
