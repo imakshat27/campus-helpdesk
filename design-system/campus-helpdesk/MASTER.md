@@ -1,27 +1,42 @@
 # Campus Helpdesk design system
 
-User direction: professional and functional, with real solid colors; no pastel surfaces, gradients, glass effects, tiny text, or promotional filler. Revisited with UI UX Pro Max for contrast, clear action states, confirmation feedback and accessibility. Dataset marketing layouts and pale palette suggestions do not match this product and are excluded.
+## Direction: paper, ink, evergreen
+
+A quiet student support workspace. The interface should feel approachable and carefully arranged, with a clear next action and enough room to read. Use shadcn/ui components with a considered application layout. No gradients, glass, promotional copy, decorative statistics, fabricated activity or queue data.
+
+The previous saturated sidebar competed with the work area. Replace it with a warm neutral navigation rail, a paper canvas and deep evergreen actions. Softness comes from restrained contrast between surfaces, generous spacing and rounded controls, not low-contrast text or tinted decorative cards.
 
 ## Foundation
 
-- Solid cobalt navigation `#163CDB`, white canvas/surfaces `#FFFFFF`, near-black text `#151923`, secondary text `#565F70`, neutral structural borders `#DCE0E7`.
-- One strong blue area anchors the product: desktop sidebar; mobile top bar and drawer. All four topic icons use the same blue, without tinted tiles. White active navigation items; solid neutral hover feedback on white cards.
-- Inter, locally bundled. Conversation and composer 18px; functional copy/controls 16px or larger. Main headings 34–40px depending on viewport; short laptop screens use 36px. Line height 1.65–1.8 for conversation text.
-- Sidebar 256px; chat maximum outer width 896px, with 28–40px desktop gutters and 20px mobile gutters. Use compact vertical spacing on short laptop screens so the composer remains visible.
-- 8–14px component corners and subtle neutral borders; minimal control shadows only. Lucide outline SVG icons, consistent size/stroke. Controls at least 44px.
+- Canvas `#F8F7F4`, navigation `#EEEDE8`, white elevated surfaces `#FFFFFF`.
+- Ink `#232B27`, supporting text `#606861`, evergreen actions `#294F40`, stronger hover `#203E33`, quiet borders `#DADDD5`.
+- Selected navigation uses a white surface and evergreen text. Icons use a single Lucide family, without separate colored tiles for each topic.
+- Inter, locally bundled, for controls and body. A restrained Georgia heading provides an editorial accent on the empty chat screen only; app pages use Inter. Functional text is at least 16px, answers/composer 18px. Heading 36–46px, comfortable reading measure.
+- Desktop navigation 248px. Main chat content max-width 816px including gutters, aligned left within its column. At short laptop heights, preserve access to the composer and topic suggestions. Mobile navigation uses shadcn Sheet.
+- Corners 10–16px; composer 18px. Single restrained shadow on the composer/dialog, no embossed effects. All actions have visible keyboard focus and minimum 44px targets.
 
-## Interaction
+## Student journey
 
-- Direct chat home with a centered heading, composer as the primary element, and four compact editable topic cards below it. Persistent conversation and follow-up composer.
-- Missing knowledge offers an inline ticket prompt. No ticket is created until “Yes, raise a ticket” is clicked or the user affirms the pending offer in chat. “No thanks” declines with no staff request. Explicit handoff from a supported answer also shows a confirmation before creating a ticket.
-- Confirmation targets the specific question ID, not whichever question was most recently asked. Failed saves retain the offer and never claim success. Saved reference numbers appear on the corresponding answer.
-- Read previous conversation for search: rewrite follow-ups into standalone questions, then revalidate prior citations if they are reused. Do not guess a subject or supply missing campus facts from general model knowledge.
-- Source browser uses filters and readable rows. Source inspection uses shadcn Dialog (Radix) focus containment, Escape and focus restoration. Staff queue shows only real records.
+1. Arrive at a useful prompt, a short explanation and a clearly labelled question box. The heading is aligned to the question box, without a repeated large brand icon.
+2. Type a question or choose one of four concrete examples. Topic suggestions prefill the box so the student can edit before sending. Each shows its actual sample question, rather than vague feature descriptions.
+3. A labelled send action makes submission obvious. Shift+Enter inserts a new line; Enter sends. Disable submissions while pending, retain the question if the request fails, and allow correction/retry.
+4. Read the answer at 18px with clear author separation. Inspect a source in a keyboard-accessible Dialog. Source titles and supporting passages stay readable.
+5. If information is unavailable, offer a ticket and wait for explicit consent. Ticket actions are grouped under the relevant question. A failed save retains the offer and never claims success.
+
+Keep demo provenance visible in one quiet navigation note and an accurate reference-date caption, without repeated badges competing with the main action. These sources are sample campus information, not official VIT policy.
+
+## Knowledge and staff
+
+- Search comes before category filtering and results. A single-select ToggleGroup has radio semantics and keyboard navigation. Result rows show title, category/type and an excerpt; no decorative tile grid.
+- Source Dialog uses Radix focus containment, Escape and focus restoration.
+- Staff sign-in is a small, clearly labelled form on a white Card. Staff status uses Tabs. Display only real tickets. Resolve actions report actual persistence.
+
+## Preserved behavior
+
+- Resolve follow-ups using actual conversation history, never a word-count heuristic. Revalidate approved source chunks before reusing citations.
+- Missing knowledge returns `needs_staff_confirmation`, with no ticket saved. Only explicit consent creates a ticket for the original message ID, with `confirmed: true`.
+- Service failures remain distinct from missing campus information. Declining or greeting never creates a staff request.
 
 ## Review
 
-Verify at 375, 768, 1024, 1440px and short laptop heights. Functional text must remain readable without horizontal overflow. Check rendered contrast (normal text at least 4.5:1), keyboard focus, mobile drawer focus, explicit ticket confirmation/decline, retained drafts and source detail. Respect reduced motion. The live context/consent test report is `reports/context-and-consent.md`.
-
-## Component implementation
-
-Use the committed shadcn/ui components in `frontend/src/components/ui`, configured through `frontend/components.json`. Button, Input, Textarea, Label, Card, Badge, Alert and Separator share semantic CSS variables. Sidebar uses the shadcn Sheet on mobile. Category filters use the single-select ToggleGroup with radio semantics and arrow-key navigation; staff status uses Tabs. Keep default readable controls at 16px and 44px minimum height. Source Dialog and mobile Sheet restore focus on dismissal. Do not reintroduce bespoke equivalents for these controls.
+Check 375, 768, 1024 and 1440px, plus 1280×720. No horizontal overflow; minimum 16px functional text and 18px chat. Verify contrast, keyboard order, Dialog/Sheet focus return, failed requests, sources and consent. Respect reduced motion. Record actual browser checks separately from automated tests and manual checks still pending.

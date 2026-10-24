@@ -19,3 +19,7 @@ Apply schema changes through Alembic from `backend/`. Use `uv run python -m app.
 Follow `design-system/campus-helpdesk/MASTER.md` and the requested UI UX Pro Max skill when changing interfaces. Keep solid surfaces, readable text, restrained motion, and source-backed behaviour. Do not introduce gradients, glass effects, fabricated queue data, or simulated successful handoffs.
 
 Conversation follow-ups must be resolved using actual history, never a word-count heuristic. Missing knowledge must return `needs_staff_confirmation` with no saved ticket; only explicit confirmation can create one. The escalation endpoint must require the specific user message ID and `confirmed: true`. Run `uv run python -m app.check_conversation` for the live context/consent regression (it confirms one demo ticket).
+
+## Version control
+
+The user requested a new private GitHub repository and a push at every completed stage. The repository is `imakshat27/campus-helpdesk`, remote `origin`. Commit and push coherent stages after their relevant checks. Keep `backend/.env`, keys, passwords, complete database URIs, local environments and dependencies excluded. Verify repository visibility remains private. Do not include credentials in commits or reports.
