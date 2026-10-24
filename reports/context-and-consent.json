@@ -1,0 +1,79 @@
+[
+  {
+    "query": "How do I replace a lost student ID?",
+    "outcome": "answered",
+    "answer": "To replace a lost student ID, report it through the Student portal by navigating to Student services \u2192 ID replacement. You will need to upload a recent photograph and pay a replacement fee of \u20b9200. The replacement ID can be collected from the Student Support Office after three working days upon presentation of your application receipt.",
+    "sources": [
+      "Replacing a lost student ID",
+      "Student services handbook"
+    ],
+    "ticket": null
+  },
+  {
+    "query": "so how much do i pay?",
+    "outcome": "answered",
+    "answer": "The replacement fee for a lost student ID is \u20b9200.",
+    "sources": [
+      "Replacing a lost student ID",
+      "Student services handbook"
+    ],
+    "ticket": null
+  },
+  {
+    "query": "And where do I collect it once it is ready?",
+    "outcome": "answered",
+    "answer": "You can collect your replacement ID from the Student Support Office after three working days, provided you bring your application receipt.",
+    "sources": [
+      "Replacing a lost student ID",
+      "Student services handbook"
+    ],
+    "ticket": null
+  },
+  {
+    "query": "How long do I have to wait before I can collect it?",
+    "outcome": "answered",
+    "answer": "You can collect your replacement ID after three working days.",
+    "sources": [
+      "Replacing a lost student ID",
+      "Student services handbook"
+    ],
+    "ticket": null
+  },
+  {
+    "query": "What time does the library close on Sunday?",
+    "outcome": "answered",
+    "answer": "The Central Library closes at 5:00 PM on Sunday.",
+    "sources": [
+      "Library opening hours"
+    ],
+    "ticket": null
+  },
+  {
+    "query": "What is my personal bank account balance?",
+    "outcome": "needs_staff_confirmation",
+    "answer": "I couldn\u2019t find an answer in the approved campus information. Would you like me to raise a ticket for student support?",
+    "sources": [],
+    "ticket": null
+  },
+  {
+    "query": "no thanks",
+    "outcome": "conversation",
+    "answer": "Okay, I won\u2019t raise a ticket. You can ask another question whenever you\u2019re ready.",
+    "sources": [],
+    "ticket": null
+  },
+  {
+    "query": "Can you tell me tomorrow\u2019s weather in Chennai?",
+    "outcome": "needs_staff_confirmation",
+    "answer": "I couldn\u2019t find an answer in the approved campus information. Would you like me to raise a ticket for student support?",
+    "sources": [],
+    "ticket": null
+  },
+  {
+    "query": "yes please",
+    "outcome": "escalated",
+    "answer": "I\u2019ve raised a ticket for your question. Student support can review it in the staff queue.",
+    "sources": [],
+    "ticket": "HD-1462E60B9C"
+  }
+]

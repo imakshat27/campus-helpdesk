@@ -1,0 +1,13 @@
+{
+  "project_id": "bold-glitter-68864438",
+  "project_name": "campus-helpdesk",
+  "organization_id": "org-flat-brook-17575868",
+  "region_id": "aws-ap-southeast-1",
+  "branch_id": "br-dark-leaf-azodnawz",
+  "branch_name": "main",
+  "database_name": "campus_helpdesk",
+  "role_name": "helpdesk_owner",
+  "connection_env": "backend/.env",
+  "agent_connection": "Local backend/.env (verified); Neon plugin OAuth used during provisioning",
+  "plugin_status_at_last_check": "not installed"
+}

@@ -1,0 +1,134 @@
+[
+  {
+    "query": "Where is SJT 301?",
+    "expected": "answered",
+    "actual": "answered",
+    "answer": "SJT 301 is located on the third floor of the Silver Jubilee Tower. You can reach it by using the main lift or staircase and following the signs for the third floor.",
+    "sources": "Finding room SJT 301; Campus building directory",
+    "correctness": "PASS (heuristic; review facts)",
+    "fallback": "Not needed",
+    "ticket_reference": "",
+    "result": "PASS"
+  },
+  {
+    "query": "How can I find TT 204?",
+    "expected": "answered",
+    "actual": "answered",
+    "answer": "TT 204 is on the second floor of the Technology Tower. Enter through the main lobby and follow the second-floor classroom signs.",
+    "sources": "Finding room TT 204; Campus building directory",
+    "correctness": "PASS (heuristic; review facts)",
+    "fallback": "Not needed",
+    "ticket_reference": "",
+    "result": "PASS"
+  },
+  {
+    "query": "When does the robotics lab close on weekdays?",
+    "expected": "answered",
+    "actual": "answered",
+    "answer": "The Robotics Lab closes at 5:00 PM on weekdays.",
+    "sources": "Robotics lab hours; Laboratory access guide",
+    "correctness": "PASS (heuristic; review facts)",
+    "fallback": "Not needed",
+    "ticket_reference": "",
+    "result": "PASS"
+  },
+  {
+    "query": "Is the computer lab open on Sunday?",
+    "expected": "answered",
+    "actual": "answered",
+    "answer": "The Computer Lab in SJT 201 is closed on Sundays.",
+    "sources": "Computer lab hours",
+    "correctness": "PASS (heuristic; review facts)",
+    "fallback": "Not needed",
+    "ticket_reference": "",
+    "result": "PASS"
+  },
+  {
+    "query": "How do I register for the Campus Hackathon?",
+    "expected": "answered",
+    "actual": "answered",
+    "answer": "To register for the Campus Hackathon, go to Student portal \u2192 Events \u2192 Campus Hackathon 2026. The deadline for registration is 20 October 2026 at 6:00 PM IST. Teams should consist of 2-4 students. The event will be held on 23 October 2026 in Anna Auditorium.",
+    "sources": "Campus Hackathon registration; October 2026 event guide",
+    "correctness": "PASS (heuristic; review facts)",
+    "fallback": "Not needed",
+    "ticket_reference": "",
+    "result": "PASS"
+  },
+  {
+    "query": "I lost my student ID. How do I get a replacement?",
+    "expected": "answered",
+    "actual": "answered",
+    "answer": "Report your lost ID through the Student portal by navigating to Student services \u2192 ID replacement. You will need to upload a recent photograph and pay a demo replacement fee of \u20b9200. The replacement ID can be collected from the Student Support Office after three working days, along with your application receipt.",
+    "sources": "Replacing a lost student ID; Student services handbook",
+    "correctness": "PASS (heuristic; review facts)",
+    "fallback": "Not needed",
+    "ticket_reference": "",
+    "result": "PASS"
+  },
+  {
+    "query": "How do I request a bonafide certificate?",
+    "expected": "answered",
+    "actual": "answered",
+    "answer": "You can request a bonafide certificate by logging into the Student portal, then navigating to Student services \u2192 Certificates \u2192 Bonafide. Select the purpose of your request and submit it. Certificates are usually ready within two working days.",
+    "sources": "Requesting a bonafide certificate; Student services handbook",
+    "correctness": "PASS (heuristic; review facts)",
+    "fallback": "Not needed",
+    "ticket_reference": "",
+    "result": "PASS"
+  },
+  {
+    "query": "How late is the library open on Saturday?",
+    "expected": "answered",
+    "actual": "answered",
+    "answer": "The Central Library is open until 10:00 PM on Saturday.",
+    "sources": "Library opening hours",
+    "correctness": "PASS (heuristic; review facts)",
+    "fallback": "Not needed",
+    "ticket_reference": "",
+    "result": "PASS"
+  },
+  {
+    "query": "What time does the lab open?",
+    "expected": "clarification",
+    "actual": "clarification",
+    "answer": "Which lab do you mean? The available information covers Computer, Chemistry, Robotics.",
+    "sources": "",
+    "correctness": "PASS (heuristic; review facts)",
+    "fallback": "Clarification; no ticket",
+    "ticket_reference": "",
+    "result": "PASS"
+  },
+  {
+    "query": "How do I register for the event?",
+    "expected": "clarification",
+    "actual": "clarification",
+    "answer": "Which event would you like to register for? The available information covers Research Expo.",
+    "sources": "",
+    "correctness": "PASS (heuristic; review facts)",
+    "fallback": "Clarification; no ticket",
+    "ticket_reference": "",
+    "result": "PASS"
+  },
+  {
+    "query": "What will the weather be in Chennai tomorrow?",
+    "expected": "needs_staff_confirmation",
+    "actual": "needs_staff_confirmation",
+    "answer": "I couldn\u2019t find an answer in the approved campus information. Would you like me to raise a ticket for student support?",
+    "sources": "",
+    "correctness": "PASS (heuristic; review facts)",
+    "fallback": "Offered first; ticket saved after explicit test confirmation",
+    "ticket_reference": "HD-7499261CD4",
+    "result": "PASS"
+  },
+  {
+    "query": "What is my personal bank account balance?",
+    "expected": "needs_staff_confirmation",
+    "actual": "needs_staff_confirmation",
+    "answer": "I couldn\u2019t find an answer in the approved campus information. Would you like me to raise a ticket for student support?",
+    "sources": "",
+    "correctness": "PASS (heuristic; review facts)",
+    "fallback": "Offered first; ticket saved after explicit test confirmation",
+    "ticket_reference": "HD-017A7A34CA",
+    "result": "PASS"
+  }
+]

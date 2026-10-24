@@ -1,0 +1,26 @@
+[
+  {
+    "id": "campus-directory",
+    "title": "Campus building directory",
+    "category": "classrooms",
+    "file": "documents/campus-directory.md"
+  },
+  {
+    "id": "lab-access",
+    "title": "Laboratory access guide",
+    "category": "labs",
+    "file": "documents/lab-access.md"
+  },
+  {
+    "id": "event-registration",
+    "title": "October 2026 event guide",
+    "category": "events",
+    "file": "documents/event-registration.md"
+  },
+  {
+    "id": "student-services",
+    "title": "Student services handbook",
+    "category": "procedures",
+    "file": "documents/student-services.md"
+  }
+]

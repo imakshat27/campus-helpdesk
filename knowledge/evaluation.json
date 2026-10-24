@@ -1,0 +1,98 @@
+[
+  {
+    "query": "Where is SJT 301?",
+    "expected": "answered",
+    "source": "faq-01",
+    "contains": [
+      "third",
+      "Silver Jubilee"
+    ]
+  },
+  {
+    "query": "How can I find TT 204?",
+    "expected": "answered",
+    "source": "faq-02",
+    "contains": [
+      "second",
+      "Technology Tower"
+    ]
+  },
+  {
+    "query": "When does the robotics lab close on weekdays?",
+    "expected": "answered",
+    "source": "faq-05",
+    "contains": [
+      "5:00"
+    ]
+  },
+  {
+    "query": "Is the computer lab open on Sunday?",
+    "expected": "answered",
+    "source": "faq-06",
+    "contains": [
+      "Sunday"
+    ]
+  },
+  {
+    "query": "How do I register for the Campus Hackathon?",
+    "expected": "answered",
+    "source": "faq-10",
+    "contains": [
+      "20 October 2026",
+      "2\u20134"
+    ]
+  },
+  {
+    "query": "I lost my student ID. How do I get a replacement?",
+    "expected": "answered",
+    "source": "faq-14",
+    "contains": [
+      "200",
+      "three working days"
+    ]
+  },
+  {
+    "query": "How do I request a bonafide certificate?",
+    "expected": "answered",
+    "source": "faq-15",
+    "contains": [
+      "two working days"
+    ]
+  },
+  {
+    "query": "How late is the library open on Saturday?",
+    "expected": "answered",
+    "source": "faq-20",
+    "contains": [
+      "10:00"
+    ]
+  },
+  {
+    "query": "What time does the lab open?",
+    "expected": "clarification",
+    "source": null,
+    "contains": [
+      "lab"
+    ]
+  },
+  {
+    "query": "How do I register for the event?",
+    "expected": "clarification",
+    "source": null,
+    "contains": [
+      "event"
+    ]
+  },
+  {
+    "query": "What will the weather be in Chennai tomorrow?",
+    "expected": "needs_staff_confirmation",
+    "source": null,
+    "contains": []
+  },
+  {
+    "query": "What is my personal bank account balance?",
+    "expected": "needs_staff_confirmation",
+    "source": null,
+    "contains": []
+  }
+]

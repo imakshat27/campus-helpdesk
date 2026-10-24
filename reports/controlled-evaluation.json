@@ -1,0 +1,122 @@
+[
+  {
+    "query": "Where is SJT 301?",
+    "expected": "answered",
+    "actual": "answered",
+    "answer": "SJT 301 is on the third floor of the Silver Jubilee Tower (SJT). Use the main lift or staircase and follow the third-floor room signs.",
+    "sources": "Finding room SJT 301",
+    "correctness": "PASS (controlled response)",
+    "fallback": "Not needed",
+    "pass": true
+  },
+  {
+    "query": "How can I find TT 204?",
+    "expected": "answered",
+    "actual": "answered",
+    "answer": "TT 204 is on the second floor of the Technology Tower (TT). Enter through the main lobby and follow the second-floor classroom signs.",
+    "sources": "Finding room TT 204",
+    "correctness": "PASS (controlled response)",
+    "fallback": "Not needed",
+    "pass": true
+  },
+  {
+    "query": "When does the robotics lab close on weekdays?",
+    "expected": "answered",
+    "actual": "answered",
+    "answer": "The Robotics Lab in TT 115 is open Monday\u2013Friday, 9:00 AM\u20135:00 PM. Supervised project access is available Saturday, 9:00 AM\u20131:00 PM, with prior faculty approval.",
+    "sources": "Robotics lab hours",
+    "correctness": "PASS (controlled response)",
+    "fallback": "Not needed",
+    "pass": true
+  },
+  {
+    "query": "Is the computer lab open on Sunday?",
+    "expected": "answered",
+    "actual": "answered",
+    "answer": "The Computer Lab in SJT 201 is open Monday\u2013Saturday, 8:00 AM\u20138:00 PM. It is closed on Sundays and campus holidays.",
+    "sources": "Computer lab hours",
+    "correctness": "PASS (controlled response)",
+    "fallback": "Not needed",
+    "pass": true
+  },
+  {
+    "query": "How do I register for the Campus Hackathon?",
+    "expected": "answered",
+    "actual": "answered",
+    "answer": "Register for the Campus Hackathon through Student portal \u2192 Events \u2192 Campus Hackathon 2026. Registration closes on 20 October 2026 at 6:00 PM IST. Teams may have 2\u20134 students. The event takes place on 23 October 2026 in Anna Auditorium.",
+    "sources": "Campus Hackathon registration",
+    "correctness": "PASS (controlled response)",
+    "fallback": "Not needed",
+    "pass": true
+  },
+  {
+    "query": "I lost my student ID. How do I get a replacement?",
+    "expected": "answered",
+    "actual": "answered",
+    "answer": "Report the lost ID through Student portal \u2192 Student services \u2192 ID replacement. Upload a recent photograph and pay the demo replacement fee of \u20b9200. Collect the replacement from the Student Support Office after three working days with your application receipt.",
+    "sources": "Replacing a lost student ID",
+    "correctness": "PASS (controlled response)",
+    "fallback": "Not needed",
+    "pass": true
+  },
+  {
+    "query": "How do I request a bonafide certificate?",
+    "expected": "answered",
+    "actual": "answered",
+    "answer": "Apply through Student portal \u2192 Student services \u2192 Certificates \u2192 Bonafide. Select the purpose and submit the request. Approved certificates are normally available within two working days.",
+    "sources": "Requesting a bonafide certificate",
+    "correctness": "PASS (controlled response)",
+    "fallback": "Not needed",
+    "pass": true
+  },
+  {
+    "query": "How late is the library open on Saturday?",
+    "expected": "answered",
+    "actual": "answered",
+    "answer": "The Central Library is open Monday\u2013Saturday, 8:00 AM\u201310:00 PM, and Sunday, 9:00 AM\u20135:00 PM. Holiday hours are announced separately.",
+    "sources": "Library opening hours",
+    "correctness": "PASS (controlled response)",
+    "fallback": "Not needed",
+    "pass": true
+  },
+  {
+    "query": "What time does the lab open?",
+    "expected": "clarification",
+    "actual": "clarification",
+    "answer": "Which lab do you mean? The available information covers Robotics.",
+    "sources": "\u2014",
+    "correctness": "PASS (controlled response)",
+    "fallback": "Clarification, no ticket",
+    "pass": true
+  },
+  {
+    "query": "How do I register for the event?",
+    "expected": "clarification",
+    "actual": "clarification",
+    "answer": "Which event would you like to register for?",
+    "sources": "\u2014",
+    "correctness": "PASS (controlled response)",
+    "fallback": "Clarification, no ticket",
+    "pass": true
+  },
+  {
+    "query": "What will the weather be in Chennai tomorrow?",
+    "expected": "needs_staff_confirmation",
+    "actual": "needs_staff_confirmation",
+    "answer": "I couldn\u2019t find an answer in the approved campus information. Would you like me to raise a ticket for student support?",
+    "sources": "\u2014",
+    "correctness": "PASS (controlled response)",
+    "fallback": "Offered first; saved after explicit test confirmation",
+    "pass": true
+  },
+  {
+    "query": "What is my personal bank account balance?",
+    "expected": "needs_staff_confirmation",
+    "actual": "needs_staff_confirmation",
+    "answer": "I couldn\u2019t find an answer in the approved campus information. Would you like me to raise a ticket for student support?",
+    "sources": "\u2014",
+    "correctness": "PASS (controlled response)",
+    "fallback": "Offered first; saved after explicit test confirmation",
+    "pass": true
+  }
+]
