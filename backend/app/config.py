@@ -10,6 +10,7 @@ class Settings(BaseSettings):
     staff_password: str = ''
     embedding_model: str = 'sentence-transformers/all-MiniLM-L6-v2'
     retrieval_threshold: float = 0.35
+    knowledge_mode: str = 'official'
     cors_origins: list[str] = ['http://127.0.0.1:5173', 'http://localhost:5173']
     model_config = SettingsConfigDict(env_file=Path(__file__).resolve().parents[1] / '.env', extra='ignore')
 

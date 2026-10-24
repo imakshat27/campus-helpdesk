@@ -12,6 +12,9 @@ class Source(BaseModel):
     title: str
     heading: str
     content: str
+    source_url: str | None = None
+    campus: str | None = None
+    retrieved_at: str | None = None
 
 class TicketOffer(BaseModel):
     message_id: str

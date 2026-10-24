@@ -21,7 +21,7 @@ def test_seed_is_idempotent_and_sections_have_source_titles(database):
     from sqlalchemy import select,func
     with Session(database) as db:
         for _ in range(2):
-            documents,chunks=seed(db,encode=lambda texts:[vector(0) for _ in texts])
+            documents,chunks=seed(db,encode=lambda texts:[vector(0) for _ in texts],mode='sample')
         assert documents==29 and chunks>29
         assert db.scalar(select(func.count()).select_from(Document))==29
         assert db.scalar(select(func.count()).select_from(Chunk))==chunks

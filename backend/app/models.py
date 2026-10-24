@@ -21,6 +21,9 @@ class Document(Base):
     kind: Mapped[str] = mapped_column(String(20))
     content: Mapped[str] = mapped_column(Text)
     approved: Mapped[bool] = mapped_column(Boolean, default=True)
+    source_url: Mapped[str | None] = mapped_column(Text, nullable=True)
+    campus: Mapped[str | None] = mapped_column(String(40), nullable=True)
+    retrieved_at: Mapped[str | None] = mapped_column(String(40), nullable=True)
 
 class Chunk(Base):
     __tablename__ = 'chunks'

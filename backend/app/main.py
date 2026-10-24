@@ -41,7 +41,7 @@ def get_retriever():
 @app.get('/api/health')
 def health(db: Session=Depends(get_db)):
     db.execute(text('SELECT 1'))
-    return {'database':'connected','answer_service_configured':bool(settings().openrouter_api_key and settings().openrouter_model),'scenario_date':'2026-10-16','sample_data':True}
+    return {'database':'connected','answer_service_configured':bool(settings().openrouter_api_key and settings().openrouter_model),'scenario_date':'2026-10-16','sample_data':settings().knowledge_mode!='official','knowledge_mode':settings().knowledge_mode,'campus':'Vellore'}
 
 @app.get('/api/knowledge')
 def knowledge(q: str='',category: str='',db: Session=Depends(get_db)):
@@ -51,17 +51,17 @@ def knowledge(q: str='',category: str='',db: Session=Depends(get_db)):
     if category:
         stmt=stmt.where(Document.category==category)
     docs=db.scalars(stmt.order_by(Document.kind,Document.title)).all()
-    return [{'id':d.id,'title':d.title,'category':d.category,'kind':d.kind,'content':d.content} for d in docs]
+    return [{'id':d.id,'title':d.title,'category':d.category,'kind':d.kind,'content':d.content,'source_url':d.source_url,'campus':d.campus,'retrieved_at':d.retrieved_at} for d in docs]
 
 @app.get('/api/knowledge/{document_id}')
 def source_detail(document_id: str,db: Session=Depends(get_db)):
     d=db.get(Document,document_id)
     if not d or not d.approved:
         raise HTTPException(404,'Source not found.')
-    return {'id':d.id,'title':d.title,'category':d.category,'kind':d.kind,'content':d.content}
+    return {'id':d.id,'title':d.title,'category':d.category,'kind':d.kind,'content':d.content,'source_url':d.source_url,'campus':d.campus,'retrieved_at':d.retrieved_at}
 
 def recent_messages(db, conversation_id):
-    rows=db.scalars(select(Message).where(Message.conversation_id==conversation_id).order_by(Message.created_at.desc(),Message.id.desc()).limit(20)).all()
+    rows=db.scalars(select(Message).where(Message.conversation_id==conversation_id).order_by(Message.created_at.desc(),Message.id.desc()).limit(80)).all()
     return list(reversed(rows))
 
 def history_for(db,conversation_id):
@@ -88,7 +88,7 @@ def context_sources(db, messages):
         return []
     ids=[s['id'] for s in previous.sources if 'id' in s]
     rows=db.execute(select(Chunk,Document).join(Document).where(Chunk.id.in_(ids),Document.approved.is_(True))).all()
-    return [Source(id=c.id,document_id=d.id,title=d.title,heading=c.heading,content=c.content) for c,d in rows]
+    return [Source(id=c.id,document_id=d.id,title=d.title,heading=c.heading,content=c.content,source_url=d.source_url,campus=d.campus,retrieved_at=d.retrieved_at) for c,d in rows]
 
 def save_reply(db,conversation,query,outcome,message,sources=None,reference=None,offer=False):
     user=Message(conversation_id=conversation.id,role='user',content=query,created_at=now())
@@ -135,12 +135,12 @@ def chat(body: ChatRequest,db: Session=Depends(get_db),generator=Depends(get_gen
         sources=search(db,resolved.query)
         if resolved.uses_context:
             # The last grounded answer is often more specific than a fresh vector hit.
-            sources=list({s.id:s for s in [*context_sources(db,messages),*sources]}.values())[:8]
+            sources=list({s.id:s for s in [*sources,*context_sources(db,messages)]}.values())[:8]
     except HTTPException:
         raise
     except Exception as exc:
         raise HTTPException(503,'Knowledge search is unavailable. Please try again.') from exc
-    clarification=clarification_for(query,sources,history)
+    clarification=clarification_for(resolved.query,sources,history)
     if clarification:
         result=Generation(outcome='clarification',message=clarification,source_ids=[])
     elif sources:
@@ -148,7 +148,7 @@ def chat(body: ChatRequest,db: Session=Depends(get_db),generator=Depends(get_gen
     else:
         result=Generation(outcome='unsupported',message='I could not find that information in the approved campus knowledge base.',source_ids=[])
     if result.outcome=='unsupported':
-        return save_reply(db,conversation,query,'needs_staff_confirmation','I couldn’t find an answer in the approved campus information. Would you like me to raise a ticket for student support?',offer=True)
+        return save_reply(db,conversation,query,'needs_staff_confirmation','I couldn’t find an answer in the available campus sources. Would you like me to raise a ticket for student support?',offer=True)
     selected=[s for s in sources if s.id in result.source_ids]
     return save_reply(db,conversation,query,result.outcome,result.message,selected)
 

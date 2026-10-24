@@ -29,7 +29,13 @@ def test_initial_migration_matches_orm_and_downgrades(monkeypatch):
             def __getattr__(self,key):return getattr(operations,key)
         monkeypatch.setattr(module,'op',TestOps())
         module.upgrade()
+        second_path=path.parent/'002_source_provenance.py'
+        spec2=importlib.util.spec_from_file_location('source_migration',second_path)
+        second=importlib.util.module_from_spec(spec2);spec2.loader.exec_module(second)
+        monkeypatch.setattr(second,'op',TestOps())
+        second.upgrade()
         assert compare_metadata(ctx,Base.metadata)==[]
+        second.downgrade()
         module.downgrade()
         from sqlalchemy import inspect
         assert inspect(conn).get_table_names()==[]

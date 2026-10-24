@@ -42,6 +42,6 @@ def retrieve(db: Session, query: str, encode=embed):
         lexical = len(words & tokens(f'{d.title} {c.heading} {c.content}')) / max(len(words),1)
         score = 0.8*semantic + 0.2*lexical
         if semantic >= settings().retrieval_threshold or (len(words)>=2 and lexical>=0.8):
-            scored.append((score, Source(id=c.id,document_id=d.id,title=d.title,heading=c.heading,content=c.content)))
+            scored.append((score, Source(id=c.id,document_id=d.id,title=d.title,heading=c.heading,content=c.content,source_url=d.source_url,campus=d.campus,retrieved_at=d.retrieved_at)))
     scored.sort(key=lambda item:item[0], reverse=True)
-    return [s for _,s in scored[:5]]
+    return [s for _,s in scored[:8]]
