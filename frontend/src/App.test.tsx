@@ -22,7 +22,7 @@ describe('student workflow',()=>{
     mockFetch.mockResolvedValueOnce(response({conversation_id:'test',user_message_id:'user-1',outcome:'answered',message:'SJT 301 is on the third floor.',sources:[{id:'faq-01:0',document_id:'faq-01',title:'Finding room SJT 301',heading:'Location',content:'Third floor, Silver Jubilee Tower.'}]}));
     mockFetch.mockResolvedValueOnce(response({ticket_reference:'HD-EXAMPLE'}));
     show();const user=userEvent.setup();
-    await user.click(screen.getByRole('button',{name:/Find a classroom/}));
+    await user.click(screen.getByRole('button',{name:/Library borrowing/}));
     await user.click(screen.getByRole('button',{name:'Send question'}));
     expect(await screen.findByText('SJT 301 is on the third floor.')).toBeVisible();
     expect(screen.getByRole('button',{name:'Finding room SJT 301'})).toBeVisible();
@@ -51,9 +51,11 @@ it('searches the knowledge base and filters categories',async()=>{
   expect(screen.getByText('No matching sources')).toBeVisible();
   expect(screen.getByRole('textbox',{name:'Search the knowledge base'})).toHaveValue('not-present');
 });
-it('labels the local source preview when the API is unavailable',async()=>{
-  mockFetch.mockRejectedValueOnce(new Error('offline')).mockResolvedValueOnce(response([{id:'1',title:'Sample source',category:'labs',kind:'faq',content:'Example'}]));
-  show('/knowledge');expect(await screen.findByText(/Viewing bundled sample sources/)).toBeVisible();
+it('does not substitute fictional sample sources when the official API fails',async()=>{
+ mockFetch.mockRejectedValueOnce(new Error('offline'));
+ show('/knowledge');expect(await screen.findByRole('alert')).toHaveTextContent('could not be loaded');
+ expect(mockFetch).toHaveBeenCalledTimes(1);
+ expect(screen.queryByText(/bundled sample/)).not.toBeInTheDocument();
 });
 it('requires staff sign-in and never displays an invented queue',async()=>{
   mockFetch.mockResolvedValue(response({detail:'Incorrect username or password.'},false));
@@ -141,4 +143,21 @@ it('opens mobile navigation and restores the trigger after Escape',async()=>{
     await waitFor(()=>expect(screen.queryByRole('dialog')).not.toBeInTheDocument());
     expect(trigger).toHaveFocus();
   } finally { Object.defineProperty(window,'innerWidth',{value:previousWidth,writable:true,configurable:true}); }
+});
+
+it('shows official provenance and readable policy tables',async()=>{
+ mockFetch.mockResolvedValue(response([{id:'official',title:'Library policy',category:'library',kind:'official',content:'## Borrowing\n\n| Type | Books |\n|---|---|\n| UG | 5 |',source_url:'https://vit.ac.in/academics/library',campus:'Vellore',retrieved_at:'2026-10-24T12:00:00Z'}]));
+ show('/knowledge');const user=userEvent.setup();await user.click(await screen.findByRole('button',{name:/Library policy/}));
+ expect(screen.getByRole('link',{name:/Open original VIT source/})).toHaveAttribute('href','https://vit.ac.in/academics/library');
+ expect(screen.getByRole('table')).toHaveTextContent('UG');
+ expect(screen.getByRole('dialog')).toHaveTextContent('Vellore');
+});
+it('keeps an unsent draft across navigation',async()=>{
+ mockFetch.mockResolvedValue(response([]));show();const user=userEvent.setup();
+ await user.type(screen.getByLabelText('Ask a campus question'),'Can I renew my library books?');
+ await user.click(screen.getByRole('link',{name:'Knowledge base'}));
+ await user.click(screen.getByRole('link',{name:'Ask a question'}));
+ expect(screen.getByLabelText('Ask a campus question')).toHaveValue('Can I renew my library books?');
+ await user.click(screen.getByRole('link',{name:'New conversation'}));
+ expect(screen.getByLabelText('Ask a campus question')).toHaveValue('');
 });

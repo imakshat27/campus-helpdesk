@@ -40,3 +40,7 @@ Keep demo provenance visible in one quiet navigation note and an accurate refere
 ## Review
 
 Check 375, 768, 1024 and 1440px, plus 1280×720. No horizontal overflow; minimum 16px functional text and 18px chat. Verify contrast, keyboard order, Dialog/Sheet focus return, failed requests, sources and consent. Respect reduced motion. Record actual browser checks separately from automated tests and manual checks still pending.
+
+## Official knowledge and source UX
+
+The active collection is now downloaded public VIT Vellore material. Replace demo hints with academics, library, hostel and welfare examples. Display the source URL and retrieval date, retaining publication years in policy text. Never substitute sample facts during a network failure. Source detail renders headings, lists and tables with readable text; original PDF/page links let students verify critical details. Group answer citations by document while retaining all cited passages. Knowledge filters derive from the actual categories; show 15 results at a time and let users request more. Preserve unsent drafts through navigation and clear them only for a new conversation. Older fictional conversation cache uses a different storage key.
