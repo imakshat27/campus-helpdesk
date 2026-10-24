@@ -133,3 +133,6 @@ The source manifest and extracted documents are under `knowledge/official/`; the
 Conversation resolution now uses up to 80 stored messages and a bounded context of recent turns plus early topic anchors. Source documents remain the factual authority; conversation history is never treated as an approved source. Returning to earlier topics is tested. This is bounded conversational context, not unlimited memory or access to other chats.
 
 Public coverage does not include private attendance, timetable/room allocations, live seats, personal records, passwords or registration state. Missing facts still ask before raising a staff ticket. An independent staff/source review and current university confirmation remain necessary for critical or changing policy details.
+
+
+Current verification: 71 isolated backend tests, 15 frontend tests, production build, 30 source-family retrieval checks, 12 live outcome/source checks and eight live context/consent turns. See `reports/official-dataset.md` for limits and earlier failed runs. Browser review of the new UI changes is pending because local browser use was disabled in Work settings during this revision.

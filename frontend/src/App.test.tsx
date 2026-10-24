@@ -149,7 +149,7 @@ it('shows official provenance and readable policy tables',async()=>{
  mockFetch.mockResolvedValue(response([{id:'official',title:'Library policy',category:'library',kind:'official',content:'## Borrowing\n\n| Type | Books |\n|---|---|\n| UG | 5 |',source_url:'https://vit.ac.in/academics/library',campus:'Vellore',retrieved_at:'2026-10-24T12:00:00Z'}]));
  show('/knowledge');const user=userEvent.setup();await user.click(await screen.findByRole('button',{name:/Library policy/}));
  expect(screen.getByRole('link',{name:/Open original VIT source/})).toHaveAttribute('href','https://vit.ac.in/academics/library');
- expect(screen.getByRole('table')).toHaveTextContent('UG');
+ expect(await screen.findByRole('table')).toHaveTextContent('UG');
  expect(screen.getByRole('dialog')).toHaveTextContent('Vellore');
 });
 it('keeps an unsent draft across navigation',async()=>{

@@ -26,3 +26,20 @@ def test_seed_is_idempotent_and_sections_have_source_titles(database):
         assert db.scalar(select(func.count()).select_from(Document))==29
         assert db.scalar(select(func.count()).select_from(Chunk))==chunks
         assert db.get(Chunk,'event-registration:0').heading=='Campus Hackathon 2026'
+
+
+def test_retrieval_preserves_provenance_and_diversifies_duplicate_chunks(database):
+    from sqlalchemy.orm import Session
+    from app.models import Document,Chunk
+    with Session(database) as db:
+        db.get(Document,'faq-05').source_url='https://vit.ac.in/academics/library'
+        db.get(Document,'faq-05').campus='Vellore'
+        for i in range(6):
+            db.add(Chunk(id=f'duplicate-{i}',document_id='faq-05',heading='Borrowing',content='Library borrowing rules for students',embedding=vector(0)))
+        db.add(Chunk(id='other-document',document_id='faq-06',heading='Other access',content='Library borrowing access details',embedding=vector(0)))
+        db.commit()
+        rows=retrieve(db,'library borrowing',encode=lambda texts:[vector(0)])
+        assert len([r for r in rows if r.document_id=='faq-05'])==1
+        assert any(r.id=='other-document' for r in rows)
+        official=next(r for r in rows if r.document_id=='faq-05')
+        assert official.source_url=='https://vit.ac.in/academics/library' and official.campus=='Vellore'

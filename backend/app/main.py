@@ -4,7 +4,7 @@ from fastapi import FastAPI, Depends, HTTPException, Query, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
-from sqlalchemy import select, text
+from sqlalchemy import select, text, func
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Session,load_only
 from .config import settings
@@ -13,7 +13,7 @@ from .models import Document, Chunk, Conversation, Message, Ticket, now
 from .schemas import ChatRequest, ChatResponse, Generation, TicketUpdate, TicketOffer, EscalationRequest, Source
 from .retrieval import retrieve
 from .llm import get_generator, get_query_resolver, validate_generation
-from .clarification import clarification_for
+from .clarification import clarification_for,asks_for_price,contains_price
 from .conversation import ticket_decision, conversational_reply
 
 app=FastAPI(title='Campus Helpdesk API', version='1.0.0')
@@ -41,7 +41,7 @@ def get_retriever():
 @app.get('/api/health')
 def health(db: Session=Depends(get_db)):
     db.execute(text('SELECT 1'))
-    return {'database':'connected','answer_service_configured':bool(settings().openrouter_api_key and settings().openrouter_model),'scenario_date':'2026-10-16','sample_data':settings().knowledge_mode!='official','knowledge_mode':settings().knowledge_mode,'campus':'Vellore'}
+    return {'database':'connected','answer_service_configured':bool(settings().openrouter_api_key and settings().openrouter_model),'scenario_date':None if settings().knowledge_mode=='official' else '2026-10-16','sample_data':settings().knowledge_mode!='official','knowledge_mode':settings().knowledge_mode,'campus':'Vellore'}
 
 @app.get('/api/knowledge')
 def knowledge(q: str='',category: str='',db: Session=Depends(get_db)):
@@ -147,6 +147,8 @@ def chat(body: ChatRequest,db: Session=Depends(get_db),generator=Depends(get_gen
         result=validate_generation(generator.generate(query,sources,history),sources)
     else:
         result=Generation(outcome='unsupported',message='I could not find that information in the approved campus knowledge base.',source_ids=[])
+    if result.outcome=='answered' and any(s.source_url for s in sources) and asks_for_price(resolved.query) and not contains_price(result.message):
+        result=Generation(outcome='unsupported',message='The requested price is not established by this answer.',source_ids=[])
     if result.outcome=='unsupported':
         return save_reply(db,conversation,query,'needs_staff_confirmation','I couldn’t find an answer in the available campus sources. Would you like me to raise a ticket for student support?',offer=True)
     selected=[s for s in sources if s.id in result.source_ids]
@@ -175,7 +177,17 @@ def tickets(status: str=Query('open',pattern='^(open|resolved|all)$'),db: Sessio
     if status!='all':
         stmt=stmt.where(Ticket.status==status)
     rows=db.scalars(stmt.limit(200)).all()
-    return [{'id':t.id,'reference':t.reference,'query':t.query,'reason':t.reason,'status':t.status,'created_at':t.created_at,'messages':history_for(db,t.conversation_id)} for t in rows]
+    # Fetch context for all displayed tickets in one bounded query, rather than
+    # one database round trip per row as the queue grows.
+    conversations={t.conversation_id for t in rows}
+    context={key:[] for key in conversations}
+    if conversations:
+        ranked=select(Message.conversation_id,Message.role,Message.content,
+            func.row_number().over(partition_by=Message.conversation_id,order_by=(Message.created_at.desc(),Message.id.desc())).label('position')).where(Message.conversation_id.in_(conversations)).subquery()
+        messages=db.execute(select(ranked).where(ranked.c.position<=80).order_by(ranked.c.conversation_id,ranked.c.position.desc())).mappings()
+        for message in messages:
+            context[message['conversation_id']].append({'role':message['role'],'content':message['content']})
+    return [{'id':t.id,'reference':t.reference,'query':t.query,'reason':t.reason,'status':t.status,'created_at':t.created_at,'messages':context[t.conversation_id]} for t in rows]
 
 @app.patch('/api/staff/tickets/{ticket_id}',dependencies=[Depends(staff)])
 def update_ticket(ticket_id: str,body: TicketUpdate,db: Session=Depends(get_db)):

@@ -312,3 +312,36 @@ def test_failed_citation_repair_saves_no_answer_or_ticket(grounded,database,monk
         assert not db.scalars(select(Message)).all()
         assert not db.scalars(select(Conversation)).all()
         assert not db.scalars(select(Ticket)).all()
+
+
+def test_staff_queue_batches_context_in_two_queries(client,database):
+    from sqlalchemy import event
+    with Session(database) as db:
+        for i in range(4):
+            conversation=Conversation();db.add(conversation);db.flush()
+            db.add(Message(conversation_id=conversation.id,role='user',content=f'Question {i}'))
+            db.add(Ticket(reference=f'HD-BATCH-{i}',conversation_id=conversation.id,query=f'Question {i}',reason='Confirmed test'))
+        db.commit()
+    statements=[]
+    def count(conn,cursor,statement,parameters,context,executemany):
+        if statement.lstrip().upper().startswith('SELECT'):statements.append(statement)
+    event.listen(database,'before_cursor_execute',count)
+    try:
+        result=client.get('/api/staff/tickets',auth=AUTH)
+        assert result.status_code==200 and len(result.json())==4
+        assert all(len(ticket['messages'])==1 for ticket in result.json())
+        assert len(statements)==2
+    finally:event.remove(database,'before_cursor_execute',count)
+
+
+def test_official_price_question_does_not_pass_with_only_contact_details(grounded,database,source):
+    official=source.model_copy(update={'source_url':'https://vit.ac.in/about/administrative-offices'})
+    app.dependency_overrides[get_retriever]=lambda:lambda db,q:[official]
+    class OfficeOnly:
+        def generate(self,*args):
+            return Generation(outcome='answered',message='Contact the Student Records Section on 0416 220 2174.',source_ids=[official.id])
+    app.dependency_overrides[get_generator]=lambda:OfficeOnly()
+    r=grounded.post('/api/chat',json={'message':'How much is a replacement ID card?'})
+    assert r.status_code==200 and r.json()['outcome']=='needs_staff_confirmation'
+    assert not r.json()['ticket_reference']
+    with Session(database) as db:assert not db.scalars(select(Ticket)).all()

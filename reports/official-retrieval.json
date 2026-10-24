@@ -1,0 +1,1550 @@
+[
+  {
+    "query": "What are library working hours on Sunday?",
+    "expected_url_contains": "library",
+    "pass": true,
+    "sources": [
+      {
+        "id": "vit-a1ed5f3bba1da8:0",
+        "title": "library policy 2024",
+        "heading": "Page 1",
+        "url": "https://vit.ac.in/wp-content/uploads/2024/11/library-policy-2024.pdf"
+      },
+      {
+        "id": "vit-a5491ce470ffa0:9",
+        "title": "Library | VIT",
+        "heading": "Open access system is followed in the Library",
+        "url": "https://vit.ac.in/academics/library"
+      },
+      {
+        "id": "vit-a1ed5f3bba1da8:8",
+        "title": "library policy 2024",
+        "heading": "Page 5",
+        "url": "https://vit.ac.in/wp-content/uploads/2024/11/library-policy-2024.pdf"
+      },
+      {
+        "id": "vit-a1ed5f3bba1da8:10",
+        "title": "library policy 2024",
+        "heading": "Page 6",
+        "url": "https://vit.ac.in/wp-content/uploads/2024/11/library-policy-2024.pdf"
+      },
+      {
+        "id": "vit-e8feaeba2f60ef:11",
+        "title": "Academic Regulations",
+        "heading": "Page 6",
+        "url": "https://vit.ac.in/sites/default/files/academic/Academic-Regulations.pdf"
+      },
+      {
+        "id": "vit-a5491ce470ffa0:8",
+        "title": "Library | VIT",
+        "heading": "Features",
+        "url": "https://vit.ac.in/academics/library"
+      },
+      {
+        "id": "vit-a5491ce470ffa0:11",
+        "title": "Library | VIT",
+        "heading": "Open access system is followed in the Library",
+        "url": "https://vit.ac.in/academics/library"
+      },
+      {
+        "id": "vit-db4f817612a002:12",
+        "title": "academic regulations",
+        "heading": "Page 7",
+        "url": "https://vit.ac.in/academics/academic-regulations"
+      }
+    ]
+  },
+  {
+    "query": "How many books may an undergraduate borrow from the library?",
+    "expected_url_contains": "library",
+    "pass": true,
+    "sources": [
+      {
+        "id": "vit-a1ed5f3bba1da8:8",
+        "title": "library policy 2024",
+        "heading": "Page 5",
+        "url": "https://vit.ac.in/wp-content/uploads/2024/11/library-policy-2024.pdf"
+      },
+      {
+        "id": "vit-a1ed5f3bba1da8:30",
+        "title": "library policy 2024",
+        "heading": "Page 14",
+        "url": "https://vit.ac.in/wp-content/uploads/2024/11/library-policy-2024.pdf"
+      },
+      {
+        "id": "vit-a5491ce470ffa0:10",
+        "title": "Library | VIT",
+        "heading": "Open access system is followed in the Library",
+        "url": "https://vit.ac.in/academics/library"
+      },
+      {
+        "id": "vit-a1ed5f3bba1da8:10",
+        "title": "library policy 2024",
+        "heading": "Page 6",
+        "url": "https://vit.ac.in/wp-content/uploads/2024/11/library-policy-2024.pdf"
+      },
+      {
+        "id": "vit-a5491ce470ffa0:11",
+        "title": "Library | VIT",
+        "heading": "Open access system is followed in the Library",
+        "url": "https://vit.ac.in/academics/library"
+      },
+      {
+        "id": "vit-a5491ce470ffa0:9",
+        "title": "Library | VIT",
+        "heading": "Open access system is followed in the Library",
+        "url": "https://vit.ac.in/academics/library"
+      },
+      {
+        "id": "vit-db4f817612a002:24",
+        "title": "academic regulations",
+        "heading": "Page 9",
+        "url": "https://vit.ac.in/academics/academic-regulations"
+      },
+      {
+        "id": "vit-db4f817612a002:63",
+        "title": "academic regulations",
+        "heading": "Page 17",
+        "url": "https://vit.ac.in/academics/academic-regulations"
+      }
+    ]
+  },
+  {
+    "query": "Can I renew a library book online?",
+    "expected_url_contains": "library",
+    "pass": true,
+    "sources": [
+      {
+        "id": "vit-a1ed5f3bba1da8:9",
+        "title": "library policy 2024",
+        "heading": "Page 5",
+        "url": "https://vit.ac.in/wp-content/uploads/2024/11/library-policy-2024.pdf"
+      },
+      {
+        "id": "vit-a1ed5f3bba1da8:7",
+        "title": "library policy 2024",
+        "heading": "Page 4",
+        "url": "https://vit.ac.in/wp-content/uploads/2024/11/library-policy-2024.pdf"
+      },
+      {
+        "id": "vit-a1ed5f3bba1da8:20",
+        "title": "library policy 2024",
+        "heading": "Page 10",
+        "url": "https://vit.ac.in/wp-content/uploads/2024/11/library-policy-2024.pdf"
+      },
+      {
+        "id": "vit-a5491ce470ffa0:10",
+        "title": "Library | VIT",
+        "heading": "Open access system is followed in the Library",
+        "url": "https://vit.ac.in/academics/library"
+      },
+      {
+        "id": "vit-a5491ce470ffa0:11",
+        "title": "Library | VIT",
+        "heading": "Open access system is followed in the Library",
+        "url": "https://vit.ac.in/academics/library"
+      },
+      {
+        "id": "vit-a5491ce470ffa0:9",
+        "title": "Library | VIT",
+        "heading": "Open access system is followed in the Library",
+        "url": "https://vit.ac.in/academics/library"
+      }
+    ]
+  },
+  {
+    "query": "What happens if I lose a library book?",
+    "expected_url_contains": "library",
+    "pass": true,
+    "sources": [
+      {
+        "id": "vit-a1ed5f3bba1da8:12",
+        "title": "library policy 2024",
+        "heading": "Page 7",
+        "url": "https://vit.ac.in/wp-content/uploads/2024/11/library-policy-2024.pdf"
+      },
+      {
+        "id": "vit-a5491ce470ffa0:9",
+        "title": "Library | VIT",
+        "heading": "Open access system is followed in the Library",
+        "url": "https://vit.ac.in/academics/library"
+      },
+      {
+        "id": "vit-a5491ce470ffa0:10",
+        "title": "Library | VIT",
+        "heading": "Open access system is followed in the Library",
+        "url": "https://vit.ac.in/academics/library"
+      },
+      {
+        "id": "vit-a1ed5f3bba1da8:10",
+        "title": "library policy 2024",
+        "heading": "Page 6",
+        "url": "https://vit.ac.in/wp-content/uploads/2024/11/library-policy-2024.pdf"
+      },
+      {
+        "id": "vit-a1ed5f3bba1da8:11",
+        "title": "library policy 2024",
+        "heading": "Page 6",
+        "url": "https://vit.ac.in/wp-content/uploads/2024/11/library-policy-2024.pdf"
+      },
+      {
+        "id": "vit-a5491ce470ffa0:11",
+        "title": "Library | VIT",
+        "heading": "Open access system is followed in the Library",
+        "url": "https://vit.ac.in/academics/library"
+      }
+    ]
+  },
+  {
+    "query": "Can I access library electronic journals off campus?",
+    "expected_url_contains": "library",
+    "pass": true,
+    "sources": [
+      {
+        "id": "vit-a1ed5f3bba1da8:26",
+        "title": "library policy 2024",
+        "heading": "Page 12",
+        "url": "https://vit.ac.in/wp-content/uploads/2024/11/library-policy-2024.pdf"
+      },
+      {
+        "id": "vit-a1ed5f3bba1da8:18",
+        "title": "library policy 2024",
+        "heading": "Page 9",
+        "url": "https://vit.ac.in/wp-content/uploads/2024/11/library-policy-2024.pdf"
+      },
+      {
+        "id": "vit-a1ed5f3bba1da8:22",
+        "title": "library policy 2024",
+        "heading": "Page 11",
+        "url": "https://vit.ac.in/wp-content/uploads/2024/11/library-policy-2024.pdf"
+      },
+      {
+        "id": "vit-a5491ce470ffa0:1",
+        "title": "Library | VIT",
+        "heading": "PERIYAR EVR CENTRAL LIBRARY",
+        "url": "https://vit.ac.in/academics/library"
+      },
+      {
+        "id": "vit-a5491ce470ffa0:0",
+        "title": "Library | VIT",
+        "heading": "PERIYAR EVR CENTRAL LIBRARY",
+        "url": "https://vit.ac.in/academics/library"
+      },
+      {
+        "id": "vit-a5491ce470ffa0:33",
+        "title": "Library | VIT",
+        "heading": "Services",
+        "url": "https://vit.ac.in/academics/library"
+      }
+    ]
+  },
+  {
+    "query": "What is the attendance requirement for examinations?",
+    "expected_url_contains": "academic",
+    "pass": true,
+    "sources": [
+      {
+        "id": "vit-db4f817612a002:77",
+        "title": "academic regulations",
+        "heading": "Page 20",
+        "url": "https://vit.ac.in/academics/academic-regulations"
+      },
+      {
+        "id": "vit-e8feaeba2f60ef:65",
+        "title": "Academic Regulations",
+        "heading": "Page 21",
+        "url": "https://vit.ac.in/sites/default/files/academic/Academic-Regulations.pdf"
+      },
+      {
+        "id": "vit-e8feaeba2f60ef:66",
+        "title": "Academic Regulations",
+        "heading": "Page 21",
+        "url": "https://vit.ac.in/sites/default/files/academic/Academic-Regulations.pdf"
+      },
+      {
+        "id": "vit-e8feaeba2f60ef:67",
+        "title": "Academic Regulations",
+        "heading": "Page 21",
+        "url": "https://vit.ac.in/sites/default/files/academic/Academic-Regulations.pdf"
+      },
+      {
+        "id": "vit-db4f817612a002:78",
+        "title": "academic regulations",
+        "heading": "Page 20",
+        "url": "https://vit.ac.in/academics/academic-regulations"
+      },
+      {
+        "id": "vit-db4f817612a002:80",
+        "title": "academic regulations",
+        "heading": "Page 21",
+        "url": "https://vit.ac.in/academics/academic-regulations"
+      },
+      {
+        "id": "vit-442c6de5696524:18",
+        "title": "Student Code of Conduct",
+        "heading": "Page 7",
+        "url": "https://vit.ac.in/sites/default/files/Student-Code-of-Conduct.pdf"
+      }
+    ]
+  },
+  {
+    "query": "What is the grading system and CGPA?",
+    "expected_url_contains": "academic",
+    "pass": true,
+    "sources": [
+      {
+        "id": "vit-e8feaeba2f60ef:99",
+        "title": "Academic Regulations",
+        "heading": "Page 30",
+        "url": "https://vit.ac.in/sites/default/files/academic/Academic-Regulations.pdf"
+      },
+      {
+        "id": "vit-db4f817612a002:102",
+        "title": "academic regulations",
+        "heading": "Page 26",
+        "url": "https://vit.ac.in/academics/academic-regulations"
+      },
+      {
+        "id": "vit-db4f817612a002:2",
+        "title": "academic regulations",
+        "heading": "Page 3",
+        "url": "https://vit.ac.in/academics/academic-regulations"
+      },
+      {
+        "id": "vit-db4f817612a002:100",
+        "title": "academic regulations",
+        "heading": "Page 25",
+        "url": "https://vit.ac.in/academics/academic-regulations"
+      },
+      {
+        "id": "vit-e8feaeba2f60ef:108",
+        "title": "Academic Regulations",
+        "heading": "Page 32",
+        "url": "https://vit.ac.in/sites/default/files/academic/Academic-Regulations.pdf"
+      },
+      {
+        "id": "vit-e8feaeba2f60ef:100",
+        "title": "Academic Regulations",
+        "heading": "Page 30",
+        "url": "https://vit.ac.in/sites/default/files/academic/Academic-Regulations.pdf"
+      }
+    ]
+  },
+  {
+    "query": "Can I withdraw a registered course?",
+    "expected_url_contains": "academic",
+    "pass": true,
+    "sources": [
+      {
+        "id": "vit-e8feaeba2f60ef:60",
+        "title": "Academic Regulations",
+        "heading": "Page 19",
+        "url": "https://vit.ac.in/sites/default/files/academic/Academic-Regulations.pdf"
+      },
+      {
+        "id": "vit-db4f817612a002:71",
+        "title": "academic regulations",
+        "heading": "Page 19",
+        "url": "https://vit.ac.in/academics/academic-regulations"
+      },
+      {
+        "id": "vit-e8feaeba2f60ef:61",
+        "title": "Academic Regulations",
+        "heading": "Page 20",
+        "url": "https://vit.ac.in/sites/default/files/academic/Academic-Regulations.pdf"
+      },
+      {
+        "id": "vit-db4f817612a002:66",
+        "title": "academic regulations",
+        "heading": "Page 18",
+        "url": "https://vit.ac.in/academics/academic-regulations"
+      },
+      {
+        "id": "vit-db4f817612a002:72",
+        "title": "academic regulations",
+        "heading": "Page 19",
+        "url": "https://vit.ac.in/academics/academic-regulations"
+      },
+      {
+        "id": "vit-e8feaeba2f60ef:142",
+        "title": "Academic Regulations",
+        "heading": "Page 42",
+        "url": "https://vit.ac.in/sites/default/files/academic/Academic-Regulations.pdf"
+      }
+    ]
+  },
+  {
+    "query": "How does FFCS let me choose courses and faculty?",
+    "expected_url_contains": "ffcs",
+    "pass": true,
+    "sources": [
+      {
+        "id": "vit-db4f817612a002:6",
+        "title": "academic regulations",
+        "heading": "Page 5",
+        "url": "https://vit.ac.in/academics/academic-regulations"
+      },
+      {
+        "id": "vit-e8feaeba2f60ef:6",
+        "title": "Academic Regulations",
+        "heading": "Page 4",
+        "url": "https://vit.ac.in/sites/default/files/academic/Academic-Regulations.pdf"
+      },
+      {
+        "id": "vit-e8feaeba2f60ef:48",
+        "title": "Academic Regulations",
+        "heading": "Page 16",
+        "url": "https://vit.ac.in/sites/default/files/academic/Academic-Regulations.pdf"
+      },
+      {
+        "id": "vit-db4f817612a002:160",
+        "title": "academic regulations",
+        "heading": "Page 44",
+        "url": "https://vit.ac.in/academics/academic-regulations"
+      },
+      {
+        "id": "vit-11ef909f65c02c:0",
+        "title": "Fully Flexible Credit System (FFCS) | VIT",
+        "heading": "Salient Features",
+        "url": "https://vit.ac.in/academics/ffcs"
+      },
+      {
+        "id": "vit-e8feaeba2f60ef:28",
+        "title": "Academic Regulations",
+        "heading": "Page 10",
+        "url": "https://vit.ac.in/sites/default/files/academic/Academic-Regulations.pdf"
+      },
+      {
+        "id": "vit-db4f817612a002:5",
+        "title": "academic regulations",
+        "heading": "Page 5",
+        "url": "https://vit.ac.in/academics/academic-regulations"
+      }
+    ]
+  },
+  {
+    "query": "What is the minimum and maximum credit load?",
+    "expected_url_contains": "academic",
+    "pass": true,
+    "sources": [
+      {
+        "id": "vit-db4f817612a002:63",
+        "title": "academic regulations",
+        "heading": "Page 17",
+        "url": "https://vit.ac.in/academics/academic-regulations"
+      },
+      {
+        "id": "vit-e8feaeba2f60ef:51",
+        "title": "Academic Regulations",
+        "heading": "Page 17",
+        "url": "https://vit.ac.in/sites/default/files/academic/Academic-Regulations.pdf"
+      },
+      {
+        "id": "vit-db4f817612a002:24",
+        "title": "academic regulations",
+        "heading": "Page 9",
+        "url": "https://vit.ac.in/academics/academic-regulations"
+      },
+      {
+        "id": "vit-db4f817612a002:64",
+        "title": "academic regulations",
+        "heading": "Page 18",
+        "url": "https://vit.ac.in/academics/academic-regulations"
+      },
+      {
+        "id": "vit-e8feaeba2f60ef:135",
+        "title": "Academic Regulations",
+        "heading": "Page 39",
+        "url": "https://vit.ac.in/sites/default/files/academic/Academic-Regulations.pdf"
+      },
+      {
+        "id": "vit-e8feaeba2f60ef:121",
+        "title": "Academic Regulations",
+        "heading": "Page 36",
+        "url": "https://vit.ac.in/sites/default/files/academic/Academic-Regulations.pdf"
+      }
+    ]
+  },
+  {
+    "query": "How do freshers book a hostel?",
+    "expected_url_contains": "hostel",
+    "pass": true,
+    "sources": [
+      {
+        "id": "vit-18ca715d9d75f6:1",
+        "title": "Freshers Hostel Admission Information Vellore Campus 2026 27",
+        "heading": "Page 1",
+        "url": "https://vit.ac.in/wp-content/uploads/2026/06/Freshers-Hostel-Admission-Information-Vellore-Campus-2026-27.pdf"
+      },
+      {
+        "id": "vit-18ca715d9d75f6:0",
+        "title": "Freshers Hostel Admission Information Vellore Campus 2026 27",
+        "heading": "Page 1",
+        "url": "https://vit.ac.in/wp-content/uploads/2026/06/Freshers-Hostel-Admission-Information-Vellore-Campus-2026-27.pdf"
+      },
+      {
+        "id": "vit-79d9707124ef09:8",
+        "title": "Hostels | VIT",
+        "heading": "Hostel Information Sheet",
+        "url": "https://vit.ac.in/campuslife/hostels"
+      },
+      {
+        "id": "vit-79d9707124ef09:1",
+        "title": "Hostels | VIT",
+        "heading": "Hostels",
+        "url": "https://vit.ac.in/campuslife/hostels"
+      },
+      {
+        "id": "vit-79d9707124ef09:12",
+        "title": "Hostels | VIT",
+        "heading": "Events",
+        "url": "https://vit.ac.in/campuslife/hostels"
+      },
+      {
+        "id": "vit-18ca715d9d75f6:2",
+        "title": "Freshers Hostel Admission Information Vellore Campus 2026 27",
+        "heading": "Page 1",
+        "url": "https://vit.ac.in/wp-content/uploads/2026/06/Freshers-Hostel-Admission-Information-Vellore-Campus-2026-27.pdf"
+      },
+      {
+        "id": "vit-f4104d53761b69:15",
+        "title": "Affidavits General Student Parent Hostel 2026",
+        "heading": "Page 6",
+        "url": "https://vit.ac.in/sites/default/files/ug/Affidavits-General-Student-Parent-Hostel-2026.pdf"
+      },
+      {
+        "id": "vit-368491d494cbab:0",
+        "title": "First year 2026 27",
+        "heading": "Page 1",
+        "url": "https://vit.ac.in/wp-content/uploads/2026/05/First-year-2026-27.pdf"
+      }
+    ]
+  },
+  {
+    "query": "When can freshers report to the hostel?",
+    "expected_url_contains": "hostel",
+    "pass": true,
+    "sources": [
+      {
+        "id": "vit-18ca715d9d75f6:1",
+        "title": "Freshers Hostel Admission Information Vellore Campus 2026 27",
+        "heading": "Page 1",
+        "url": "https://vit.ac.in/wp-content/uploads/2026/06/Freshers-Hostel-Admission-Information-Vellore-Campus-2026-27.pdf"
+      },
+      {
+        "id": "vit-18ca715d9d75f6:0",
+        "title": "Freshers Hostel Admission Information Vellore Campus 2026 27",
+        "heading": "Page 1",
+        "url": "https://vit.ac.in/wp-content/uploads/2026/06/Freshers-Hostel-Admission-Information-Vellore-Campus-2026-27.pdf"
+      },
+      {
+        "id": "vit-18ca715d9d75f6:2",
+        "title": "Freshers Hostel Admission Information Vellore Campus 2026 27",
+        "heading": "Page 1",
+        "url": "https://vit.ac.in/wp-content/uploads/2026/06/Freshers-Hostel-Admission-Information-Vellore-Campus-2026-27.pdf"
+      },
+      {
+        "id": "vit-79d9707124ef09:8",
+        "title": "Hostels | VIT",
+        "heading": "Hostel Information Sheet",
+        "url": "https://vit.ac.in/campuslife/hostels"
+      },
+      {
+        "id": "vit-f4104d53761b69:13",
+        "title": "Affidavits General Student Parent Hostel 2026",
+        "heading": "Page 6",
+        "url": "https://vit.ac.in/sites/default/files/ug/Affidavits-General-Student-Parent-Hostel-2026.pdf"
+      },
+      {
+        "id": "vit-f4104d53761b69:11",
+        "title": "Affidavits General Student Parent Hostel 2026",
+        "heading": "Page 5",
+        "url": "https://vit.ac.in/sites/default/files/ug/Affidavits-General-Student-Parent-Hostel-2026.pdf"
+      },
+      {
+        "id": "vit-79d9707124ef09:1",
+        "title": "Hostels | VIT",
+        "heading": "Hostels",
+        "url": "https://vit.ac.in/campuslife/hostels"
+      },
+      {
+        "id": "vit-79d9707124ef09:3",
+        "title": "Hostels | VIT",
+        "heading": "Facilities",
+        "url": "https://vit.ac.in/campuslife/hostels"
+      }
+    ]
+  },
+  {
+    "query": "Who can register as a day scholar?",
+    "expected_url_contains": "hostel",
+    "pass": true,
+    "sources": [
+      {
+        "id": "vit-f4104d53761b69:13",
+        "title": "Affidavits General Student Parent Hostel 2026",
+        "heading": "Page 6",
+        "url": "https://vit.ac.in/sites/default/files/ug/Affidavits-General-Student-Parent-Hostel-2026.pdf"
+      },
+      {
+        "id": "vit-db4f817612a002:59",
+        "title": "academic regulations",
+        "heading": "Page 16",
+        "url": "https://vit.ac.in/academics/academic-regulations"
+      },
+      {
+        "id": "vit-18ca715d9d75f6:0",
+        "title": "Freshers Hostel Admission Information Vellore Campus 2026 27",
+        "heading": "Page 1",
+        "url": "https://vit.ac.in/wp-content/uploads/2026/06/Freshers-Hostel-Admission-Information-Vellore-Campus-2026-27.pdf"
+      },
+      {
+        "id": "vit-db4f817612a002:80",
+        "title": "academic regulations",
+        "heading": "Page 21",
+        "url": "https://vit.ac.in/academics/academic-regulations"
+      },
+      {
+        "id": "vit-f4104d53761b69:14",
+        "title": "Affidavits General Student Parent Hostel 2026",
+        "heading": "Page 6",
+        "url": "https://vit.ac.in/sites/default/files/ug/Affidavits-General-Student-Parent-Hostel-2026.pdf"
+      },
+      {
+        "id": "vit-79d9707124ef09:1",
+        "title": "Hostels | VIT",
+        "heading": "Hostels",
+        "url": "https://vit.ac.in/campuslife/hostels"
+      },
+      {
+        "id": "vit-18ca715d9d75f6:1",
+        "title": "Freshers Hostel Admission Information Vellore Campus 2026 27",
+        "heading": "Page 1",
+        "url": "https://vit.ac.in/wp-content/uploads/2026/06/Freshers-Hostel-Admission-Information-Vellore-Campus-2026-27.pdf"
+      },
+      {
+        "id": "vit-f4104d53761b69:19",
+        "title": "Affidavits General Student Parent Hostel 2026",
+        "heading": "Page 8",
+        "url": "https://vit.ac.in/sites/default/files/ug/Affidavits-General-Student-Parent-Hostel-2026.pdf"
+      }
+    ]
+  },
+  {
+    "query": "What is the hostel fee refund policy for 2026-27?",
+    "expected_url_contains": "hostel",
+    "pass": true,
+    "sources": [
+      {
+        "id": "vit-573a750b2f4ce0:0",
+        "title": "Hostel Refund Policy 26 27",
+        "heading": "Page 1",
+        "url": "https://vit.ac.in/wp-content/uploads/2026/05/Hostel-Refund-Policy-26-27.pdf"
+      },
+      {
+        "id": "vit-573a750b2f4ce0:6",
+        "title": "Hostel Refund Policy 26 27",
+        "heading": "Page 3",
+        "url": "https://vit.ac.in/wp-content/uploads/2026/05/Hostel-Refund-Policy-26-27.pdf"
+      },
+      {
+        "id": "vit-573a750b2f4ce0:2",
+        "title": "Hostel Refund Policy 26 27",
+        "heading": "Page 1",
+        "url": "https://vit.ac.in/wp-content/uploads/2026/05/Hostel-Refund-Policy-26-27.pdf"
+      },
+      {
+        "id": "vit-79d9707124ef09:8",
+        "title": "Hostels | VIT",
+        "heading": "Hostel Information Sheet",
+        "url": "https://vit.ac.in/campuslife/hostels"
+      },
+      {
+        "id": "vit-368491d494cbab:0",
+        "title": "First year 2026 27",
+        "heading": "Page 1",
+        "url": "https://vit.ac.in/wp-content/uploads/2026/05/First-year-2026-27.pdf"
+      },
+      {
+        "id": "vit-67d0ec3c0cdd30:1",
+        "title": "LH NRI fees 2026 27",
+        "heading": "Page 1",
+        "url": "https://vit.ac.in/wp-content/uploads/2026/05/LH-NRI-fees-2026-27.pdf"
+      },
+      {
+        "id": "vit-18ca715d9d75f6:0",
+        "title": "Freshers Hostel Admission Information Vellore Campus 2026 27",
+        "heading": "Page 1",
+        "url": "https://vit.ac.in/wp-content/uploads/2026/06/Freshers-Hostel-Admission-Information-Vellore-Campus-2026-27.pdf"
+      },
+      {
+        "id": "vit-64afb55735f79a:3",
+        "title": "MH First Year FEE structure Indian NRI FOREIGN Category 2026 27",
+        "heading": "Page 1",
+        "url": "https://vit.ac.in/wp-content/uploads/2026/06/MH-First-Year-FEE-structure-Indian-NRI-FOREIGN-Category-2026-27.pdf"
+      }
+    ]
+  },
+  {
+    "query": "What mess options are available in the hostel?",
+    "expected_url_contains": "hostel",
+    "pass": true,
+    "sources": [
+      {
+        "id": "vit-79d9707124ef09:3",
+        "title": "Hostels | VIT",
+        "heading": "Facilities",
+        "url": "https://vit.ac.in/campuslife/hostels"
+      },
+      {
+        "id": "vit-79d9707124ef09:5",
+        "title": "Hostels | VIT",
+        "heading": "Dining",
+        "url": "https://vit.ac.in/campuslife/hostels"
+      },
+      {
+        "id": "vit-79d9707124ef09:1",
+        "title": "Hostels | VIT",
+        "heading": "Hostels",
+        "url": "https://vit.ac.in/campuslife/hostels"
+      },
+      {
+        "id": "vit-368491d494cbab:5",
+        "title": "First year 2026 27",
+        "heading": "Page 2",
+        "url": "https://vit.ac.in/wp-content/uploads/2026/05/First-year-2026-27.pdf"
+      },
+      {
+        "id": "vit-368491d494cbab:3",
+        "title": "First year 2026 27",
+        "heading": "Page 2",
+        "url": "https://vit.ac.in/wp-content/uploads/2026/05/First-year-2026-27.pdf"
+      },
+      {
+        "id": "vit-18ca715d9d75f6:1",
+        "title": "Freshers Hostel Admission Information Vellore Campus 2026 27",
+        "heading": "Page 1",
+        "url": "https://vit.ac.in/wp-content/uploads/2026/06/Freshers-Hostel-Admission-Information-Vellore-Campus-2026-27.pdf"
+      },
+      {
+        "id": "vit-67d0ec3c0cdd30:1",
+        "title": "LH NRI fees 2026 27",
+        "heading": "Page 1",
+        "url": "https://vit.ac.in/wp-content/uploads/2026/05/LH-NRI-fees-2026-27.pdf"
+      },
+      {
+        "id": "vit-368491d494cbab:0",
+        "title": "First year 2026 27",
+        "heading": "Page 1",
+        "url": "https://vit.ac.in/wp-content/uploads/2026/05/First-year-2026-27.pdf"
+      }
+    ]
+  },
+  {
+    "query": "How can I contact the Office of Students Welfare?",
+    "expected_url_contains": "studentswelfare",
+    "pass": true,
+    "sources": [
+      {
+        "id": "vit-c10016992bee8b:13",
+        "title": "Students Welfare Activities - Clubs, Chapters, Student Council | VIT",
+        "heading": "Disability Support",
+        "url": "https://vit.ac.in/campuslife/studentswelfare"
+      },
+      {
+        "id": "vit-c10016992bee8b:3",
+        "title": "Students Welfare Activities - Clubs, Chapters, Student Council | VIT",
+        "heading": "Students' Welfare",
+        "url": "https://vit.ac.in/campuslife/studentswelfare"
+      },
+      {
+        "id": "vit-9b835c3ea1b60f:52",
+        "title": "Administrative offices | VIT",
+        "heading": "Office Of Student's Welfare",
+        "url": "https://vit.ac.in/about/administrative-offices"
+      },
+      {
+        "id": "vit-c10016992bee8b:7",
+        "title": "Students Welfare Activities - Clubs, Chapters, Student Council | VIT",
+        "heading": "Newsletter",
+        "url": "https://vit.ac.in/campuslife/studentswelfare"
+      },
+      {
+        "id": "vit-9b835c3ea1b60f:53",
+        "title": "Administrative offices | VIT",
+        "heading": "Contact",
+        "url": "https://vit.ac.in/about/administrative-offices"
+      },
+      {
+        "id": "vit-9b835c3ea1b60f:20",
+        "title": "Administrative offices | VIT",
+        "heading": "Contact",
+        "url": "https://vit.ac.in/about/administrative-offices"
+      },
+      {
+        "id": "vit-18ca715d9d75f6:2",
+        "title": "Freshers Hostel Admission Information Vellore Campus 2026 27",
+        "heading": "Page 1",
+        "url": "https://vit.ac.in/wp-content/uploads/2026/06/Freshers-Hostel-Admission-Information-Vellore-Campus-2026-27.pdf"
+      },
+      {
+        "id": "vit-284189fde10bcc:9",
+        "title": "Scholarship - Vellore Institute of Technology",
+        "heading": "STATISTICS ON CASH AWARDS / SCHOLARSHIPS & EXPENDITURE (2024-2025)",
+        "url": "https://vit.ac.in/scholarship"
+      }
+    ]
+  },
+  {
+    "query": "What support is provided by the counselling division?",
+    "expected_url_contains": "well-being",
+    "pass": true,
+    "sources": [
+      {
+        "id": "vit-84bfc24bcbc5f2:6",
+        "title": "Counselling Division",
+        "heading": "Importance of Counselling",
+        "url": "https://vit.ac.in/centre-for-vit-happiness-and-well-being"
+      },
+      {
+        "id": "vit-84bfc24bcbc5f2:14",
+        "title": "Counselling Division",
+        "heading": "Appointments & Campus Accessibility",
+        "url": "https://vit.ac.in/centre-for-vit-happiness-and-well-being"
+      },
+      {
+        "id": "vit-84bfc24bcbc5f2:7",
+        "title": "Counselling Division",
+        "heading": "Benefits of counselling",
+        "url": "https://vit.ac.in/centre-for-vit-happiness-and-well-being"
+      },
+      {
+        "id": "vit-9b835c3ea1b60f:38",
+        "title": "Administrative offices | VIT",
+        "heading": "Counselling Division",
+        "url": "https://vit.ac.in/about/administrative-offices"
+      },
+      {
+        "id": "vit-9b835c3ea1b60f:39",
+        "title": "Administrative offices | VIT",
+        "heading": "Contact",
+        "url": "https://vit.ac.in/about/administrative-offices"
+      },
+      {
+        "id": "vit-9b835c3ea1b60f:6",
+        "title": "Administrative offices | VIT",
+        "heading": "Contact",
+        "url": "https://vit.ac.in/about/administrative-offices"
+      },
+      {
+        "id": "vit-c10016992bee8b:3",
+        "title": "Students Welfare Activities - Clubs, Chapters, Student Council | VIT",
+        "heading": "Students' Welfare",
+        "url": "https://vit.ac.in/campuslife/studentswelfare"
+      }
+    ]
+  },
+  {
+    "query": "What is SASDAL disability support?",
+    "expected_url_contains": "sasdal",
+    "pass": true,
+    "sources": [
+      {
+        "id": "vit-baef16ad873bf0:1",
+        "title": "Disability Support - Vellore Institute of Technology",
+        "heading": "SERVICE AND SUPPORT FOR DIFFERENTLY ABLED LEARNERS (SASDAL)",
+        "url": "https://vit.ac.in/service-and-support-differently-abled-learners-sasdal"
+      },
+      {
+        "id": "vit-baef16ad873bf0:2",
+        "title": "Disability Support - Vellore Institute of Technology",
+        "heading": "Contact",
+        "url": "https://vit.ac.in/service-and-support-differently-abled-learners-sasdal"
+      },
+      {
+        "id": "vit-baef16ad873bf0:0",
+        "title": "Disability Support - Vellore Institute of Technology",
+        "heading": "Disability Support",
+        "url": "https://vit.ac.in/service-and-support-differently-abled-learners-sasdal"
+      },
+      {
+        "id": "vit-c10016992bee8b:13",
+        "title": "Students Welfare Activities - Clubs, Chapters, Student Council | VIT",
+        "heading": "Disability Support",
+        "url": "https://vit.ac.in/campuslife/studentswelfare"
+      },
+      {
+        "id": "vit-a5491ce470ffa0:4",
+        "title": "Library | VIT",
+        "heading": "Disabled User Friendly Services (DIVYANGJAN) Assistive Technology (AT) and facilities (Human Assistance) for the persons with disability/physically challenged:",
+        "url": "https://vit.ac.in/academics/library"
+      },
+      {
+        "id": "vit-84bfc24bcbc5f2:14",
+        "title": "Counselling Division",
+        "heading": "Appointments & Campus Accessibility",
+        "url": "https://vit.ac.in/centre-for-vit-happiness-and-well-being"
+      },
+      {
+        "id": "vit-ae3e1de3281fce:0",
+        "title": "Contact Us | VIT",
+        "heading": "VELLORE CAMPUS",
+        "url": "https://vit.ac.in/contactus"
+      },
+      {
+        "id": "vit-ae3e1de3281fce:39",
+        "title": "Contact Us | VIT",
+        "heading": "VELLORE CAMPUS",
+        "url": "https://vit.ac.in/contactus"
+      }
+    ]
+  },
+  {
+    "query": "How do I report ragging?",
+    "expected_url_contains": "ragging",
+    "pass": true,
+    "sources": [
+      {
+        "id": "vit-4285c4c1ecef10:7",
+        "title": "Anti Ragging Committee | VIT",
+        "heading": "The contact telephone nos. and email ID are given below:",
+        "url": "https://vit.ac.in/anti-ragging-committee"
+      },
+      {
+        "id": "vit-10112d29ee8fa5:15",
+        "title": "Anti Ragging Team 2025 2026",
+        "heading": "Page 4",
+        "url": "https://vit.ac.in/wp-content/uploads/2025/09/Anti-Ragging-Team-2025-2026.pdf"
+      },
+      {
+        "id": "vit-10112d29ee8fa5:1",
+        "title": "Anti Ragging Team 2025 2026",
+        "heading": "Page 1",
+        "url": "https://vit.ac.in/wp-content/uploads/2025/09/Anti-Ragging-Team-2025-2026.pdf"
+      },
+      {
+        "id": "vit-4285c4c1ecef10:6",
+        "title": "Anti Ragging Committee | VIT",
+        "heading": "What constitutes Ragging?",
+        "url": "https://vit.ac.in/anti-ragging-committee"
+      },
+      {
+        "id": "vit-10112d29ee8fa5:6",
+        "title": "Anti Ragging Team 2025 2026",
+        "heading": "Page 2",
+        "url": "https://vit.ac.in/wp-content/uploads/2025/09/Anti-Ragging-Team-2025-2026.pdf"
+      },
+      {
+        "id": "vit-4285c4c1ecef10:0",
+        "title": "Anti Ragging Committee | VIT",
+        "heading": "Anti Ragging Committee",
+        "url": "https://vit.ac.in/anti-ragging-committee"
+      },
+      {
+        "id": "vit-f4104d53761b69:7",
+        "title": "Affidavits General Student Parent Hostel 2026",
+        "heading": "Page 3",
+        "url": "https://vit.ac.in/sites/default/files/ug/Affidavits-General-Student-Parent-Hostel-2026.pdf"
+      },
+      {
+        "id": "vit-442c6de5696524:19",
+        "title": "Student Code of Conduct",
+        "heading": "Page 7",
+        "url": "https://vit.ac.in/sites/default/files/Student-Code-of-Conduct.pdf"
+      }
+    ]
+  },
+  {
+    "query": "What is the student code of conduct?",
+    "expected_url_contains": "conduct",
+    "pass": true,
+    "sources": [
+      {
+        "id": "vit-442c6de5696524:5",
+        "title": "Student Code of Conduct",
+        "heading": "Page 2",
+        "url": "https://vit.ac.in/sites/default/files/Student-Code-of-Conduct.pdf"
+      },
+      {
+        "id": "vit-442c6de5696524:20",
+        "title": "Student Code of Conduct",
+        "heading": "Page 7",
+        "url": "https://vit.ac.in/sites/default/files/Student-Code-of-Conduct.pdf"
+      },
+      {
+        "id": "vit-442c6de5696524:28",
+        "title": "Student Code of Conduct",
+        "heading": "Page 10",
+        "url": "https://vit.ac.in/sites/default/files/Student-Code-of-Conduct.pdf"
+      },
+      {
+        "id": "vit-f4104d53761b69:11",
+        "title": "Affidavits General Student Parent Hostel 2026",
+        "heading": "Page 5",
+        "url": "https://vit.ac.in/sites/default/files/ug/Affidavits-General-Student-Parent-Hostel-2026.pdf"
+      },
+      {
+        "id": "vit-3d3e1b57364cbb:0",
+        "title": "Codeofconduct",
+        "heading": "Page 1",
+        "url": "https://vit.ac.in/wp-content/uploads/2023/06/Codeofconduct.pdf"
+      },
+      {
+        "id": "vit-e8feaeba2f60ef:15",
+        "title": "Academic Regulations",
+        "heading": "Page 7",
+        "url": "https://vit.ac.in/sites/default/files/academic/Academic-Regulations.pdf"
+      },
+      {
+        "id": "vit-9b835c3ea1b60f:25",
+        "title": "Administrative offices | VIT",
+        "heading": "Institutional Policies",
+        "url": "https://vit.ac.in/about/administrative-offices"
+      },
+      {
+        "id": "vit-284189fde10bcc:13",
+        "title": "Scholarship - Vellore Institute of Technology",
+        "heading": "STATISTICS ON CASH AWARDS / SCHOLARSHIPS & EXPENDITURE (2024-2025)",
+        "url": "https://vit.ac.in/scholarship"
+      }
+    ]
+  },
+  {
+    "query": "Where are sports facilities and the physical education department?",
+    "expected_url_contains": "sports",
+    "pass": true,
+    "sources": [
+      {
+        "id": "vit-6f1f0086da8435:1",
+        "title": "Sports Activities | Campus Life | VIT",
+        "heading": "Welcome to the Department of Physical Education",
+        "url": "https://vit.ac.in/campuslife/sports"
+      },
+      {
+        "id": "vit-6f1f0086da8435:2",
+        "title": "Sports Activities | Campus Life | VIT",
+        "heading": "Welcome to the Department of Physical Education",
+        "url": "https://vit.ac.in/campuslife/sports"
+      },
+      {
+        "id": "vit-6f1f0086da8435:5",
+        "title": "Sports Activities | Campus Life | VIT",
+        "heading": "Sports facilities in vellore campus",
+        "url": "https://vit.ac.in/campuslife/sports"
+      },
+      {
+        "id": "vit-4036db597ab91c:4",
+        "title": "World Class Infrastructure | VIT",
+        "heading": "Sports Facilities",
+        "url": "https://vit.ac.in/about/infrastructure"
+      },
+      {
+        "id": "vit-ae3e1de3281fce:59",
+        "title": "Contact Us | VIT",
+        "heading": "Director",
+        "url": "https://vit.ac.in/contactus"
+      },
+      {
+        "id": "vit-ae3e1de3281fce:21",
+        "title": "Contact Us | VIT",
+        "heading": "Director",
+        "url": "https://vit.ac.in/contactus"
+      }
+    ]
+  },
+  {
+    "query": "What health services are available on campus?",
+    "expected_url_contains": "healthservices",
+    "pass": true,
+    "sources": [
+      {
+        "id": "vit-319b21a90aee03:0",
+        "title": "healthservices",
+        "heading": "Health Services",
+        "url": "https://vit.ac.in/campuslife/healthservices"
+      },
+      {
+        "id": "vit-319b21a90aee03:42",
+        "title": "healthservices",
+        "heading": "Other Facilities",
+        "url": "https://vit.ac.in/campuslife/healthservices"
+      },
+      {
+        "id": "vit-319b21a90aee03:43",
+        "title": "healthservices",
+        "heading": "Other Facilities",
+        "url": "https://vit.ac.in/campuslife/healthservices"
+      },
+      {
+        "id": "vit-79d9707124ef09:5",
+        "title": "Hostels | VIT",
+        "heading": "Dining",
+        "url": "https://vit.ac.in/campuslife/hostels"
+      },
+      {
+        "id": "vit-84bfc24bcbc5f2:9",
+        "title": "Counselling Division",
+        "heading": "\" Emotional well-being is just as important to us as Breathing is \"",
+        "url": "https://vit.ac.in/centre-for-vit-happiness-and-well-being"
+      },
+      {
+        "id": "vit-6f1f0086da8435:27",
+        "title": "Sports Activities | Campus Life | VIT",
+        "heading": "1",
+        "url": "https://vit.ac.in/campuslife/sports"
+      },
+      {
+        "id": "vit-6f1f0086da8435:55",
+        "title": "Sports Activities | Campus Life | VIT",
+        "heading": "1",
+        "url": "https://vit.ac.in/campuslife/sports"
+      },
+      {
+        "id": "vit-6f1f0086da8435:29",
+        "title": "Sports Activities | Campus Life | VIT",
+        "heading": "1",
+        "url": "https://vit.ac.in/campuslife/sports"
+      }
+    ]
+  },
+  {
+    "query": "How do I apply for an academic transcript?",
+    "expected_url_contains": "transcript",
+    "pass": true,
+    "sources": [
+      {
+        "id": "vit-457b6dda2bd791:0",
+        "title": "Procedure to apply for the Academic Transcripts through post | VIT",
+        "heading": "Academics Transcripts",
+        "url": "https://vit.ac.in/academics/transcripts"
+      },
+      {
+        "id": "vit-457b6dda2bd791:1",
+        "title": "Procedure to apply for the Academic Transcripts through post | VIT",
+        "heading": "Procedure to apply for the academic transcripts through post",
+        "url": "https://vit.ac.in/academics/transcripts"
+      },
+      {
+        "id": "vit-9b835c3ea1b60f:62",
+        "title": "Administrative offices | VIT",
+        "heading": "Student's Records Sections",
+        "url": "https://vit.ac.in/about/administrative-offices"
+      },
+      {
+        "id": "vit-db4f817612a002:25",
+        "title": "academic regulations",
+        "heading": "Page 10",
+        "url": "https://vit.ac.in/academics/academic-regulations"
+      },
+      {
+        "id": "vit-e8feaeba2f60ef:107",
+        "title": "Academic Regulations",
+        "heading": "Page 32",
+        "url": "https://vit.ac.in/sites/default/files/academic/Academic-Regulations.pdf"
+      },
+      {
+        "id": "vit-e8feaeba2f60ef:28",
+        "title": "Academic Regulations",
+        "heading": "Page 10",
+        "url": "https://vit.ac.in/sites/default/files/academic/Academic-Regulations.pdf"
+      },
+      {
+        "id": "vit-54eaf1bb122a3a:11",
+        "title": "Research Programmes | International Admissions | VIT | VIT",
+        "heading": "DOCUMENTS TO BE UPLOADED:",
+        "url": "https://vit.ac.in/admissions/international/research"
+      },
+      {
+        "id": "vit-370a61e1008181:0",
+        "title": "UG-Downloads |",
+        "heading": "UG Downloads",
+        "url": "https://vit.ac.in/ug-downloads"
+      }
+    ]
+  },
+  {
+    "query": "How do alumni contact the alumni office?",
+    "expected_url_contains": "alumni",
+    "pass": true,
+    "sources": [
+      {
+        "id": "vit-3ae7856947c0b2:0",
+        "title": "Alumni Office - Contact | VIT",
+        "heading": "Alumni Office - Contact",
+        "url": "https://vit.ac.in/alumni-office-contact"
+      },
+      {
+        "id": "vit-3ae7856947c0b2:1",
+        "title": "Alumni Office - Contact | VIT",
+        "heading": "Alumni Office - Contact",
+        "url": "https://vit.ac.in/alumni-office-contact"
+      },
+      {
+        "id": "vit-b6fe1950ff01dc:1",
+        "title": "transcripts for alumni - Vellore Institute of Technology",
+        "heading": "Procedure to apply for the academic transcripts",
+        "url": "https://vit.ac.in/transcripts-for-alumni"
+      },
+      {
+        "id": "vit-b6fe1950ff01dc:0",
+        "title": "transcripts for alumni - Vellore Institute of Technology",
+        "heading": "Transcripts for alumni",
+        "url": "https://vit.ac.in/transcripts-for-alumni"
+      },
+      {
+        "id": "vit-ae3e1de3281fce:5",
+        "title": "Contact Us | VIT",
+        "heading": "Dean",
+        "url": "https://vit.ac.in/contactus"
+      },
+      {
+        "id": "vit-ae3e1de3281fce:44",
+        "title": "Contact Us | VIT",
+        "heading": "Dean",
+        "url": "https://vit.ac.in/contactus"
+      },
+      {
+        "id": "vit-9b835c3ea1b60f:27",
+        "title": "Administrative offices | VIT",
+        "heading": "Student Outreach Department",
+        "url": "https://vit.ac.in/about/administrative-offices"
+      },
+      {
+        "id": "vit-ae3e1de3281fce:74",
+        "title": "Contact Us | VIT",
+        "heading": "contact",
+        "url": "https://vit.ac.in/contactus"
+      }
+    ]
+  },
+  {
+    "query": "What is the Career Development Centre?",
+    "expected_url_contains": "cdc",
+    "pass": true,
+    "sources": [
+      {
+        "id": "vit-19480b6a990ae2:0",
+        "title": "Overview of CDC | Career Development Centre",
+        "heading": "CDC Overview",
+        "url": "https://vit.ac.in/cdc-overview"
+      },
+      {
+        "id": "vit-19480b6a990ae2:1",
+        "title": "Overview of CDC | Career Development Centre",
+        "heading": "Career Counselling and Higher Education",
+        "url": "https://vit.ac.in/cdc-overview"
+      },
+      {
+        "id": "vit-19480b6a990ae2:3",
+        "title": "Overview of CDC | Career Development Centre",
+        "heading": "September to May",
+        "url": "https://vit.ac.in/cdc-overview"
+      },
+      {
+        "id": "vit-25f417f5ed5882:0",
+        "title": "Placement Tracker | VIT Placement Statistics | Placement Records | VIT",
+        "heading": "Placement Process",
+        "url": "https://vit.ac.in/placement-process"
+      },
+      {
+        "id": "vit-ae3e1de3281fce:29",
+        "title": "Contact Us | VIT",
+        "heading": "Deputy Director",
+        "url": "https://vit.ac.in/contactus"
+      },
+      {
+        "id": "vit-ae3e1de3281fce:67",
+        "title": "Contact Us | VIT",
+        "heading": "Assistant Director",
+        "url": "https://vit.ac.in/contactus"
+      },
+      {
+        "id": "vit-ae3e1de3281fce:31",
+        "title": "Contact Us | VIT",
+        "heading": "Assistant Director",
+        "url": "https://vit.ac.in/contactus"
+      },
+      {
+        "id": "vit-8dcc39ae1efd49:10",
+        "title": "Indian Societies - Vellore Institute of Technology",
+        "heading": "IICHE",
+        "url": "https://vit.ac.in/campus/chapters/indiansocieties"
+      }
+    ]
+  },
+  {
+    "query": "What scholarships does VIT offer?",
+    "expected_url_contains": "scholarship",
+    "pass": true,
+    "sources": [
+      {
+        "id": "vit-122939bca23a36:5",
+        "title": "VIT Admissions 2026-27: B.Tech, MBA, M.Tech, Research",
+        "heading": "International / NRI",
+        "url": "https://vit.ac.in/admissions/overview"
+      },
+      {
+        "id": "vit-284189fde10bcc:12",
+        "title": "Scholarship - Vellore Institute of Technology",
+        "heading": "STATISTICS ON CASH AWARDS / SCHOLARSHIPS & EXPENDITURE (2024-2025)",
+        "url": "https://vit.ac.in/scholarship"
+      },
+      {
+        "id": "vit-284189fde10bcc:1",
+        "title": "Scholarship - Vellore Institute of Technology",
+        "heading": "STATISTICS ON CASH AWARDS / SCHOLARSHIPS & EXPENDITURE (2024-2025)",
+        "url": "https://vit.ac.in/scholarship"
+      },
+      {
+        "id": "vit-54eaf1bb122a3a:9",
+        "title": "Research Programmes | International Admissions | VIT | VIT",
+        "heading": "Academic Fee & Hostel Fee -",
+        "url": "https://vit.ac.in/admissions/international/research"
+      },
+      {
+        "id": "vit-284189fde10bcc:18",
+        "title": "Scholarship - Vellore Institute of Technology",
+        "heading": "STATISTICS ON CASH AWARDS / SCHOLARSHIPS & EXPENDITURE (2024-2025)",
+        "url": "https://vit.ac.in/scholarship"
+      },
+      {
+        "id": "vit-3c494770e60391:25",
+        "title": "International Relations | VIT",
+        "heading": "VIT MoU with George Washington University",
+        "url": "https://vit.ac.in/internationalrelations"
+      },
+      {
+        "id": "vit-3c494770e60391:5",
+        "title": "International Relations | VIT",
+        "heading": "Lehigh University, Pennsylvania, United States, and Vellore Institute of Technology have strengthened their collaboration by introducing new graduate program opportunities.",
+        "url": "https://vit.ac.in/internationalrelations"
+      },
+      {
+        "id": "vit-49ae6dbba6c045:15",
+        "title": "PhD Admissions 2027 | Ph.D, Direct PhD, Deep Tech Programmes",
+        "heading": "Contact US",
+        "url": "https://vit.ac.in/admissions/research"
+      }
+    ]
+  },
+  {
+    "query": "How do international transfer programmes work?",
+    "expected_url_contains": "itp",
+    "pass": true,
+    "sources": [
+      {
+        "id": "vit-df08e7d4711950:0",
+        "title": "Study in our International Partner Universities | ITP | VIT",
+        "heading": "International Transfer Programmes (ITP)",
+        "url": "https://vit.ac.in/internationalrelations/itp"
+      },
+      {
+        "id": "vit-3c494770e60391:5",
+        "title": "International Relations | VIT",
+        "heading": "Lehigh University, Pennsylvania, United States, and Vellore Institute of Technology have strengthened their collaboration by introducing new graduate program opportunities.",
+        "url": "https://vit.ac.in/internationalrelations"
+      },
+      {
+        "id": "vit-3c494770e60391:29",
+        "title": "International Relations | VIT",
+        "heading": "Services Offered",
+        "url": "https://vit.ac.in/internationalrelations"
+      },
+      {
+        "id": "vit-df08e7d4711950:1",
+        "title": "Study in our International Partner Universities | ITP | VIT",
+        "heading": "Experience Global Education with VIT's International Transfer Programme (ITP)",
+        "url": "https://vit.ac.in/internationalrelations/itp"
+      },
+      {
+        "id": "vit-db4f817612a002:139",
+        "title": "academic regulations",
+        "heading": "Page 33",
+        "url": "https://vit.ac.in/academics/academic-regulations"
+      },
+      {
+        "id": "vit-e8feaeba2f60ef:133",
+        "title": "Academic Regulations",
+        "heading": "Page 38",
+        "url": "https://vit.ac.in/sites/default/files/academic/Academic-Regulations.pdf"
+      },
+      {
+        "id": "vit-e8feaeba2f60ef:132",
+        "title": "Academic Regulations",
+        "heading": "Page 38",
+        "url": "https://vit.ac.in/sites/default/files/academic/Academic-Regulations.pdf"
+      },
+      {
+        "id": "vit-e8feaeba2f60ef:130",
+        "title": "Academic Regulations",
+        "heading": "Page 37",
+        "url": "https://vit.ac.in/sites/default/files/academic/Academic-Regulations.pdf"
+      }
+    ]
+  },
+  {
+    "query": "What research programmes and PhD admissions are available?",
+    "expected_url_contains": "research",
+    "pass": true,
+    "sources": [
+      {
+        "id": "vit-49ae6dbba6c045:15",
+        "title": "PhD Admissions 2027 | Ph.D, Direct PhD, Deep Tech Programmes",
+        "heading": "Contact US",
+        "url": "https://vit.ac.in/admissions/research"
+      },
+      {
+        "id": "vit-49ae6dbba6c045:12",
+        "title": "PhD Admissions 2027 | Ph.D, Direct PhD, Deep Tech Programmes",
+        "heading": "Contact US",
+        "url": "https://vit.ac.in/admissions/research"
+      },
+      {
+        "id": "vit-54eaf1bb122a3a:7",
+        "title": "Research Programmes | International Admissions | VIT | VIT",
+        "heading": "For Non-Engineering Stream:",
+        "url": "https://vit.ac.in/admissions/international/research"
+      },
+      {
+        "id": "vit-49ae6dbba6c045:4",
+        "title": "PhD Admissions 2027 | Ph.D, Direct PhD, Deep Tech Programmes",
+        "heading": "2. Direct PhD. Programmes -",
+        "url": "https://vit.ac.in/admissions/research"
+      },
+      {
+        "id": "vit-54eaf1bb122a3a:0",
+        "title": "Research Programmes | International Admissions | VIT | VIT",
+        "heading": "Research Admissions",
+        "url": "https://vit.ac.in/admissions/international/research"
+      },
+      {
+        "id": "vit-54eaf1bb122a3a:8",
+        "title": "Research Programmes | International Admissions | VIT | VIT",
+        "heading": "For Non-Engineering Stream:",
+        "url": "https://vit.ac.in/admissions/international/research"
+      },
+      {
+        "id": "vit-44db388beb09af:5",
+        "title": "International Foreign Students Admissions | Overseas Admission | VIT",
+        "heading": "Campus Life",
+        "url": "https://vit.ac.in/admissions/international/overview"
+      },
+      {
+        "id": "vit-dd0dddbce9fe72:0",
+        "title": "Academic Research | VIT",
+        "heading": "Academic Research",
+        "url": "https://vit.ac.in/research/academic"
+      }
+    ]
+  },
+  {
+    "query": "What are the library rules for visitors?",
+    "expected_url_contains": "library",
+    "pass": true,
+    "sources": [
+      {
+        "id": "vit-a1ed5f3bba1da8:15",
+        "title": "library policy 2024",
+        "heading": "Page 8",
+        "url": "https://vit.ac.in/wp-content/uploads/2024/11/library-policy-2024.pdf"
+      },
+      {
+        "id": "vit-a1ed5f3bba1da8:3",
+        "title": "library policy 2024",
+        "heading": "Page 2",
+        "url": "https://vit.ac.in/wp-content/uploads/2024/11/library-policy-2024.pdf"
+      },
+      {
+        "id": "vit-a1ed5f3bba1da8:2",
+        "title": "library policy 2024",
+        "heading": "Page 2",
+        "url": "https://vit.ac.in/wp-content/uploads/2024/11/library-policy-2024.pdf"
+      },
+      {
+        "id": "vit-a5491ce470ffa0:12",
+        "title": "Library | VIT",
+        "heading": "Open access system is followed in the Library",
+        "url": "https://vit.ac.in/academics/library"
+      },
+      {
+        "id": "vit-a5491ce470ffa0:9",
+        "title": "Library | VIT",
+        "heading": "Open access system is followed in the Library",
+        "url": "https://vit.ac.in/academics/library"
+      },
+      {
+        "id": "vit-a5491ce470ffa0:8",
+        "title": "Library | VIT",
+        "heading": "Features",
+        "url": "https://vit.ac.in/academics/library"
+      },
+      {
+        "id": "vit-db4f817612a002:50",
+        "title": "academic regulations",
+        "heading": "Page 15",
+        "url": "https://vit.ac.in/academics/academic-regulations"
+      },
+      {
+        "id": "vit-e8feaeba2f60ef:12",
+        "title": "Academic Regulations",
+        "heading": "Page 6",
+        "url": "https://vit.ac.in/sites/default/files/academic/Academic-Regulations.pdf"
+      }
+    ]
+  },
+  {
+    "query": "How are hostel room and mess fees paid?",
+    "expected_url_contains": "hostel",
+    "pass": true,
+    "sources": [
+      {
+        "id": "vit-67d0ec3c0cdd30:1",
+        "title": "LH NRI fees 2026 27",
+        "heading": "Page 1",
+        "url": "https://vit.ac.in/wp-content/uploads/2026/05/LH-NRI-fees-2026-27.pdf"
+      },
+      {
+        "id": "vit-368491d494cbab:5",
+        "title": "First year 2026 27",
+        "heading": "Page 2",
+        "url": "https://vit.ac.in/wp-content/uploads/2026/05/First-year-2026-27.pdf"
+      },
+      {
+        "id": "vit-368491d494cbab:0",
+        "title": "First year 2026 27",
+        "heading": "Page 1",
+        "url": "https://vit.ac.in/wp-content/uploads/2026/05/First-year-2026-27.pdf"
+      },
+      {
+        "id": "vit-64afb55735f79a:3",
+        "title": "MH First Year FEE structure Indian NRI FOREIGN Category 2026 27",
+        "heading": "Page 1",
+        "url": "https://vit.ac.in/wp-content/uploads/2026/06/MH-First-Year-FEE-structure-Indian-NRI-FOREIGN-Category-2026-27.pdf"
+      },
+      {
+        "id": "vit-573a750b2f4ce0:0",
+        "title": "Hostel Refund Policy 26 27",
+        "heading": "Page 1",
+        "url": "https://vit.ac.in/wp-content/uploads/2026/05/Hostel-Refund-Policy-26-27.pdf"
+      },
+      {
+        "id": "vit-573a750b2f4ce0:1",
+        "title": "Hostel Refund Policy 26 27",
+        "heading": "Page 1",
+        "url": "https://vit.ac.in/wp-content/uploads/2026/05/Hostel-Refund-Policy-26-27.pdf"
+      },
+      {
+        "id": "vit-573a750b2f4ce0:6",
+        "title": "Hostel Refund Policy 26 27",
+        "heading": "Page 3",
+        "url": "https://vit.ac.in/wp-content/uploads/2026/05/Hostel-Refund-Policy-26-27.pdf"
+      },
+      {
+        "id": "vit-64afb55735f79a:6",
+        "title": "MH First Year FEE structure Indian NRI FOREIGN Category 2026 27",
+        "heading": "Page 2",
+        "url": "https://vit.ac.in/wp-content/uploads/2026/06/MH-First-Year-FEE-structure-Indian-NRI-FOREIGN-Category-2026-27.pdf"
+      }
+    ]
+  }
+]

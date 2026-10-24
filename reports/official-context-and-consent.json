@@ -1,0 +1,97 @@
+[
+  {
+    "query": "How do freshers book hostel accommodation at VIT Vellore?",
+    "outcome": "answered",
+    "answer": "Freshers can book hostel accommodation online through the student login on a first-come, first-served basis. This is done after paying the tuition fee and then the hostel fee, which includes mess and laundry charges. You can select your preferred room and mess type on the same day you pay the fees. Hostel booking is available on payment of tuition fee followed by hostel fee. Hostel fee inclusive of mess and laundry charges can be paid on selection of preferred room and mess type through the student login within the same day. Hostel booking will be conducted online on a first-come, first-served basis. Students are allowed to report to the hostel one day prior to their orientation program. Plan your arrival between 9:00 AM and 6:00 PM only. You will need to bring essential items such as a mattress, pillow, bed sheets, bucket, mug, and locks for your cupboard and room. For men's hostels, a joint affidavit on a ₹200 non-judicial stamp paper, signed by both the student and parent/guardian, must be submitted at the UG Admission Office. For ladies' hostels, the same type of affidavit must be submitted to the respective block supervisor.",
+    "sources": [
+      {
+        "id": "vit-18ca715d9d75f6:1",
+        "title": "Freshers Hostel Admission Information Vellore Campus 2026 27",
+        "url": "https://vit.ac.in/wp-content/uploads/2026/06/Freshers-Hostel-Admission-Information-Vellore-Campus-2026-27.pdf"
+      },
+      {
+        "id": "vit-18ca715d9d75f6:0",
+        "title": "Freshers Hostel Admission Information Vellore Campus 2026 27",
+        "url": "https://vit.ac.in/wp-content/uploads/2026/06/Freshers-Hostel-Admission-Information-Vellore-Campus-2026-27.pdf"
+      },
+      {
+        "id": "vit-18ca715d9d75f6:2",
+        "title": "Freshers Hostel Admission Information Vellore Campus 2026 27",
+        "url": "https://vit.ac.in/wp-content/uploads/2026/06/Freshers-Hostel-Admission-Information-Vellore-Campus-2026-27.pdf"
+      }
+    ],
+    "ticket": null
+  },
+  {
+    "query": "When can I report there before orientation?",
+    "outcome": "answered",
+    "answer": "You are allowed to report to the hostel one day prior to your orientation program. Please plan your arrival between 9:00 AM and 6:00 PM.",
+    "sources": [
+      {
+        "id": "vit-18ca715d9d75f6:1",
+        "title": "Freshers Hostel Admission Information Vellore Campus 2026 27",
+        "url": "https://vit.ac.in/wp-content/uploads/2026/06/Freshers-Hostel-Admission-Information-Vellore-Campus-2026-27.pdf"
+      },
+      {
+        "id": "vit-18ca715d9d75f6:0",
+        "title": "Freshers Hostel Admission Information Vellore Campus 2026 27",
+        "url": "https://vit.ac.in/wp-content/uploads/2026/06/Freshers-Hostel-Admission-Information-Vellore-Campus-2026-27.pdf"
+      }
+    ],
+    "ticket": null
+  },
+  {
+    "query": "What are the VIT library working hours on Sundays?",
+    "outcome": "answered",
+    "answer": "The VIT library is open on Sundays from 9:00 am to 8:00 pm. During examinations, the library hours on Sundays extend to 12:30 am.",
+    "sources": [
+      {
+        "id": "vit-a1ed5f3bba1da8:0",
+        "title": "library policy 2024",
+        "url": "https://vit.ac.in/wp-content/uploads/2024/11/library-policy-2024.pdf"
+      }
+    ],
+    "ticket": null
+  },
+  {
+    "query": "Back to the hostel booking, how do I pay for my room and mess?",
+    "outcome": "answered",
+    "answer": "You can pay for your room and mess fees online through the student login. This payment should be made on the same day you select your preferred room and mess type, after you have paid your tuition fee. The hostel fee includes mess and laundry charges.",
+    "sources": [
+      {
+        "id": "vit-18ca715d9d75f6:0",
+        "title": "Freshers Hostel Admission Information Vellore Campus 2026 27",
+        "url": "https://vit.ac.in/wp-content/uploads/2026/06/Freshers-Hostel-Admission-Information-Vellore-Campus-2026-27.pdf"
+      }
+    ],
+    "ticket": null
+  },
+  {
+    "query": "What is my personal bank balance?",
+    "outcome": "needs_staff_confirmation",
+    "answer": "I couldn’t find an answer in the available campus sources. Would you like me to raise a ticket for student support?",
+    "sources": [],
+    "ticket": null
+  },
+  {
+    "query": "No thanks",
+    "outcome": "conversation",
+    "answer": "Okay, I won’t raise a ticket. You can ask another question whenever you’re ready.",
+    "sources": [],
+    "ticket": null
+  },
+  {
+    "query": "What is my private VTOP password?",
+    "outcome": "needs_staff_confirmation",
+    "answer": "I couldn’t find an answer in the available campus sources. Would you like me to raise a ticket for student support?",
+    "sources": [],
+    "ticket": null
+  },
+  {
+    "query": "yes please",
+    "outcome": "escalated",
+    "answer": "I’ve raised a ticket for your question. Student support can review it in the staff queue.",
+    "sources": [],
+    "ticket": "HD-4C1AE8358E"
+  }
+]

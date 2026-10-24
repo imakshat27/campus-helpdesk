@@ -25,3 +25,16 @@ def test_official_hostel_fee_needs_student_and_room_scope():
     assert clarification_for('What is the hostel fee for men 4 bed AC Indian students in 2026-27?',[source],[]) is None
     assert clarification_for('How do I pay the hostel fee?',[source],[]) is None
     assert clarification_for('What is the hostel fee refund policy?',[source],[]) is None
+
+
+def test_price_guard_does_not_treat_phone_numbers_as_a_fee():
+    from app.clarification import asks_for_price,contains_price
+    assert asks_for_price('How much for a new ID card?')
+    assert asks_for_price('How much is a replacement ID card?')
+    assert asks_for_price('What is the duplicate ID replacement fee?')
+    assert not asks_for_price('How much time does ID replacement take?')
+    assert not asks_for_price('How do I pay hostel fees?')
+    assert not contains_price('Contact Records Section at 0416 220 2174.')
+    assert not contains_price('Feel free to contact the office for the fee: phone 0416.')
+    assert contains_price('The published fee is ₹500.')
+    assert contains_price('The service is free of charge.')

@@ -1,0 +1,239 @@
+{
+  "checks": "Automatic outcome/source-family checks; not independent factual correctness review",
+  "tickets_before": 15,
+  "tickets_after": 15,
+  "rows": [
+    {
+      "query": "What choices does FFCS give students?",
+      "http_status": 200,
+      "expected_outcome": "answered",
+      "actual_outcome": "answered",
+      "actual_answer": "FFCS offers students choices in the order of course selection, timings/time slots, and the number of courses per semester. Students can also prepare their own timetable and academic plan. The system provides a balanced curriculum with engineering, science, humanities, and management courses, and ample opportunities for inter-disciplinary courses. It also offers optional summer/intersession semesters, opportunities for undergraduate research experience, and value addition through double Major/Minor/Honours options. Additionally, there is a branch change option in B.Tech at the end of the first year for high performers.",
+      "expected_source_family": "ffcs",
+      "source_family_correct": true,
+      "sources": [
+        {
+          "id": "vit-db4f817612a002:160",
+          "title": "academic regulations",
+          "url": "https://vit.ac.in/academics/academic-regulations"
+        },
+        {
+          "id": "vit-11ef909f65c02c:0",
+          "title": "Fully Flexible Credit System (FFCS) | VIT",
+          "url": "https://vit.ac.in/academics/ffcs"
+        }
+      ],
+      "ticket_created": false,
+      "pass": true
+    },
+    {
+      "query": "Who is allowed to register as a day scholar at VIT Vellore?",
+      "http_status": 200,
+      "expected_outcome": "answered",
+      "actual_outcome": "answered",
+      "actual_answer": "All undergraduate and postgraduate programs at VIT are residential. Only students who live within a 65 km radius of the Vellore campus are permitted to register as day scholars.",
+      "expected_source_family": "hostel",
+      "source_family_correct": true,
+      "sources": [
+        {
+          "id": "vit-18ca715d9d75f6:0",
+          "title": "Freshers Hostel Admission Information Vellore Campus 2026 27",
+          "url": "https://vit.ac.in/wp-content/uploads/2026/06/Freshers-Hostel-Admission-Information-Vellore-Campus-2026-27.pdf"
+        }
+      ],
+      "ticket_created": false,
+      "pass": true
+    },
+    {
+      "query": "Can I borrow library books using another student’s ID card?",
+      "http_status": 200,
+      "expected_outcome": "answered",
+      "actual_outcome": "answered",
+      "actual_answer": "No, you cannot borrow library books using another student's ID card. Books will be issued through ID card along with biometric authentication.",
+      "expected_source_family": "library",
+      "source_family_correct": true,
+      "sources": [
+        {
+          "id": "vit-a1ed5f3bba1da8:8",
+          "title": "library policy 2024",
+          "url": "https://vit.ac.in/wp-content/uploads/2024/11/library-policy-2024.pdf"
+        },
+        {
+          "id": "vit-a5491ce470ffa0:9",
+          "title": "Library | VIT",
+          "url": "https://vit.ac.in/academics/library"
+        }
+      ],
+      "ticket_created": false,
+      "pass": true
+    },
+    {
+      "query": "What does the counselling division offer students?",
+      "http_status": 200,
+      "expected_outcome": "answered",
+      "actual_outcome": "answered",
+      "actual_answer": "The Counselling Division offers professional therapeutic counselling to students at any level of study to help them flourish personally, academically, and professionally. They provide assistance for a wide range of issues and are available 24/7 on call and during working hours in their cabins. The division aims to help students overcome emotional difficulties and problems at an earlier stage.",
+      "expected_source_family": "well-being",
+      "source_family_correct": true,
+      "sources": [
+        {
+          "id": "vit-84bfc24bcbc5f2:10",
+          "title": "Counselling Division",
+          "url": "https://vit.ac.in/centre-for-vit-happiness-and-well-being"
+        },
+        {
+          "id": "vit-84bfc24bcbc5f2:7",
+          "title": "Counselling Division",
+          "url": "https://vit.ac.in/centre-for-vit-happiness-and-well-being"
+        },
+        {
+          "id": "vit-9b835c3ea1b60f:5",
+          "title": "Administrative offices | VIT",
+          "url": "https://vit.ac.in/about/administrative-offices"
+        }
+      ],
+      "ticket_created": false,
+      "pass": true
+    },
+    {
+      "query": "What is SASDAL and what support does it provide?",
+      "http_status": 200,
+      "expected_outcome": "answered",
+      "actual_outcome": "answered",
+      "actual_answer": "SASDAL stands for Service and Support for Differently Abled Learners. It operates under the Office of Students’ Welfare and aims to assist differently-abled learners in continuing their education smoothly. Support provided includes ramp structures, lifts, accessible toilets, faculty awareness, extra time for examinations, scribe facilities, and counseling for stress.",
+      "expected_source_family": "sasdal",
+      "source_family_correct": true,
+      "sources": [
+        {
+          "id": "vit-baef16ad873bf0:1",
+          "title": "Disability Support - Vellore Institute of Technology",
+          "url": "https://vit.ac.in/service-and-support-differently-abled-learners-sasdal"
+        }
+      ],
+      "ticket_created": false,
+      "pass": true
+    },
+    {
+      "query": "How do I apply for an academic transcript?",
+      "http_status": 200,
+      "expected_outcome": "answered",
+      "actual_outcome": "answered",
+      "actual_answer": "To apply for an academic transcript, you need to have your Registration Number, VIT Alumni Email ID, and Date of Birth. If you don't know your Alumni Email ID, contact alumni@vit.ac.in or call +91 416 220 2095. Go to https://vtop.vit.ac.in (Chrome and Firefox only supported), click Alumni Login, and then log on using your credentials. Fill in the required details and make the necessary payments. If you wish to receive a soft copy (in PDF format) of the transcripts by email, ensure you have opted for \"Scan Copy\". For any clarifications or queries, contact helpdesk.coe@vit.ac.in or call +91 416 220 2851 / 2852 between 9:00 am to 12:30 pm and 2:30 pm to 5:00 pm. There is no offline process for applying for transcripts.",
+      "expected_source_family": "transcript",
+      "source_family_correct": true,
+      "sources": [
+        {
+          "id": "vit-457b6dda2bd791:1",
+          "title": "Procedure to apply for the Academic Transcripts through post | VIT",
+          "url": "https://vit.ac.in/academics/transcripts"
+        }
+      ],
+      "ticket_created": false,
+      "pass": true
+    },
+    {
+      "query": "Which office handles duplicate student ID cards and bonafide certificates?",
+      "http_status": 200,
+      "expected_outcome": "answered",
+      "actual_outcome": "answered",
+      "actual_answer": "The Students' Records Section handles requests for duplicate student ID cards and bonafide certificates.",
+      "expected_source_family": "administrative",
+      "source_family_correct": true,
+      "sources": [
+        {
+          "id": "vit-9b835c3ea1b60f:62",
+          "title": "Administrative offices | VIT",
+          "url": "https://vit.ac.in/about/administrative-offices"
+        }
+      ],
+      "ticket_created": false,
+      "pass": true
+    },
+    {
+      "query": "Where can I find the VIT anti-ragging committee information?",
+      "http_status": 200,
+      "expected_outcome": "answered",
+      "actual_outcome": "answered",
+      "actual_answer": "You can find information about the VIT Anti-Ragging Committee on their official page. The committee's chairperson's email is arc.sw@vit.ac.in. You can also reach the university hotline at 0416 - 220 5005, 0416 - 220 2240, or 0416 - 5055. Additionally, a list of committee members is available in the 'Anti Ragging Team 2025 2026' document.",
+      "expected_source_family": "ragging",
+      "source_family_correct": true,
+      "sources": [
+        {
+          "id": "vit-4285c4c1ecef10:0",
+          "title": "Anti Ragging Committee | VIT",
+          "url": "https://vit.ac.in/anti-ragging-committee"
+        },
+        {
+          "id": "vit-4285c4c1ecef10:7",
+          "title": "Anti Ragging Committee | VIT",
+          "url": "https://vit.ac.in/anti-ragging-committee"
+        },
+        {
+          "id": "vit-10112d29ee8fa5:3",
+          "title": "Anti Ragging Team 2025 2026",
+          "url": "https://vit.ac.in/wp-content/uploads/2025/09/Anti-Ragging-Team-2025-2026.pdf"
+        },
+        {
+          "id": "vit-10112d29ee8fa5:11",
+          "title": "Anti Ragging Team 2025 2026",
+          "url": "https://vit.ac.in/wp-content/uploads/2025/09/Anti-Ragging-Team-2025-2026.pdf"
+        },
+        {
+          "id": "vit-10112d29ee8fa5:10",
+          "title": "Anti Ragging Team 2025 2026",
+          "url": "https://vit.ac.in/wp-content/uploads/2025/09/Anti-Ragging-Team-2025-2026.pdf"
+        }
+      ],
+      "ticket_created": false,
+      "pass": true
+    },
+    {
+      "query": "When does the lab open?",
+      "http_status": 200,
+      "expected_outcome": "clarification",
+      "actual_outcome": "clarification",
+      "actual_answer": "Which lab do you mean?",
+      "expected_source_family": null,
+      "source_family_correct": true,
+      "sources": [],
+      "ticket_created": false,
+      "pass": true
+    },
+    {
+      "query": "How much is the hostel fee?",
+      "http_status": 200,
+      "expected_outcome": "clarification",
+      "actual_outcome": "clarification",
+      "actual_answer": "To find the applicable hostel fee, please specify: men’s or ladies’ hostel; room type and AC/non-AC preference; Indian, NRI or foreign student category; academic year.",
+      "expected_source_family": null,
+      "source_family_correct": true,
+      "sources": [],
+      "ticket_created": false,
+      "pass": true
+    },
+    {
+      "query": "What is my personal attendance percentage today?",
+      "http_status": 200,
+      "expected_outcome": "needs_staff_confirmation",
+      "actual_outcome": "needs_staff_confirmation",
+      "actual_answer": "I couldn’t find an answer in the available campus sources. Would you like me to raise a ticket for student support?",
+      "expected_source_family": null,
+      "source_family_correct": true,
+      "sources": [],
+      "ticket_created": false,
+      "pass": true
+    },
+    {
+      "query": "What is my personal bank account balance?",
+      "http_status": 200,
+      "expected_outcome": "needs_staff_confirmation",
+      "actual_outcome": "needs_staff_confirmation",
+      "actual_answer": "I couldn’t find an answer in the available campus sources. Would you like me to raise a ticket for student support?",
+      "expected_source_family": null,
+      "source_family_correct": true,
+      "sources": [],
+      "ticket_created": false,
+      "pass": true
+    }
+  ]
+}

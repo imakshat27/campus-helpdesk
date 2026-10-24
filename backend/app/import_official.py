@@ -40,6 +40,7 @@ def extract_html(data):
 
 def run(refresh=False):
  for folder in ['raw','processed']:(ROOT/folder).mkdir(exist_ok=True,parents=True)
+ previous={d['id']:d for d in json.loads((ROOT/'manifest.json').read_text()).get('documents',[])} if (ROOT/'manifest.json').exists() else {}
  pending=[('https://vit.ac.in'+path,cat) for cat,paths in SEEDS.items() for path in paths];docs=[];failures=[];seen=set();robots=RobotFileParser()
  with httpx.Client(timeout=35,follow_redirects=True,headers={'User-Agent':'CampusHelpdeskResearch/1.0 (student project; public sources)'}) as client:
   robots.parse(client.get('https://vit.ac.in/robots.txt').text.splitlines())
@@ -59,7 +60,7 @@ def run(refresh=False):
      data=response.content
      if len(data)>18_000_000:raise ValueError('Source exceeds 18 MB')
      cache.write_bytes(data)
-    if data.startswith(b'%PDF') and (ROOT/'processed'/f'{ident}.md').exists() and not refresh:
+    if data.startswith(b'%PDF') and (ROOT/'processed'/f'{ident}.md').exists() and not refresh and previous.get(ident,{}).get('sha256')==hashlib.sha256(data).hexdigest():
      blocks=(ROOT/'processed'/f'{ident}.md').read_text().split('\n\n')
      title=urlparse(url).path.split('/')[-1].replace('.pdf','').replace('-',' ')
     elif data.startswith(b'%PDF'):

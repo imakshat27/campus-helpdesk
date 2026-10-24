@@ -64,3 +64,44 @@ def test_transport_failure_is_not_a_citation_retry(monkeypatch,evidence):
 def test_document_id_never_passes_as_a_passage_id(evidence):
     with pytest.raises(HTTPException):
         validate_generation(Generation(outcome='answered',message='₹200',source_ids=['faq-14']),evidence)
+
+@pytest.mark.parametrize('failure',['json','503','timeout'])
+def test_provider_recovers_once_from_transient_or_invalid_output(monkeypatch,failure):
+    import httpx
+    from app.config import settings
+    calls=[]
+    class Client:
+        def __init__(self,**kwargs):pass
+        def __enter__(self):return self
+        def __exit__(self,*args):pass
+        def post(self,url,**kwargs):
+            calls.append(kwargs)
+            request=httpx.Request('POST',url)
+            if len(calls)==1:
+                if failure=='timeout':raise httpx.ReadTimeout('test timeout')
+                if failure=='503':return httpx.Response(503,request=request)
+                return httpx.Response(200,request=request,json={'choices':[{'message':{'content':'not valid JSON'}}]})
+            return httpx.Response(200,request=request,json={'choices':[{'message':{'content':'{"outcome":"unsupported","message":"No published fact.","source_ids":[]}'}}]})
+    monkeypatch.setattr(settings(),'openrouter_api_key','test-key')
+    monkeypatch.setattr(settings(),'openrouter_model','test-model')
+    monkeypatch.setattr('app.llm.httpx.Client',Client)
+    result=OpenRouterGenerator()._request('rules',[],{'question':'test'},Generation,100)
+    assert result.outcome=='unsupported' and len(calls)==2
+
+@pytest.mark.parametrize('status,attempts',[(401,1),(429,2),(503,2)])
+def test_provider_retry_bound_and_auth_failures(monkeypatch,status,attempts):
+    import httpx
+    from app.config import settings
+    calls=[]
+    class Client:
+        def __init__(self,**kwargs):pass
+        def __enter__(self):return self
+        def __exit__(self,*args):pass
+        def post(self,url,**kwargs):
+            calls.append(kwargs);return httpx.Response(status,request=httpx.Request('POST',url))
+    monkeypatch.setattr(settings(),'openrouter_api_key','test-key')
+    monkeypatch.setattr(settings(),'openrouter_model','test-model')
+    monkeypatch.setattr('app.llm.httpx.Client',Client)
+    with pytest.raises(HTTPException) as error:
+        OpenRouterGenerator()._request('rules',[],{'question':'test'},Generation,100)
+    assert error.value.status_code==502 and len(calls)==attempts

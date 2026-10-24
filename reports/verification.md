@@ -65,3 +65,7 @@ No email or messages were sent to external staff. Unit tests use disposable SQLi
 ## Paper-and-evergreen revision — 24 October 2026
 
 The current interface and latest checks are recorded in `redesign-stages.md` and `redesign-browser-checks.json`. This supersedes the cobalt visual direction described above. The private GitHub repository is `imakshat27/campus-helpdesk`; baseline, design and implementation were pushed as separate checkpoints. Current screenshots use the `paper-` prefix.
+
+## Official Vellore expansion — 24 October 2026
+
+The active corpus now uses public VIT Vellore sources. See `official-dataset.md` for current counts, source scope, processing, UX and verification limits; `official-retrieval.md`, `official-live-evaluation.md` and `official-context-and-consent.md` record the real retrieval/model checks. Historical sample and visual reports above are retained as historical evidence. Fresh browser checks were unavailable because local browser use is disabled in Work settings.

@@ -46,3 +46,15 @@ def clarification_for(query: str, sources: list[Source], history: list[dict]) ->
     if topic=='event':
         return 'Which event would you like to register for?' + (f' The available information covers {choices}.' if choices else '')
     return 'Which lab do you mean?' + (f' The available information covers {choices}.' if choices else '')
+
+
+def asks_for_price(query: str) -> bool:
+    """An exact price request cannot be satisfied by an office/contact answer."""
+    q=query.casefold()
+    return bool(re.search(r'\bhow much\b.*\b(for|pay|fee|cost|price|charge|fine)\b',q) or
+                (re.search(r'\bhow much (?:is|are)\b',q) and not re.search(r'\b(time|duration|distance|days|hours|credits|attendance|percentage)\b',q)) or
+                re.search(r'\b(?:what|tell|give)\b.*\b(?:fee|cost|price|charge|amount)\b',q)) and not bool(re.search(r'\b(refund policy|how to pay|payment process)\b',q))
+
+
+def contains_price(answer: str) -> bool:
+    return bool(re.search(r'(?:₹|\$|\bINR\b|\bRs\.?|\brupees?\b)\s*[\d,]+|[\d,]+\s*(?:rupees?|INR)|\b(?:fee|cost|price|charge|amount)\s+(?:is|of|:)\s*\d|\b(?:free of charge|no (?:fee|charge)|complimentary)\b|\b(?:is|are) free\b',answer,re.I))
