@@ -279,3 +279,36 @@ def test_maximum_length_question_and_strict_ticket_confirmation(client):
     for invalid in [1,'true',False,None]:
         response=client.post('/api/conversations/'+reply['conversation_id']+'/escalate',json={'message_id':reply['user_message_id'],'confirmed':invalid})
         assert response.status_code==422
+
+
+def test_citation_repair_saves_only_valid_answer(grounded,database,source,monkeypatch):
+    generator=OpenRouterGenerator()
+    attempts=[]
+    def request(*args):
+        attempts.append(args)
+        return Generation(outcome='answered',message=source.content,source_ids=[source.document_id if len(attempts)==1 else source.id])
+    monkeypatch.setattr(generator,'_request',request)
+    app.dependency_overrides[get_generator]=lambda:generator
+    r=grounded.post('/api/chat',json={'message':'What are the robotics lab hours?'})
+    assert r.status_code==200 and len(attempts)==2
+    assert r.json()['sources'][0]['id']==source.id
+    assert r.json()['ticket_reference'] is None
+    with Session(database) as db:
+        assert len(db.scalars(select(Message)).all())==2
+        assert not db.scalars(select(Ticket)).all()
+
+
+def test_failed_citation_repair_saves_no_answer_or_ticket(grounded,database,monkeypatch):
+    generator=OpenRouterGenerator()
+    attempts=[]
+    def request(*args):
+        attempts.append(args)
+        return Generation(outcome='answered',message='Unvalidated answer.',source_ids=['invented'])
+    monkeypatch.setattr(generator,'_request',request)
+    app.dependency_overrides[get_generator]=lambda:generator
+    assert grounded.post('/api/chat',json={'message':'Robotics lab hours?'}).status_code==502
+    assert len(attempts)==2
+    with Session(database) as db:
+        assert not db.scalars(select(Message)).all()
+        assert not db.scalars(select(Conversation)).all()
+        assert not db.scalars(select(Ticket)).all()
