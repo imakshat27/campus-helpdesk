@@ -11,3 +11,4 @@ __pycache__/
 *.tsbuildinfo
 knowledge/official/raw/
 .vercel/
+.presentation-build/
