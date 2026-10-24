@@ -68,7 +68,7 @@ it('restores the conversation across navigation and clears it on new conversatio
   expect(await screen.findByText('A saved campus answer.')).toBeVisible();
   await user.click(screen.getByRole('link',{name:'New conversation'}));
   expect(screen.queryByText('A saved campus answer.')).not.toBeInTheDocument();
-  expect(screen.getByRole('heading',{name:'How can we help?'})).toBeVisible();
+  expect(screen.getByRole('heading',{name:'A question about campus?'})).toBeVisible();
 });
 it('offers a ticket without sending a request until the student confirms',async()=>{
   mockFetch.mockResolvedValueOnce(response({conversation_id:'ticket-conversation',user_message_id:'original-question',outcome:'needs_staff_confirmation',message:'I couldn’t find an answer. Would you like me to raise a ticket?',sources:[],ticket_offer:{message_id:'original-question',query:'Unknown campus policy'}}));

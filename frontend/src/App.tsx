@@ -19,10 +19,10 @@ import type { ChatReply, Knowledge, Source, Ticket, TicketOffer } from './api';
 
 const categoryLabels: Record<string, string> = { classrooms: 'Classrooms', labs: 'Labs', events: 'Events', procedures: 'Student services', library: 'Library', it: 'IT support' };
 const suggestions = [
-  { icon: MapPin, label: 'Find a classroom', question: 'Where is SJT 301?', hint: 'Buildings, rooms & directions', color: 'blue' },
-  { icon: Clock3, label: 'Check lab timings', question: 'When is the robotics lab open?', hint: 'Opening hours & lab access', color: 'orange' },
-  { icon: TicketIcon, label: 'Register for an event', question: 'How do I register for the Campus Hackathon?', hint: 'Registrations & deadlines', color: 'green' },
-  { icon: FileText, label: 'Student services', question: 'How do I replace a lost student ID?', hint: 'Documents, requests & procedures', color: 'purple' },
+  { icon: MapPin, label: 'Find a classroom', question: 'Where is SJT 301?', hint: 'Where is SJT 301?' },
+  { icon: Clock3, label: 'Check lab timings', question: 'When is the robotics lab open?', hint: 'When is the robotics lab open?' },
+  { icon: TicketIcon, label: 'Register for an event', question: 'How do I register for the Campus Hackathon?', hint: 'How do I register for the hackathon?' },
+  { icon: FileText, label: 'Student services', question: 'How do I replace a lost student ID?', hint: 'How do I replace a lost student ID?' },
 ];
 const categoryIcons: Record<string, typeof MapPin> = { classrooms: MapPin, labs: Wrench, events: TicketIcon, procedures: FileText, library: LibraryBig, it: Wifi };
 function errorText(e: unknown) { return e instanceof Error ? e.message : 'Something went wrong. Please try again.'; }
@@ -44,16 +44,16 @@ function CampusSidebar({ onNew }: { onNew: () => void }) {
   const { setOpenMobile } = useSidebar();
   const links = [{ to: '/', label: 'Ask a question', icon: MessageSquare }, { to: '/knowledge', label: 'Knowledge base', icon: BookOpen }, { to: '/staff', label: 'Staff queue', icon: Inbox }];
   function closeMenu() { setOpenMobile(false); }
-  return <Sidebar className="campus-sidebar" aria-label="Main navigation">
+  return <Sidebar className="campus-sidebar" role="navigation" aria-label="Main navigation">
     <SidebarHeader className="campus-sidebar-header">
       <Button className="sidebar-close md:hidden" variant="ghost" size="icon" aria-label="Close navigation" onClick={closeMenu}><X /></Button>
       <NavLink to="/" className="brand" onClick={closeMenu}><span className="brand-mark"><GraduationCap size={27} strokeWidth={1.7} /></span><span>Campus<span className="brand-sub">Helpdesk</span></span></NavLink>
       <Button asChild variant="secondary" className="new-chat"><NavLink to="/" onClick={() => { onNew(); closeMenu(); }}><Plus size={20} />New conversation</NavLink></Button>
     </SidebarHeader>
-    <SidebarContent><SidebarGroup><SidebarGroupLabel className="campus-nav-label">Workspace</SidebarGroupLabel><SidebarMenu className="campus-nav">
+    <SidebarContent><SidebarGroup><SidebarGroupLabel className="campus-nav-label">Helpdesk</SidebarGroupLabel><SidebarMenu className="campus-nav">
       {links.map(({to,label,icon:Icon}) => <SidebarMenuItem key={to}><SidebarMenuButton asChild isActive={to==='/' ? location.pathname==='/' : location.pathname.startsWith(to)}><NavLink to={to} onClick={closeMenu}><Icon size={21}/><span>{label}</span></NavLink></SidebarMenuButton></SidebarMenuItem>)}
     </SidebarMenu></SidebarGroup></SidebarContent>
-    <SidebarFooter className="campus-sidebar-footer"><Separator /><div className="campus-identity"><span className="university-avatar">V</span><div><strong>VIT campus</strong><span>Student support</span></div></div></SidebarFooter>
+    <SidebarFooter className="campus-sidebar-footer"><div className="sample-note"><BookOpen size={19} aria-hidden="true"/><p>Sample information<span>Prototype content</span></p></div><Separator /><div className="campus-identity"><span className="university-avatar">V</span><div><strong>VIT campus</strong><span>Student support</span></div></div></SidebarFooter>
   </Sidebar>;
 }
 
@@ -66,7 +66,7 @@ export default function App() {
   return <SidebarProvider className="helpdesk-shell">
     <a className="skip-link" href="#main">Skip to content</a>
     <CampusSidebar onNew={reset}/>
-    <SidebarInset id="main" className="main-shell"><header className="topbar"><div className="page-location"><SidebarTrigger className="mobile-menu md:hidden" aria-label="Open navigation"/><span>{name}</span></div><Badge variant="outline" className="demo-tag">Demo workspace</Badge></header>
+    <SidebarInset id="main" className="main-shell"><header className="topbar"><div className="page-location"><SidebarTrigger className="mobile-menu md:hidden" aria-label="Open navigation"/><span>{name}</span></div><span className="workspace-context"><GraduationCap size={18} aria-hidden="true"/>Student support</span></header>
       <Routes><Route path="/" element={<Chat key={resetKey}/>} /><Route path="/knowledge" element={<KnowledgeBase/>} /><Route path="/staff" element={<StaffQueue/>} /><Route path="*" element={<div className="page"><h1>Page not found</h1><Button asChild><NavLink to="/">Back to helpdesk</NavLink></Button></div>} /></Routes>
     </SidebarInset>
   </SidebarProvider>;
@@ -134,11 +134,11 @@ function Chat() {
 
   return <div className={`chat-page ${showingConversation ? 'has-messages' : ''}`}>
     {!showingConversation ? <section className="welcome" aria-labelledby="welcome-title">
-      <span className="welcome-mark" aria-hidden="true"><GraduationCap size={30} strokeWidth={1.6}/></span>
-      <h1 id="welcome-title">How can we help?</h1>
-      <p className="welcome-description">Campus information, with a source for every answer.</p>
+      <span className="welcome-context">VIT · Student helpdesk</span>
+      <h1 id="welcome-title">A question about campus?</h1>
+      <p className="welcome-description">Find a room, check lab hours, or get help with a campus procedure.</p>
     </section> : <section className="conversation" aria-label="Conversation">
-      <div className="conversation-start"><strong>Conversation</strong><span>Campus Helpdesk</span></div>
+      <div className="conversation-start"><strong>Your conversation</strong><span>Campus Helpdesk</span></div>
       {messages.map((m, i) => <article key={i} className={`message ${m.role}`}>
         <div className="message-avatar" aria-hidden="true">{m.role === 'assistant' ? <GraduationCap size={22} /> : <Users size={21} />}</div>
         <div className="message-body">
@@ -158,13 +158,13 @@ function Chat() {
     <div className="composer-area">
       {error && <Alert variant="destructive" className="error-banner"><HelpCircle size={21} /><AlertDescription>{error}</AlertDescription><Button variant="ghost" size="icon" aria-label="Dismiss error" onClick={() => setError('')}><X size={19} /></Button></Alert>}
       <form className="composer" onSubmit={e => { e.preventDefault(); void send(draft); }}>
-        <Label htmlFor="question" className="sr-only">Ask a campus question</Label>
-        <Textarea id="question" ref={inputRef} rows={2} maxLength={2000} placeholder={showingConversation ? 'Ask a follow-up…' : 'Type your campus question…'} value={draft} disabled={pending || escalating} onChange={e => setDraft(e.target.value)} onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey && !e.nativeEvent.isComposing) { e.preventDefault(); void send(draft); } }} />
-        <div className="composer-bottom"><span><BookOpen size={18} />Campus knowledge base</span><Button size="icon" className="send-button" type="submit" disabled={pending || escalating || !draft.trim()} aria-label="Send question">{pending ? <Spinner /> : <ArrowUp size={25} />}</Button></div>
+        <Label htmlFor="question" className={showingConversation ? "sr-only" : "composer-label"}>Ask a campus question</Label>
+        <Textarea id="question" ref={inputRef} rows={2} maxLength={2000} placeholder={showingConversation ? 'Ask a follow-up…' : 'For example, where is SJT 301?'} value={draft} disabled={pending || escalating} onChange={e => setDraft(e.target.value)} onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey && !e.nativeEvent.isComposing) { e.preventDefault(); void send(draft); } }} />
+        <div className="composer-bottom"><span><BookOpen size={18} aria-hidden="true"/>Answers include sources</span><Button className="send-button" type="submit" disabled={pending || escalating || !draft.trim()} aria-label="Send question">{pending ? <Spinner /> : <><span>Send question</span><ArrowUp size={19} aria-hidden="true"/></>}</Button></div>
       </form>
-      <div className="composer-caption"><span>Demo information · 16 October 2026</span><span className="enter-hint">Enter to send <span className="keycap">↵</span></span></div>
+      <div className="composer-caption"><span>Sample information · 16 Oct 2026</span><span className="enter-hint">Enter to send <span className="keycap">↵</span></span></div>
     </div>
-    {!showingConversation && <section className="quick-start" aria-labelledby="topics-heading"><div className="quick-start-heading"><span id="topics-heading">Start with a topic</span><Button asChild variant="link"><NavLink to="/knowledge">Browse all FAQs<ArrowRight size={17}/></NavLink></Button></div>
+    {!showingConversation && <section className="quick-start" aria-labelledby="topics-heading"><div className="quick-start-heading"><span id="topics-heading">Try a question</span><Button asChild variant="link"><NavLink to="/knowledge">Browse FAQs<ArrowRight size={17}/></NavLink></Button></div>
       <div className="suggestions">{suggestions.map(({icon:Icon,label,question,hint})=><Card key={label} className="topic-card"><Button variant="ghost" className="suggestion" onClick={()=>{setDraft(question);inputRef.current?.focus();}}><Icon size={21}/><span className="suggestion-copy"><strong>{label}</strong><span>{hint}</span></span><ChevronRight size={18}/></Button></Card>)}</div>
     </section>}
     {source && <SourceDialog title={source.title} onClose={() => setSource(null)}><Badge variant="secondary" className="source-badge">Supporting passage</Badge><h3>{source.heading}</h3><p className="source-text">{source.content}</p></SourceDialog>}
