@@ -6,6 +6,9 @@ from .config import settings
 ROOT=Path(__file__).resolve().parents[2]
 
 def run():
+    if settings().knowledge_mode=='official':
+        from .check_conversation_official import run as official_run
+        return official_run()
     rows=[]
     s=settings()
     with httpx.Client(base_url='http://127.0.0.1:8000',timeout=100) as c:

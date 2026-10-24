@@ -6,6 +6,19 @@ IGNORED_NAME_WORDS={'the','campus','event','lab','laboratory','2026'}
 
 def clarification_for(query: str, sources: list[Source], history: list[dict]) -> str | None:
     lower=query.casefold()
+    official=any(s.source_url for s in sources)
+    hostel_fee=re.search(r'\bhostel\b',lower) and re.search(r'\b(fees?|cost|price)\b',lower)
+    fee_procedure=re.search(r'\b(refund|pay|payment|withdraw|book|booking)\b',lower)
+    if official and hostel_fee and not fee_procedure:
+        # A fee cannot be selected from a multi-category fee sheet without scope.
+        details=[(r'\b(men|mens|ladies|women|boys|girls)\b',"men’s or ladies’ hostel"),
+                 (r'\b(?:[1-8]|one|two|three|four|six|eight)[ -]?(?:bed|sharing|person)|single|double',"room type and AC/non-AC preference"),
+                 (r'\b(indian|nri|foreign|international)\b',"Indian, NRI or foreign student category"),
+                 (r'20\d{2}',"academic year")]
+        missing=[label for pattern,label in details if not re.search(pattern,lower)]
+        if missing:
+            return 'To find the applicable hostel fee, please specify: '+ '; '.join(missing)+'.'
+
     match=re.search(r'\b(?:the|an?|my)\s+(event|lab|laboratory)\b',lower)
     if not match:
         return None

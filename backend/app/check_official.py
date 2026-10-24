@@ -3,7 +3,7 @@ import json
 from pathlib import Path
 from sqlalchemy.orm import Session
 from .db import engine
-from .retrieval import retrieve
+from .retrieval import retrieve,embed
 CASES=[
 ('What are library working hours on Sunday?','library'),
 ('How many books may an undergraduate borrow from the library?','library'),
@@ -41,6 +41,7 @@ def run():
  with Session(engine()) as db:
   for query,expected in CASES:
    sources=retrieve(db,query)
+   print(query,flush=True)
    rows.append({'query':query,'expected_url_contains':expected,'pass':any(expected in (s.source_url or '').lower() for s in sources),'sources':[{'id':s.id,'title':s.title,'heading':s.heading,'url':s.source_url} for s in sources]})
  root=Path(__file__).resolve().parents[2]/'reports'
  (root/'official-retrieval.json').write_text(json.dumps(rows,indent=2)+'\n')

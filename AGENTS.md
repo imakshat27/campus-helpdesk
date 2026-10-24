@@ -23,3 +23,8 @@ Conversation follow-ups must be resolved using actual history, never a word-coun
 ## Version control
 
 The user requested a new private GitHub repository and a push at every completed stage. The repository is `imakshat27/campus-helpdesk`, remote `origin`. Commit and push coherent stages after their relevant checks. Keep `backend/.env`, keys, passwords, complete database URIs, local environments and dependencies excluded. Verify repository visibility remains private. Do not include credentials in commits or reports.
+
+
+## Official Vellore corpus
+
+The active corpus now uses public VIT Vellore sources. Default `KNOWLEDGE_MODE=official`; the original fictional corpus is retained only in explicit `sample` mode. Import with `uv run python -m app.import_official` (cached) or `--refresh`, then `uv run python -m app.build_qna` and `uv run python -m app.seed`. Source provenance is in `knowledge/official/manifest.json`; originals are cached in gitignored `knowledge/official/raw/`. Do not restore fictional sample facts as a network fallback. Respect programme, campus and policy-year scope. The context regression command dispatches to the active corpus and confirms one demo ticket. `python -m app.check_official` tests retrieval; `python -m app.evaluate_official` makes live model calls but never confirms tickets. New official reports supersede sample reports for current runtime behavior.

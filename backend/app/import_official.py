@@ -12,7 +12,7 @@ ROOT=Path(__file__).resolve().parents[2]/'knowledge/official'
 SEEDS={
 'library':['/academics/library'],
 'academics':['/academics/ffcs','/academics/academic-regulations','/academics/academic-calendar','/sites/default/files/academic/Academic-Regulations.pdf'],
-'hostels':['/campuslife/hostels'],
+'hostels':['/campuslife/hostels','/wp-content/uploads/2026/05/First-year-2026-27.pdf','/wp-content/uploads/2026/05/LH-NRI-fees-2026-27.pdf','/wp-content/uploads/2026/06/MH-First-Year-FEE-structure-Indian-NRI-FOREIGN-Category-2026-27.pdf'],
 'welfare':['/campuslife/studentswelfare','/student-grievance-redressal-committee','/centre-for-vit-happiness-and-well-being','/counselling-division'],
 'facilities':['/about/infrastructure','/campuslife/sports','/campuslife/healthservices','/campuslife/transport','/campuslife/otheramenities'],
 'procedures':['/about/administrative-offices','/contactus','/ug-downloads','/scholarship','/internationalrelations'],
@@ -23,9 +23,9 @@ SEEDS={
 'safety':['/anti-ragging-committee','/sites/default/files/Student-Code-of-Conduct.pdf'],
 'research':['/research/academic','/research/centers-list','/admissions/research'],
 'alumni':['/academics/transcripts','/transcripts-for-alumni','/alumni-office-contact'],
-'admission_info':['/admissions/overview','/admissions/international/overview','/admissions/international/research'],
+'admissions_more':['/admissions/overview','/admissions/international/overview','/admissions/international/research'],
 'global':['/internationalrelations/itp','/international-projects-sap']}
-PDF_TERMS=('academic-regulation','library-policy','code-of-conduct','hostel','disabil','anti-ragging','student-handbook','student-guideline')
+PDF_TERMS=('academic-regulation','library-policy','code-of-conduct','codeofconduct','hostel','disabil','anti-ragging','student-handbook','student-guideline')
 LINK_TERMS=('disability','grievance','counselling','healthservices','sports','clubs','chapters','ffcs','scholarship','hostels')
 def clean(text):return '\n'.join(re.sub(r'[ \t]+',' ',line).rstrip() for line in text.replace('\xa0',' ').splitlines()).strip()
 def extract_html(data):
@@ -45,6 +45,7 @@ def run(refresh=False):
   robots.parse(client.get('https://vit.ac.in/robots.txt').text.splitlines())
   while pending and len(seen)<85:
    url,category=pending.pop(0);url=urldefrag(url)[0]
+   category={'admissions_more':'admissions','global':'international'}.get(category,category)
    if url in seen:continue
    seen.add(url)
    if urlparse(url).hostname not in ('vit.ac.in','www.vit.ac.in') or not robots.can_fetch('*',url):
@@ -58,7 +59,10 @@ def run(refresh=False):
      data=response.content
      if len(data)>18_000_000:raise ValueError('Source exceeds 18 MB')
      cache.write_bytes(data)
-    if data.startswith(b'%PDF'):
+    if data.startswith(b'%PDF') and (ROOT/'processed'/f'{ident}.md').exists() and not refresh:
+     blocks=(ROOT/'processed'/f'{ident}.md').read_text().split('\n\n')
+     title=urlparse(url).path.split('/')[-1].replace('.pdf','').replace('-',' ')
+    elif data.startswith(b'%PDF'):
      reader=PdfReader(io.BytesIO(data));blocks=[]
      for i,page in enumerate(reader.pages[:150]):
       text=page.extract_text() or ''
@@ -81,7 +85,7 @@ def run(refresh=False):
        elif any(t in path for t in LINK_TERMS) and not path.endswith(('.pdf','.jpg','.png','.docx','.zip')):pending.append((link,category))
     if sum(map(len,blocks))<200:raise ValueError('Too little extractable content')
     content='\n\n'.join(blocks);(ROOT/'processed'/f'{ident}.md').write_text(content)
-    docs.append({'id':ident,'title':clean(title)[:190],'category':category,'kind':'official','file':f'processed/{ident}.md','source_url':url,'campus':'Vellore','retrieved_at':datetime.now(timezone.utc).isoformat(),'sha256':hashlib.sha256(data).hexdigest(),'content_characters':len(content),'approved':True})
+    docs.append({'id':ident,'title':clean(title)[:190],'category':category,'kind':'official','file':f'processed/{ident}.md','source_url':url,'campus':'Vellore','retrieved_at':datetime.fromtimestamp(cache.stat().st_mtime,timezone.utc).isoformat(),'format':'PDF (text extraction or OCR)' if data.startswith(b'%PDF') else 'HTML','sha256':hashlib.sha256(data).hexdigest(),'content_characters':len(content),'approved':True})
     print('Downloaded',category,title[:75],len(content),flush=True)
    except Exception as exc:failures.append({'url':url,'reason':str(exc)[:160]});print('Excluded',url,type(exc).__name__,flush=True)
  unique={}

@@ -6,7 +6,7 @@ from fastapi.responses import JSONResponse
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
 from sqlalchemy import select, text
 from sqlalchemy.exc import SQLAlchemyError
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session,load_only
 from .config import settings
 from .db import get_db
 from .models import Document, Chunk, Conversation, Message, Ticket, now
@@ -87,7 +87,7 @@ def context_sources(db, messages):
     if not previous:
         return []
     ids=[s['id'] for s in previous.sources if 'id' in s]
-    rows=db.execute(select(Chunk,Document).join(Document).where(Chunk.id.in_(ids),Document.approved.is_(True))).all()
+    rows=db.execute(select(Chunk,Document).options(load_only(Document.id,Document.title,Document.source_url,Document.campus,Document.retrieved_at)).join(Document).where(Chunk.id.in_(ids),Document.approved.is_(True))).all()
     return [Source(id=c.id,document_id=d.id,title=d.title,heading=c.heading,content=c.content,source_url=d.source_url,campus=d.campus,retrieved_at=d.retrieved_at) for c,d in rows]
 
 def save_reply(db,conversation,query,outcome,message,sources=None,reference=None,offer=False):

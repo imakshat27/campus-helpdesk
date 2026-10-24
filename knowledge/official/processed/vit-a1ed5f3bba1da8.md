@@ -416,8 +416,6 @@ requirements.
 
 * The syllabus based text and reference book collection is a major aspect of the
 
-8
-
 ## Page 9
 
 Library. Apart from these, the Library procures general reading collections,

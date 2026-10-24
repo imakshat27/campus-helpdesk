@@ -14,3 +14,14 @@ def test_general_event_procedures_do_not_need_specific_subject():
 
 def test_lab_booking_is_a_general_procedure():
     assert clarification_for('How do I book a lab workstation?',[],[]) is None
+
+
+def test_official_hostel_fee_needs_student_and_room_scope():
+    from app.schemas import Source
+    from app.clarification import clarification_for
+    source=Source(id='official:0',document_id='official',title='Hostel fee 2026-27',heading='Fees',content='Fees depend on student and room categories.',source_url='https://vit.ac.in/hostel-fees.pdf')
+    answer=clarification_for('How much is the hostel fee?',[source],[])
+    assert 'room type' in answer and 'student category' in answer and 'academic year' in answer
+    assert clarification_for('What is the hostel fee for men 4 bed AC Indian students in 2026-27?',[source],[]) is None
+    assert clarification_for('How do I pay the hostel fee?',[source],[]) is None
+    assert clarification_for('What is the hostel fee refund policy?',[source],[]) is None

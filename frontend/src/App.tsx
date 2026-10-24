@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, lazy, Suspense } from 'react';
 import type { FormEvent, ReactNode } from 'react';
 import { NavLink, Route, Routes, useLocation } from 'react-router-dom';
 import { ArrowRight, ArrowUp, BookOpen, Check, CheckCircle2, ChevronRight, FileText, GraduationCap, Headphones, HelpCircle, Inbox, LibraryBig, LoaderCircle, MapPin, MessageSquare, Plus, Search, ShieldCheck, SquareArrowOutUpRight, Ticket as TicketIcon, UserRound, Wifi, Wrench, X } from 'lucide-react';
@@ -15,11 +15,10 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Dialog as UiDialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogClose, DialogFooter } from '@/components/ui/dialog';
 import { SidebarProvider, Sidebar, SidebarHeader, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupLabel, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarInset, SidebarTrigger, useSidebar } from '@/components/ui/sidebar';
 import { api } from './api';
-import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
+const SourceContent=lazy(()=>import('./components/SourceContent'));
 import type { ChatReply, Knowledge, Source, Ticket, TicketOffer } from './api';
 
-const categoryLabels: Record<string, string> = { classrooms: 'Classrooms', labs: 'Labs', events: 'Events', procedures: 'Student services', library: 'Library', it: 'IT support', academics: 'Academics', hostels: 'Hostels', welfare: 'Student welfare', facilities: 'Facilities', accessibility: 'Accessibility', safety: 'Safety', careers: 'Careers', admissions: 'Admissions', admission_info: 'Admissions', research: 'Research', alumni: 'Alumni', global: 'International' };
+const categoryLabels: Record<string, string> = { classrooms: 'Classrooms', labs: 'Labs', events: 'Events', procedures: 'Student services', library: 'Library', it: 'IT support', academics: 'Academics', hostels: 'Hostels', welfare: 'Student welfare', facilities: 'Facilities', accessibility: 'Accessibility', safety: 'Safety', careers: 'Careers', admissions: 'Admissions', admission_info: 'Admissions', research: 'Research', alumni: 'Alumni', global: 'International', international: 'International' };
 const suggestions = [
   { icon: BookOpen, label: 'Library borrowing', question: 'What are the library borrowing rules for undergraduate students?', hint: 'Borrowing, renewals and library services' },
   { icon: GraduationCap, label: 'Academic rules', question: 'How does the Fully Flexible Credit System work?', hint: 'FFCS, attendance and examinations' },
@@ -204,13 +203,8 @@ function KnowledgeBase() {
 
     {error && <p className="error-banner" role="alert">{error}</p>}
     {loading ? <div className="empty-state"><Spinner /><p>Loading campus information…</p></div> : <><div className="section-heading"><h2>{category === 'all' ? 'All campus information' : categoryLabels[category]}</h2><span>{filtered.length} results</span></div><div className="knowledge-list">{filtered.slice(0,visibleCount).map(d => { const Icon = categoryIcons[d.category] || FileText; return <Button variant="ghost" className="knowledge-row" key={d.id} onClick={() => setSelected(d)}><span className="document-icon"><Icon size={23} strokeWidth={1.7} /></span><span className="document-copy"><span className="document-meta">{categoryLabels[d.category] || d.category}<span>·</span>{d.kind === 'official' ? 'VIT source' : d.kind === 'faq' ? 'FAQ' : 'Guide'}</span><strong>{d.title}</strong><span className="document-excerpt">{d.content.replace(/[#\n]/g, ' ').slice(0, 135)}</span></span><ChevronRight size={21} /></Button>; })}</div>{filtered.length>visibleCount && <Button variant="outline" className="load-sources" onClick={()=>setVisibleCount(n=>n+15)}>Show more sources ({filtered.length-visibleCount} remaining)</Button>}{!filtered.length && <div className="empty-state"><Search size={30} /><h2>No matching sources</h2><p>Try a different search or choose another topic.</p><Button variant="outline" onClick={() => { setQuery(''); setCategory('all'); }}>Clear filters</Button></div>}</>}
-    {selected && <SourceDialog provenance={selected} title={selected.title} onClose={() => setSelected(null)}><Badge variant="secondary" className="source-badge">{categoryLabels[selected.category]} · {selected.kind === 'faq' ? 'FAQ' : 'Guide'}</Badge><SourceContent content={selected.content} title={selected.title} /></SourceDialog>}
+    {selected && <SourceDialog provenance={selected} title={selected.title} onClose={() => setSelected(null)}><Badge variant="secondary" className="source-badge">{categoryLabels[selected.category]} · {selected.kind === 'official' ? 'VIT source' : selected.kind === 'faq' ? 'FAQ' : 'Guide'}</Badge><Suspense fallback={<p role="status">Loading source…</p>}><SourceContent content={selected.content} title={selected.title}/></Suspense></SourceDialog>}
   </div>;
-}
-function SourceContent({content,title}:{content:string;title:string}) {
-  const lines=content.split('\n');
-  if(lines[0]?.replace(/^#+\s*/,'').trim()===title)lines.shift();
-  return <div className="source-document"><ReactMarkdown remarkPlugins={[remarkGfm]} components={{h1:({children})=><h3>{children}</h3>,h2:({children})=><h3>{children}</h3>,h3:({children})=><h3>{children}</h3>,table:({children})=><div className="source-table"><table>{children}</table></div>,a:({href,children})=><a href={href} target="_blank" rel="noreferrer">{children}</a>}}>{lines.join('\n')}</ReactMarkdown></div>;
 }
 
 function StaffQueue() {

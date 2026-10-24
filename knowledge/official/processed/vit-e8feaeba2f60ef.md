@@ -343,13 +343,9 @@ circumstances, though the student has attained the minimum credits, it is mandat
 to complete all courses under FC, DLE and DC and also to meet the credit requirements under OE / DE
 / SE / SEC / AEC and other heads as per Section 4.2. to become eligible for the degree.
 
-
-
 FFCS Academic Regulations - Version 4.0
 
 ## Page 11
-
-8
 
 6.3 Course Distribution
 The curriculum of each programme consists of courses that are grouped into Foundation Core,
@@ -1521,8 +1517,6 @@ The Office of International Relations organizes a road-show on SAP and facilitat
 – 7 indicates the period of study during which the students of the respective program mes can avail
 this opportunity.
 
-
-
 FFCS Academic Regulations - Version 4.0
 
 ## Page 39
@@ -1695,17 +1689,11 @@ anything mentioned herein, the Academic Council of the University has the right 
 modify these regulations time to time. In case of any dispute arising in interpreting the rules, only
 the interpretation given by the Academic Council will be considered as final and binding.
 
-
-
-
-
 FFCS Academic Regulations - Version 4.0
 
 ## Page 43
 
 40
-
-
 
 Annexure – 1
 Minimum duration of the Programme
