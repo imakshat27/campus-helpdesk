@@ -2,7 +2,7 @@
   {
     "query": "How do freshers book hostel accommodation at VIT Vellore?",
     "outcome": "answered",
-    "answer": "Freshers can book hostel accommodation online through the student login on a first-come, first-served basis. This is done after paying the tuition fee and then the hostel fee, which includes mess and laundry charges. You can select your preferred room and mess type on the same day you pay the fees. Hostel booking is available on payment of tuition fee followed by hostel fee. Hostel fee inclusive of mess and laundry charges can be paid on selection of preferred room and mess type through the student login within the same day. Hostel booking will be conducted online on a first-come, first-served basis. Students are allowed to report to the hostel one day prior to their orientation program. Plan your arrival between 9:00 AM and 6:00 PM only. You will need to bring essential items such as a mattress, pillow, bed sheets, bucket, mug, and locks for your cupboard and room. For men's hostels, a joint affidavit on a ₹200 non-judicial stamp paper, signed by both the student and parent/guardian, must be submitted at the UG Admission Office. For ladies' hostels, the same type of affidavit must be submitted to the respective block supervisor.",
+    "answer": "Hostel accommodation at VIT Vellore is booked online on a first-come, first-served basis after paying the tuition fee, followed by the hostel fee. The hostel fee, which includes mess and laundry charges, can be paid on the same day as selecting your preferred room and mess type through your student login. You can report to the hostel one day before your orientation program, between 9:00 AM and 6:00 PM. For men's hostels, a joint affidavit on a ₹200 non-judicial stamp paper, signed by both the student and parent/guardian, must be submitted to the UG Admission Office. For ladies' hostels, the same affidavit must be submitted to the respective block supervisor.",
     "sources": [
       {
         "id": "vit-18ca715d9d75f6:1",
@@ -25,7 +25,7 @@
   {
     "query": "When can I report there before orientation?",
     "outcome": "answered",
-    "answer": "You are allowed to report to the hostel one day prior to your orientation program. Please plan your arrival between 9:00 AM and 6:00 PM.",
+    "answer": "You are allowed to report to the hostel one day before your orientation program. Please plan your arrival between 9:00 AM and 6:00 PM.",
     "sources": [
       {
         "id": "vit-18ca715d9d75f6:1",
@@ -43,7 +43,7 @@
   {
     "query": "What are the VIT library working hours on Sundays?",
     "outcome": "answered",
-    "answer": "The VIT library is open on Sundays from 9:00 am to 8:00 pm. During examinations, the library hours on Sundays extend to 12:30 am.",
+    "answer": "The VIT library is open on Sundays from 9:00 AM to 8:00 PM. During examinations, the library hours on Sundays extend to 12:30 AM.",
     "sources": [
       {
         "id": "vit-a1ed5f3bba1da8:0",
@@ -56,7 +56,7 @@
   {
     "query": "Back to the hostel booking, how do I pay for my room and mess?",
     "outcome": "answered",
-    "answer": "You can pay for your room and mess fees online through the student login. This payment should be made on the same day you select your preferred room and mess type, after you have paid your tuition fee. The hostel fee includes mess and laundry charges.",
+    "answer": "You can pay your hostel fee, which includes mess and laundry charges, on the same day you select your preferred room and mess type. This payment is made through your student login.",
     "sources": [
       {
         "id": "vit-18ca715d9d75f6:0",
@@ -92,6 +92,6 @@
     "outcome": "escalated",
     "answer": "I’ve raised a ticket for your question. Student support can review it in the staff queue.",
     "sources": [],
-    "ticket": "HD-4C1AE8358E"
+    "ticket": "HD-BCCF4F1B86"
   }
 ]

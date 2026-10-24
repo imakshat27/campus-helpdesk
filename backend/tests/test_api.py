@@ -313,6 +313,27 @@ def test_failed_citation_repair_saves_no_answer_or_ticket(grounded,database,monk
         assert not db.scalars(select(Conversation)).all()
         assert not db.scalars(select(Ticket)).all()
 
+def test_unsupported_with_related_citation_offers_ticket_without_saving_one(grounded,database,source,monkeypatch):
+    generator=OpenRouterGenerator()
+    attempts=[]
+    def request(*args):
+        attempts.append(args)
+        return Generation(outcome='unsupported',message='The cost is unknown; related passage.',source_ids=[source.id])
+    monkeypatch.setattr(generator,'_request',request)
+    app.dependency_overrides[get_generator]=lambda:generator
+    response=grounded.post('/api/chat',json={'message':'id card cost?'})
+    assert response.status_code==200 and len(attempts)==1
+    reply=response.json()
+    assert reply['outcome']=='needs_staff_confirmation'
+    assert reply['sources']==[] and reply['ticket_reference'] is None
+    assert reply['ticket_offer']['message_id']==reply['user_message_id']
+    assert reply['message']=='I couldn’t find an answer in the available campus sources. Would you like me to raise a ticket for student support?'
+    with Session(database) as db:
+        assert not db.scalars(select(Ticket)).all()
+        messages=db.scalars(select(Message)).all()
+        assert len(messages)==2
+        assert not any('related passage' in m.content for m in messages)
+
 
 def test_staff_queue_batches_context_in_two_queries(client,database):
     from sqlalchemy import event

@@ -82,6 +82,12 @@ def validate_generation(result: Generation, sources: list[Source]):
     allowed={s.id for s in sources}
     if any(s not in allowed for s in result.source_ids) or (result.outcome=='answered' and not result.source_ids):
         raise HTTPException(502, 'The answer service returned an invalid citation. Please try again.')
+    if result.outcome=='unsupported':
+        # Some providers cite the related passage while explicitly declining to
+        # answer. No generated text or citations from this branch reach students:
+        # the API replaces them with its fixed consent question. Drop redundant
+        # valid citations instead of treating missing knowledge as an outage.
+        return Generation(outcome='unsupported',message='No supported answer was found in the supplied passages.',source_ids=[])
     if result.outcome != 'answered' and result.source_ids:
         raise HTTPException(502, 'The answer service returned an inconsistent response. Please try again.')
     return result

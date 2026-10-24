@@ -1,9 +1,20 @@
 # Vercel frontend and Render backend
 
-Deployment preparation is checked in. **No live deployment is confirmed yet.**
-Account authorization and the final hosting URLs are still required.
+Deployment URLs:
 
-Local preparation checks passed: 71 backend tests, 18 frontend tests, production
+- Frontend: https://campus-helpdesk-rho.vercel.app
+- Backend: https://campus-helpdesk-ye2a.onrender.com
+
+The backend health endpoint has returned HTTP 200 with Neon connected, answer
+service configured, official corpus active and campus Vellore. Unauthenticated
+staff requests returned 401. Frontend routes return HTML successfully. These
+checks alone do not establish successful model answers or browser integration.
+The initial frontend build lacked its API URL and initial backend CORS rejected
+the frontend origin; the user subsequently reached the chat API from the UI.
+The unsupported-response fix described in `reports/unsupported-citation-fix.md`
+still requires verification on the hosted service after redeployment.
+
+Local preparation checks passed: 77 backend tests, 18 frontend tests, production
 frontend build, migration/startup command against Neon, health/configuration,
 50 approved knowledge documents, CORS including staff preflight, rejection of
 unapproved origins, and unauthenticated staff denial. Browser and hosted checks

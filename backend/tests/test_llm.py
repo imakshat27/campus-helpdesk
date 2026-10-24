@@ -65,6 +65,29 @@ def test_document_id_never_passes_as_a_passage_id(evidence):
     with pytest.raises(HTTPException):
         validate_generation(Generation(outcome='answered',message='₹200',source_ids=['faq-14']),evidence)
 
+def test_explicit_unsupported_with_valid_related_citation_needs_no_repair(monkeypatch,evidence):
+    calls=[]
+    generator=OpenRouterGenerator()
+    def request(*args):
+        calls.append(args)
+        return Generation(outcome='unsupported',message='Related information is not the requested fee.',source_ids=[evidence[0].id])
+    monkeypatch.setattr(generator,'_request',request)
+    result=generator.generate('ID card cost?',evidence,[])
+    assert result.outcome=='unsupported' and result.source_ids==[]
+    assert result.message=='No supported answer was found in the supplied passages.'
+    assert len(calls)==1
+
+@pytest.mark.parametrize('outcome',['answered','clarification','unsupported'])
+def test_unknown_citations_are_rejected_for_every_outcome(evidence,outcome):
+    with pytest.raises(HTTPException) as error:
+        validate_generation(Generation(outcome=outcome,message='Provider response',source_ids=['invented']),evidence)
+    assert error.value.status_code==502
+
+def test_clarification_with_citations_still_requires_repair(evidence):
+    with pytest.raises(HTTPException) as error:
+        validate_generation(Generation(outcome='clarification',message='First issue or replacement?',source_ids=[evidence[0].id]),evidence)
+    assert error.value.status_code==502
+
 @pytest.mark.parametrize('failure',['json','503','timeout'])
 def test_provider_recovers_once_from_transient_or_invalid_output(monkeypatch,failure):
     import httpx
