@@ -122,7 +122,7 @@ This calls the configured OpenRouter model and database, consumes API credits, a
 
 Warm paper surfaces, evergreen actions, Inter, readable text, responsive navigation, accessible shadcn/Radix dialogs, clear focus, and restrained motion. Original-source links and retrieval dates accompany official source inspection. No gradients or glass effects. Design notes: `design-system/campus-helpdesk/MASTER.md`.
 
-V1 runs locally against Neon. It does not publish a site, send emails, support staff replies/student notifications, or provide institutional SSO. Tickets are routed to the app's staff queue. Public deployment would need HTTPS, proper staff identity/session management, request limits, and a privacy/retention policy appropriate to the institution.
+Vercel frontend and Render backend deployment configuration is included; see [DEPLOYMENT.md](DEPLOYMENT.md) for account setup, environment configuration, validation and deployment status. Tickets are routed to the app's staff queue. The prototype does not send emails, support staff replies/student notifications, or provide institutional SSO. Institutional use would need proper staff identity/session management, request limits, and a privacy/retention policy appropriate to the institution.
 
 ## Official dataset and refresh
 

@@ -4,8 +4,10 @@ export type TicketOffer = { message_id: string; query: string };
 export type ChatReply = { conversation_id: string; outcome: 'answered' | 'clarification' | 'needs_staff_confirmation' | 'conversation' | 'escalated'; message: string; sources: Source[]; ticket_reference?: string; user_message_id: string; ticket_offer?: TicketOffer | null };
 export type Ticket = { id: string; reference: string; query: string; reason: string; status: 'open' | 'resolved'; created_at: string; messages: { role: string; content: string }[] };
 export async function api<T>(path: string, options: RequestInit = {}): Promise<T> {
+  // Vite embeds this public URL at build time. Credentials remain on Render.
+  const base = (import.meta.env.VITE_API_BASE_URL || '/api').replace(/\/+$/, '');
   let response: Response;
-  try { response = await fetch(`/api${path}`, { ...options, headers: { 'Content-Type': 'application/json', ...options.headers }, signal: options.signal ?? AbortSignal.timeout(100000) }); }
+  try { response = await fetch(`${base}${path}`, { ...options, headers: { 'Content-Type': 'application/json', ...options.headers }, signal: options.signal ?? AbortSignal.timeout(100000) }); }
   catch { throw new Error('Could not reach the helpdesk. Check your connection and try again.'); }
   if (!response.ok) {
     const body = await response.json().catch(() => ({}));

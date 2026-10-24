@@ -1,0 +1,29 @@
+services:
+  - type: web
+    name: campus-helpdesk-api
+    runtime: docker
+    repo: https://github.com/imakshat27/campus-helpdesk
+    branch: main
+    region: singapore
+    plan: free
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
+    healthCheckPath: /api/health
+    autoDeployTrigger: commit
+    envVars:
+      - key: DATABASE_URL
+        sync: false
+      - key: OPENROUTER_API_KEY
+        sync: false
+      - key: OPENROUTER_MODEL
+        sync: false
+      - key: STAFF_USERNAME
+        sync: false
+      - key: STAFF_PASSWORD
+        sync: false
+      - key: CORS_ORIGINS
+        sync: false
+      - key: KNOWLEDGE_MODE
+        value: official
+      - key: EMBEDDING_MODEL
+        value: sentence-transformers/all-MiniLM-L6-v2
