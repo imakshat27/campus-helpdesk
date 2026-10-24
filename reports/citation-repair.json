@@ -1,0 +1,23 @@
+{
+  "query": "how much for a new id card?",
+  "before": {
+    "status": 502,
+    "detail": "The answer service returned an invalid citation. Please try again."
+  },
+  "after": {
+    "status": 200,
+    "outcome": "answered",
+    "message": "The fee for a replacement ID card is ₹200. You can report a lost ID and pay the fee through the Student portal under Student services → ID replacement. You will need to upload a recent photograph and collect the replacement from the Student Support Office after three working days with your application receipt.",
+    "sources": [
+      {
+        "id": "student-services:1",
+        "title": "Student services handbook"
+      },
+      {
+        "id": "faq-14:0",
+        "title": "Replacing a lost student ID"
+      }
+    ],
+    "ticket_reference": null
+  }
+}
