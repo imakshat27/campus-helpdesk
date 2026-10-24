@@ -28,6 +28,10 @@ describe('student workflow',()=>{
     expect(screen.getByRole('button',{name:'Finding room SJT 301'})).toBeVisible();
     await user.click(screen.getByRole('button',{name:/Ask staff about this answer/}));
     expect(mockFetch).toHaveBeenCalledTimes(1);
+    expect(screen.getByRole('heading',{name:'Raise a ticket for this question?'})).toHaveFocus();
+    await user.click(screen.getByRole('button',{name:'No thanks'}));
+    expect(screen.getByRole('button',{name:/Ask staff about this answer/})).toHaveFocus();
+    await user.click(screen.getByRole('button',{name:/Ask staff about this answer/}));
     await user.click(screen.getByRole('button',{name:'Yes, raise a ticket'}));
     expect(await screen.findByText(/HD-EXAMPLE/)).toBeVisible();
   });
@@ -45,6 +49,7 @@ it('searches the knowledge base and filters categories',async()=>{
   expect(screen.queryByText('Lost ID')).not.toBeInTheDocument();
   await user.type(screen.getByLabelText('Search the knowledge base'),'not-present');
   expect(screen.getByText('No matching sources')).toBeVisible();
+  expect(screen.getByRole('textbox',{name:'Search the knowledge base',exact:true})).toHaveValue('not-present');
 });
 it('labels the local source preview when the API is unavailable',async()=>{
   mockFetch.mockRejectedValueOnce(new Error('offline')).mockResolvedValueOnce(response([{id:'1',title:'Sample source',category:'labs',kind:'faq',content:'Example'}]));

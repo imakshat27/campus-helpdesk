@@ -1,0 +1,86 @@
+{
+  "chat": [
+    {
+      "composerBottom": 555,
+      "font": "18px",
+      "height": 900,
+      "scrollWidth": 375,
+      "topicsBottom": 1068,
+      "width": 375
+    },
+    {
+      "composerBottom": 489,
+      "font": "18px",
+      "height": 900,
+      "scrollWidth": 768,
+      "topicsBottom": 795,
+      "width": 768
+    },
+    {
+      "composerBottom": 489,
+      "font": "18px",
+      "height": 900,
+      "scrollWidth": 1024,
+      "topicsBottom": 795,
+      "width": 1024
+    },
+    {
+      "composerBottom": 431,
+      "font": "18px",
+      "height": 720,
+      "scrollWidth": 1280,
+      "topicsBottom": 715,
+      "width": 1280
+    },
+    {
+      "composerBottom": 523,
+      "font": "18px",
+      "height": 900,
+      "scrollWidth": 1440,
+      "topicsBottom": 832,
+      "width": 1440
+    }
+  ],
+  "knowledge": [
+    {
+      "overflow": false,
+      "width": 375
+    },
+    {
+      "overflow": false,
+      "width": 768
+    },
+    {
+      "overflow": false,
+      "width": 1024
+    },
+    {
+      "overflow": false,
+      "width": 1440
+    }
+  ],
+  "staff": [
+    {
+      "overflow": false,
+      "width": 375
+    },
+    {
+      "overflow": false,
+      "width": 768
+    },
+    {
+      "overflow": false,
+      "width": 1024
+    },
+    {
+      "overflow": false,
+      "width": 1440
+    }
+  ],
+  "homeContrast": {
+    "checked": 32,
+    "failures": [],
+    "minFont": 16,
+    "minRatio": 4.91
+  }
+}

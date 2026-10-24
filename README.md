@@ -1,6 +1,6 @@
 # Campus Helpdesk
 
-A campus support prototype with a React chat interface, source-backed RAG answers, a searchable sample knowledge base, and a protected staff queue. Uses FastAPI, OpenRouter, and Neon Postgres with pgvector. The React interface uses shadcn/ui with Radix primitives, Tailwind semantic tokens, and locally bundled Inter.
+A campus support prototype with a React chat interface, source-backed RAG answers, a searchable sample knowledge base, and a protected staff queue. Uses FastAPI, OpenRouter, and Neon Postgres with pgvector. The React interface uses shadcn/ui with Radix primitives, Tailwind semantic tokens, and locally bundled Inter. Its paper-and-evergreen theme keeps navigation quiet, labels the question box and send action, and uses editable example questions.
 
 All campus content is **fictional sample information**, not official VIT policy. Event questions use the assignment's reference date, **16 October 2026**, and answers include exact dates.
 

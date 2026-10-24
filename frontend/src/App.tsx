@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import type { FormEvent, ReactNode } from 'react';
 import { NavLink, Route, Routes, useLocation } from 'react-router-dom';
-import { ArrowRight, ArrowUp, BookOpen, Check, CheckCircle2, ChevronRight, Clock3, FileText, GraduationCap, Headphones, HelpCircle, Inbox, LibraryBig, LoaderCircle, MapPin, MessageSquare, Plus, Search, ShieldCheck, SquareArrowOutUpRight, Ticket as TicketIcon, Users, Wifi, Wrench, X } from 'lucide-react';
+import { ArrowRight, ArrowUp, BookOpen, Check, CheckCircle2, ChevronRight, Clock3, FileText, GraduationCap, Headphones, HelpCircle, Inbox, LibraryBig, LoaderCircle, MapPin, MessageSquare, Plus, Search, ShieldCheck, SquareArrowOutUpRight, Ticket as TicketIcon, UserRound, Wifi, Wrench, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -91,6 +91,14 @@ function Chat() {
   const endRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const lock = useRef(false);
+  const confirmationHeading = useRef<HTMLHeadingElement>(null);
+  const staffAction = useRef<HTMLButtonElement>(null);
+  const hadConfirmation = useRef(false);
+  useEffect(() => {
+    if (confirmationTarget) confirmationHeading.current?.focus();
+    else if (hadConfirmation.current) (staffAction.current ?? inputRef.current)?.focus();
+    hadConfirmation.current = !!confirmationTarget;
+  }, [confirmationTarget]);
   useEffect(() => { if (conversation) { try { sessionStorage.setItem('campus-chat', JSON.stringify({ messages, conversation })); } catch { /* Chat still works without storage. */ } } }, [messages, conversation]);
   useEffect(() => { if (messages.length || pending) endRef.current?.scrollIntoView?.({ behavior: 'instant', block: 'end' }); }, [messages, pending]);
 
@@ -140,7 +148,7 @@ function Chat() {
     </section> : <section className="conversation" aria-label="Conversation">
       <div className="conversation-start"><strong>Your conversation</strong><span>Campus Helpdesk</span></div>
       {messages.map((m, i) => <article key={i} className={`message ${m.role}`}>
-        <div className="message-avatar" aria-hidden="true">{m.role === 'assistant' ? <GraduationCap size={22} /> : <Users size={21} />}</div>
+        <div className="message-avatar" aria-hidden="true">{m.role === 'assistant' ? <GraduationCap size={22} /> : <UserRound size={21} />}</div>
         <div className="message-body">
           <div className="message-name">{m.role === 'assistant' ? 'Campus Helpdesk' : 'You'}</div>
           <p>{m.text}</p>
@@ -149,9 +157,9 @@ function Chat() {
           {m.offer && i === messages.length - 1 && !m.ticket && ticketActions({ messageId: m.offer.message_id, question: m.offer.query, index: i }, () => void send('No thanks'))}
         </div>
       </article>)}
-      {pending && <><article className="message user"><div className="message-avatar" aria-hidden="true"><Users size={21} /></div><div className="message-body"><div className="message-name">You</div><p>{pendingQuestion}</p></div></article><div className="working" role="status"><Spinner /><span>Working on your question…</span></div></>}
-      {!pending && last?.outcome === 'answered' && last.messageId && !last.ticket && !confirmationTarget && <Button variant="ghost" className="staff-handoff" onClick={() => setConfirmationTarget({ messageId: last.messageId!, question: messages[messages.length - 2].text, index: messages.length - 1 })}><Headphones size={19} />Ask staff about this answer<ArrowRight size={18} /></Button>}
-      {confirmationTarget && <section className="manual-ticket-prompt" aria-label="Confirm support ticket"><h2>Raise a ticket for this question?</h2><p>{confirmationTarget.question}</p>{ticketActions(confirmationTarget, () => setConfirmationTarget(null))}</section>}
+      {pending && <><article className="message user"><div className="message-avatar" aria-hidden="true"><UserRound size={21} /></div><div className="message-body"><div className="message-name">You</div><p>{pendingQuestion}</p></div></article><div className="working" role="status"><Spinner /><span>Working on your question…</span></div></>}
+      {!pending && last?.outcome === 'answered' && last.messageId && !last.ticket && !confirmationTarget && <Button ref={staffAction} variant="ghost" className="staff-handoff" onClick={() => setConfirmationTarget({ messageId: last.messageId!, question: messages[messages.length - 2].text, index: messages.length - 1 })}><Headphones size={19} />Ask staff about this answer<ArrowRight size={18} /></Button>}
+      {confirmationTarget && <section className="manual-ticket-prompt" aria-label="Confirm support ticket"><h2 ref={confirmationHeading} tabIndex={-1}>Raise a ticket for this question?</h2><p>{confirmationTarget.question}</p>{ticketActions(confirmationTarget, () => setConfirmationTarget(null))}</section>}
       <div ref={endRef} />
     </section>}
 
@@ -167,7 +175,7 @@ function Chat() {
     {!showingConversation && <section className="quick-start" aria-labelledby="topics-heading"><div className="quick-start-heading"><span id="topics-heading">Try a question</span><Button asChild variant="link"><NavLink to="/knowledge">Browse FAQs<ArrowRight size={17}/></NavLink></Button></div>
       <div className="suggestions">{suggestions.map(({icon:Icon,label,question,hint})=><Card key={label} className="topic-card"><Button variant="ghost" className="suggestion" onClick={()=>{setDraft(question);inputRef.current?.focus();}}><Icon size={21}/><span className="suggestion-copy"><strong>{label}</strong><span>{hint}</span></span><ChevronRight size={18}/></Button></Card>)}</div>
     </section>}
-    {source && <SourceDialog title={source.title} onClose={() => setSource(null)}><Badge variant="secondary" className="source-badge">Supporting passage</Badge><h3>{source.heading}</h3><p className="source-text">{source.content}</p></SourceDialog>}
+    {source && <SourceDialog title={source.title} onClose={() => setSource(null)}><Badge variant="secondary" className="source-badge">Supporting passage</Badge>{source.heading !== source.title && <h3>{source.heading}</h3>}<p className="source-text">{source.content}</p></SourceDialog>}
   </div>;
 }
 
@@ -186,16 +194,16 @@ function KnowledgeBase() {
   })(); return () => { active = false; }; }, []);
   const filtered = docs.filter(d => (category === 'all' || d.category === category) && `${d.title} ${d.content}`.toLowerCase().includes(query.toLowerCase()));
   return <div className="page knowledge-page"><div className="page-heading"><span className="eyebrow">CAMPUS INFORMATION</span><h1>Knowledge base</h1><p>Search FAQs and guides for classroom details, campus procedures, and events.</p></div>
-    <div className="knowledge-toolbar"><Label className="search-field"><Search size={21} /><span className="sr-only">Search the knowledge base</span><Input value={query} onChange={e => setQuery(e.target.value)} placeholder="Search campus information…" />{query && <Button variant="ghost" size="icon" onClick={() => setQuery('')} aria-label="Clear search"><X size={18} /></Button>}</Label>{!loading && <span className="result-count">{docs.length} sources</span>}</div>
+    <div className="knowledge-toolbar"><div className="search-field"><Label htmlFor="knowledge-search" className="sr-only">Search the knowledge base</Label><Search size={21} aria-hidden="true"/><Input id="knowledge-search" value={query} onChange={e => setQuery(e.target.value)} placeholder="Search campus information…" />{query && <Button variant="ghost" size="icon" onClick={() => setQuery('')} aria-label="Clear search"><X size={18} /></Button>}</div>{!loading && <span className="result-count">{docs.length} sources</span>}</div>
     <ToggleGroup type="single" variant="outline" spacing={2} value={category} onValueChange={value=>{if(value)setCategory(value);}} className="filters" aria-label="Filter by category">{['all', ...Object.keys(categoryLabels)].map(c => <ToggleGroupItem key={c} value={c}>{c === 'all' ? 'All topics' : categoryLabels[c]}</ToggleGroupItem>)}</ToggleGroup>
 
     {preview && <div className="notice"><BookOpen size={20} /><span>Viewing bundled sample sources. Live database connection is unavailable.</span></div>}
     {error && <p className="error-banner" role="alert">{error}</p>}
     {loading ? <div className="empty-state"><Spinner /><p>Loading campus information…</p></div> : <><div className="section-heading"><h2>{category === 'all' ? 'All campus information' : categoryLabels[category]}</h2><span>{filtered.length} results</span></div><div className="knowledge-list">{filtered.map(d => { const Icon = categoryIcons[d.category] || FileText; return <Button variant="ghost" className="knowledge-row" key={d.id} onClick={() => setSelected(d)}><span className="document-icon"><Icon size={23} strokeWidth={1.7} /></span><span className="document-copy"><span className="document-meta">{categoryLabels[d.category]}<span>·</span>{d.kind === 'faq' ? 'FAQ' : 'Guide'}</span><strong>{d.title}</strong><span className="document-excerpt">{d.content.replace(/[#\n]/g, ' ').slice(0, 135)}</span></span><ChevronRight size={21} /></Button>; })}</div>{!filtered.length && <div className="empty-state"><Search size={30} /><h2>No matching sources</h2><p>Try a different search or choose another topic.</p><Button variant="outline" onClick={() => { setQuery(''); setCategory('all'); }}>Clear filters</Button></div>}</>}
-    {selected && <SourceDialog title={selected.title} onClose={() => setSelected(null)}><Badge variant="secondary" className="source-badge">{categoryLabels[selected.category]} · {selected.kind === 'faq' ? 'FAQ' : 'Guide'}</Badge><SourceContent content={selected.content} /></SourceDialog>}
+    {selected && <SourceDialog title={selected.title} onClose={() => setSelected(null)}><Badge variant="secondary" className="source-badge">{categoryLabels[selected.category]} · {selected.kind === 'faq' ? 'FAQ' : 'Guide'}</Badge><SourceContent content={selected.content} title={selected.title} /></SourceDialog>}
   </div>;
 }
-function SourceContent({ content }: { content: string }) { return <div className="source-document">{content.split('\n').map((line, i) => line.startsWith('# ') ? <h3 key={i}>{line.slice(2)}</h3> : line.startsWith('## ') ? <h3 key={i}>{line.slice(3)}</h3> : line.trim() ? <p key={i}>{line}</p> : null)}</div>; }
+function SourceContent({ content, title }: { content: string; title: string }) { return <div className="source-document">{content.split('\n').filter((line,i)=>!(i===0 && line.replace(/^#+\s*/, '').trim()===title)).map((line, i) => line.startsWith('# ') ? <h3 key={i}>{line.slice(2)}</h3> : line.startsWith('## ') ? <h3 key={i}>{line.slice(3)}</h3> : line.trim() ? <p key={i}>{line}</p> : null)}</div>; }
 
 function StaffQueue() {
   const [credentials, setCredentials] = useState('');

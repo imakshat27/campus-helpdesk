@@ -61,3 +61,7 @@ No email or messages were sent to external staff. Unit tests use disposable SQLi
 - No horizontal overflow at 375, 768, 1024, 1280 and 1440px. At 1280×720, the composer bottom was approximately 412px and all four topic cards fit (bottom approximately 708px). Mobile content scrolls vertically. Rechecked 18px composer text.
 - Screenshots: `screenshots/shadcn-desktop.png`, `screenshots/shadcn-mobile.png`, `screenshots/shadcn-staff.png`.
 - Backend behavior was unchanged; prior live context/consent results remain separate evidence. Browser 200% zoom and reduced-motion emulation remain manual checks as documented above.
+
+## Paper-and-evergreen revision — 24 October 2026
+
+The current interface and latest checks are recorded in `redesign-stages.md` and `redesign-browser-checks.json`. This supersedes the cobalt visual direction described above. The private GitHub repository is `imakshat27/campus-helpdesk`; baseline, design and implementation were pushed as separate checkpoints. Current screenshots use the `paper-` prefix.
