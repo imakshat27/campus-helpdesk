@@ -1,52 +1,36 @@
 # Campus Helpdesk design system
 
-## Direction: paper, ink, evergreen
+## Direction: a quiet support workspace
 
-A quiet student support workspace. The interface should feel approachable and carefully arranged, with a clear next action and enough room to read. Use shadcn/ui components with a considered application layout. No gradients, glass, promotional copy, decorative statistics, fabricated activity or queue data.
-
-The previous saturated sidebar competed with the work area. Replace it with a warm neutral navigation rail, a paper canvas and deep evergreen actions. Softness comes from restrained contrast between surfaces, generous spacing and rounded controls, not low-contrast text or tinted decorative cards.
+Use a minimal application layout with a white work surface, a neutral navigation rail, dark readable type, thin separators, and restrained evergreen actions. Keep the interface useful and direct. Avoid oversized landing-page headings, decorative icon tiles, redundant captions, card grids, gradients, glass effects, and fabricated activity or queue data.
 
 ## Foundation
 
-- Canvas `#F8F7F4`, navigation `#EEEDE8`, white elevated surfaces `#FFFFFF`.
-- Ink `#232B27`, supporting text `#606861`, evergreen actions `#294F40`, stronger hover `#203E33`, quiet borders `#DADDD5`.
-- Selected navigation uses a white surface and evergreen text. Icons use a single Lucide family, without separate colored tiles for each topic.
-- Inter, locally bundled, for controls and body. A restrained Georgia heading provides an editorial accent on the empty chat screen only; app pages use Inter. Functional text is at least 16px, answers/composer 18px. Heading 36–46px, comfortable reading measure.
-- Desktop navigation 248px. Main chat content max-width 816px including gutters, aligned left within its column. At short laptop heights, preserve access to the composer and topic suggestions. Mobile navigation uses shadcn Sheet.
-- Corners 10–16px; composer 18px. Single restrained shadow on the composer/dialog, no embossed effects. All actions have visible keyboard focus and minimum 44px targets.
+- Use the supplied Clear Pro Pan European font throughout. The original font folder is preserved at `frontend/src/assets/fonts/clear-pro/`. Local `@font-face` declarations load regular (400), medium (500), semibold (600), bold (700), and regular italic with `font-display: swap`. No remote font service or alternate serif heading.
+- Work surface `#FFFFFF`; navigation `#F8F9F8`; supporting surfaces `#F5F6F5`; ink `#232B27`; supporting text `#606861`; evergreen actions/focus `#294F40`; borders `#E0E4E0`.
+- Functional text is at least 16px; message and source text is 18px. Headings are 28–30px, with 500–600 weight for hierarchy. Body line height is 1.6–1.7 and reading measure is approximately 65–75 characters.
+- Desktop navigation is 240px (220px on smaller laptops). Header height is 64px. Chat has an 800px content measure including its internal layout; page content stays aligned and readable.
+- Controls have 44px minimum targets and visible keyboard focus. Use 4–8px corners and no decorative shadows. Lucide icons serve navigation or actions, rather than filling branded tiles.
+- Motion is limited to normal interaction feedback. Respect reduced motion.
 
-## Student journey
+## Screens
 
-1. Arrive at a useful prompt, a short explanation and a clearly labelled question box. The heading is aligned to the question box, without a repeated large brand icon.
-2. Type a question or choose one of four concrete examples. Topic suggestions prefill the box so the student can edit before sending. Each shows its actual sample question, rather than vague feature descriptions.
-3. A labelled send action makes submission obvious. Shift+Enter inserts a new line; Enter sends. Disable submissions while pending, retain the question if the request fails, and allow correction/retry.
-4. Read the answer at 18px with clear author separation. Inspect a source in a keyboard-accessible Dialog. Source titles and supporting passages stay readable.
-5. If information is unavailable, offer a ticket and wait for explicit consent. Ticket actions are grouped under the relevant question. A failed save retains the offer and never claims success.
-
-Keep demo provenance visible in one quiet navigation note and an accurate reference-date caption, without repeated badges competing with the main action. These sources are sample campus information, not official VIT policy.
-
-## Knowledge and staff
-
-- Search comes before category filtering and results. A single-select ToggleGroup has radio semantics and keyboard navigation. Result rows show title, category/type and an excerpt; no decorative tile grid.
-- Source Dialog uses Radix focus containment, Escape and focus restoration.
-- Staff sign-in is a small, clearly labelled form on a white Card. Staff status uses Tabs. Display only real tickets. Resolve actions report actual persistence.
+- Sign-in: a compact, centered form with the Campus Helpdesk wordmark, campus name, a short heading, visible username/password labels, and inline errors. No promotional panel or security illustration.
+- Student start: a modest heading, one sentence of context, the labelled composer, and four useful suggested questions. Suggestions show their actual question and prefill the input so it can be edited before submission.
+- Conversation: text author labels and timestamps separate student, AI, and staff messages. The transcript scrolls independently while the composer stays visible in the normal layout. A single status row conveys AI, waiting, staff-active or resolved state. Keep connection state accurate and accessible; on mobile its labelled indicator avoids crowding the header.
+- Knowledge base: search, a labelled native topic select, actual source/result counts, and plain rows separated by rules. Show 15 results at a time with Show more. Source details retain headings, tables, original links, campus and retrieval date, with keyboard dismissal and focus return.
+- Staff queue: simple underlined status tabs and real request rows with references, dates and readable status labels. Empty states describe actual queue state without decorative statistics.
 
 ## Preserved behavior
 
-- Resolve follow-ups using actual conversation history, never a word-count heuristic. Revalidate approved source chunks before reusing citations.
-- Missing knowledge returns `needs_staff_confirmation`, with no ticket saved. Only explicit consent creates a ticket for the original message ID, with `confirmed: true`.
-- Service failures remain distinct from missing campus information. Declining or greeting never creates a staff request.
+Student and staff use the shared account login, with role-specific navigation. Account-owned history loads from the backend, and drafts remain scoped to account and conversation. Failed sends retain drafts and retry identifiers. Enter sends; Shift+Enter adds a line.
+
+Follow-ups use actual conversation history, never a word-count heuristic. Only approved official VIT Vellore sources establish facts; preserve programme, campus and policy-year scope, publication years, source URLs and retrieval dates. Never substitute the fictional sample corpus after a network failure. Revalidate source passages before reuse and retain all cited passages when grouping by document.
+
+Missing information returns `needs_staff_confirmation` without saving a ticket. Explicit handoff requires the original message ID and `confirmed: true`; declining never creates a request. A failed save never claims success. Confirmed handoff pauses AI; staff must Start chat before replying. Resolved conversations disable sending and offer explicit reopening. Connection loss must not imply successful delivery or staff availability.
 
 ## Review
 
-Check 375, 768, 1024 and 1440px, plus 1280×720. No horizontal overflow; minimum 16px functional text and 18px chat. Verify contrast, keyboard order, Dialog/Sheet focus return, failed requests, sources and consent. Respect reduced motion. Record actual browser checks separately from automated tests and manual checks still pending.
+Verify 375, 768, 1024, 1440px and 1280×720: no horizontal overflow, readable text, accessible controls, and a visible composer. Check the actual Clear Pro font load, source table scrolling, failed requests, consent, independent role sessions, reconnect recovery, keyboard focus, Dialog/Sheet Escape behavior, and reduced motion. Record browser observations separately from automated tests and hosted verification still pending.
 
-## Official knowledge and source UX
-
-The active collection is now downloaded public VIT Vellore material. Replace demo hints with academics, library, hostel and welfare examples. Display the source URL and retrieval date, retaining publication years in policy text. Never substitute sample facts during a network failure. Source detail renders headings, lists and tables with readable text; original PDF/page links let students verify critical details. Group answer citations by document while retaining all cited passages. Knowledge filters derive from the actual categories; show 15 results at a time and let users request more. Preserve unsent drafts through navigation and clear them only for a new conversation. Older fictional conversation cache uses a different storage key.
-
-## Account login and live support
-
-One shared username/password form serves the two fixed accounts. Role-specific navigation hides staff access from students and takes staff directly to the queue. Conversation history belongs to the signed-in student and loads from the backend. Local drafts are scoped to account and conversation.
-
-Show AI, waiting-for-staff, staff-active and resolved states in plain text. A confirmed handoff pauses AI; a staff member must select Start chat before replying. Label AI and staff authors separately, with timestamps. Resolved chats show an explicit Reopen action and disable sending. Connection status describes actual WebSocket state; disconnection preserves drafts and offers reconnection, without inventing staff presence. Human chat captions describe saved messages rather than promising AI citations.
+Chat scrolling: open saved history at the latest message. Sending scrolls to the sent message for both roles. Follow incoming messages only when the reader is within 64px of the bottom; otherwise preserve their position and show a New messages button. Keep the transcript pinned through composer and viewport resizing when already at the bottom.

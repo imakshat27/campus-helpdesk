@@ -1,0 +1,55 @@
+{
+  "verdict": "PASS",
+  "environment": "Local Chromium with isolated SQLite and controlled request failure",
+  "checks": [
+    "Mobile navigation opens, Escape dismisses it and focus returns to its trigger",
+    "Mobile knowledge search, empty-state reset, source dialog, focus return and 44px close control",
+    "Pending send has stable controls; failed send restores its draft and shows a readable inline error",
+    "Eight viewport sizes: compact Send control stays inside the viewport; no wrapped saved-message caption or resize handle",
+    "Multiline composer grows to a cap then scrolls, and shrinks when cleared",
+    "Disconnected mobile header shows explicit reconnecting text and retains navigation and sign-out access"
+  ],
+  "layouts": [
+    {
+      "width": 320,
+      "height": 568,
+      "composerFits": true
+    },
+    {
+      "width": 375,
+      "height": 812,
+      "composerFits": true
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "composerFits": true
+    },
+    {
+      "width": 768,
+      "height": 1024,
+      "composerFits": true
+    },
+    {
+      "width": 844,
+      "height": 390,
+      "composerFits": true
+    },
+    {
+      "width": 1024,
+      "height": 900,
+      "composerFits": true
+    },
+    {
+      "width": 1280,
+      "height": 720,
+      "composerFits": true
+    },
+    {
+      "width": 1440,
+      "height": 1000,
+      "composerFits": true
+    }
+  ],
+  "pageErrors": []
+}

@@ -56,7 +56,7 @@ it('loads saved history from the server and restores it after navigation',async(
  chatServer();show();const user=userEvent.setup();await user.type(screen.getByLabelText('Ask a campus question'),'Where is my classroom?');await user.click(screen.getByRole('button',{name:'Send question'}));
  await screen.findByText('A saved campus answer.');await user.click(screen.getByRole('link',{name:'Knowledge base'}));await user.click(await screen.findByRole('link',{name:'Saved question'}));
  expect(await screen.findByText('A saved campus answer.')).toBeVisible();await user.click(screen.getByRole('link',{name:'New conversation'}));
- expect(await screen.findByRole('heading',{name:'A question about campus?'})).toBeVisible();expect(screen.queryByText('A saved campus answer.')).not.toBeInTheDocument();
+ expect(await screen.findByRole('heading',{name:'Ask the helpdesk'})).toBeVisible();expect(screen.queryByText('A saved campus answer.')).not.toBeInTheDocument();
 });
 
 it('waits for explicit consent then displays the staff waiting state',async()=>{
@@ -97,7 +97,7 @@ it('keeps drafts across navigation and clears new-conversation drafts explicitly
 it('searches the knowledge base and filters categories',async()=>{
   mockFetch.mockImplementation((url:string)=>Promise.resolve(response(url==='/api/conversations'?[]:[{id:'1',title:'Robotics lab hours',category:'labs',kind:'faq',content:'Lab hours are 9 to 5.'},{id:'2',title:'Lost ID',category:'procedures',kind:'faq',content:'Report a lost ID.'}])));
   show('/knowledge');const user=userEvent.setup();await screen.findByText('Robotics lab hours');
-  await user.click(screen.getByRole('radio',{name:'Labs'}));
+  await user.selectOptions(screen.getByLabelText('Topic'),'labs');
   expect(screen.queryByText('Lost ID')).not.toBeInTheDocument();
   await user.type(screen.getByLabelText('Search the knowledge base'),'not-present');
   expect(screen.getByText('No matching sources')).toBeVisible();

@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import type { FormEvent, ReactNode } from 'react';
-import { ArrowRight, LoaderCircle, ShieldCheck } from 'lucide-react';
+import { LoaderCircle } from 'lucide-react';
 import { Card } from './ui/card';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
@@ -37,7 +37,7 @@ export default function AccessGate({ children }: { children: ReactNode }) {
   }
   if (account) return <AccountContext.Provider value={account}>{children}</AccountContext.Provider>;
   return <main className="staff-login-page access-page">
-    <div className="login-heading"><span className="welcome-symbol"><ShieldCheck size={31} strokeWidth={1.5} aria-hidden="true" /></span><span className="eyebrow">VIT · STUDENT HELPDESK</span><h1>Sign in to Campus Helpdesk</h1><p>Use your student or staff account to continue.</p></div>
+    <div className="login-heading"><div className="login-brand">Campus Helpdesk<span>VIT Vellore</span></div><h1>Sign in</h1><p>Use your student or staff account.</p></div>
     <Card className="login-card">
       {checking ? <p role="status">Checking your session…</p> : <form onSubmit={submit}>
         <Label htmlFor="username">Username</Label>
@@ -45,7 +45,7 @@ export default function AccessGate({ children }: { children: ReactNode }) {
         <Label htmlFor="access-password">Password</Label>
         <Input id="access-password" type="password" autoComplete="current-password" value={password} onChange={e => setPassword(e.target.value)} required maxLength={1024} aria-describedby={error ? 'access-error' : undefined} />
         {error && <p id="access-error" className="form-error" role="alert">{error}</p>}
-        <Button type="submit" disabled={pending}>{pending ? <><LoaderCircle size={20} className="spinner" aria-hidden="true" />Signing in…</> : <>Sign in<ArrowRight size={19} aria-hidden="true" /></>}</Button>
+        <Button type="submit" disabled={pending}>{pending ? <><LoaderCircle size={20} className="spinner" aria-hidden="true" />Signing in…</> : 'Sign in'}</Button>
         <p className="login-note">Your sign-in lasts up to 8 hours.</p>
       </form>}
     </Card>

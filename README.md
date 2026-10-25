@@ -1,6 +1,6 @@
 # Campus Helpdesk
 
-A campus support prototype with a React chat interface, source-backed RAG answers, a searchable official-source knowledge base, and a protected staff queue. Uses FastAPI, OpenRouter, and Neon Postgres with pgvector. The React interface uses shadcn/ui with Radix primitives, Tailwind semantic tokens, and locally bundled Inter. Its paper-and-evergreen theme keeps navigation quiet, labels the question box and send action, and uses editable example questions.
+A campus support prototype with a React chat interface, source-backed RAG answers, a searchable official-source knowledge base, and a protected staff queue. Uses FastAPI, OpenRouter, and Neon Postgres with pgvector. The React interface uses shadcn/ui with Radix primitives, Tailwind semantic tokens, and locally bundled Clear Pro. Its minimal white workspace uses a neutral navigation rail, clear labels, and editable example questions.
 
 The default corpus is now **public VIT Vellore information downloaded on 24 October 2026**. This is an independent prototype, not an official VIT service. Source dates and academic-year restrictions matter; retrieved pages are not a guarantee of current policy. The original fictional assignment corpus remains available only in explicit sample mode, using the scenario date 16 October 2026.
 
@@ -142,7 +142,7 @@ the production limits for evaluation.
 
 ## Design and boundaries
 
-Warm paper surfaces, evergreen actions, Inter, readable text, responsive navigation, accessible shadcn/Radix dialogs, clear focus, and restrained motion. Original-source links and retrieval dates accompany official source inspection. No gradients or glass effects. Design notes: `design-system/campus-helpdesk/MASTER.md`.
+White surfaces, restrained evergreen actions, Clear Pro, readable text, responsive navigation, accessible shadcn/Radix dialogs, clear focus, and restrained motion. Original-source links and retrieval dates accompany official source inspection. No gradients or glass effects. Design notes: `design-system/campus-helpdesk/MASTER.md`.
 
 Vercel frontend and Render backend deployment configuration is included; see [DEPLOYMENT.md](DEPLOYMENT.md) for account setup, environment configuration, validation and deployment status. Tickets are routed to the app's staff queue. This version has exactly two fixed accounts and supports staff replies. It has no email delivery, account registration, password-reset flow, attachments, or institutional SSO. Institutional deployment still requires an appropriate privacy/retention policy.
 

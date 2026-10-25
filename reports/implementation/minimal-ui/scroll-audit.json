@@ -1,0 +1,12 @@
+{
+  "verdict": "PASS",
+  "checks": [
+    "Opening long saved conversations starts at the newest message for both roles",
+    "student sending from history scrolls to the sent message; receiving at the bottom follows live",
+    "student replies preserve the other reader’s position and offer a working New messages control",
+    "staff sending from history scrolls to the sent message; receiving at the bottom follows live",
+    "staff replies preserve the other reader’s position and offer a working New messages control",
+    "Growing the composer and resizing the viewport keep the newest message visible without moving the page header"
+  ],
+  "pageErrors": []
+}

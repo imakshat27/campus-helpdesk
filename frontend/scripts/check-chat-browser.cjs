@@ -22,7 +22,10 @@ const base = process.env.BROWSER_TEST_URL || 'http://127.0.0.1:5173';
   async function login(page, role) {
     await page.goto(base);
     await visible(page.getByLabel('Username', {exact:true}));
-    if(role==='student')await page.screenshot({path:path.join(output,'screenshots','login.png')});
+    if(role==='student'){
+      await page.evaluate(()=>document.fonts.ready);
+      await page.screenshot({path:path.join(output,'screenshots','login.png')});
+    }
     await page.getByLabel('Username', { exact: true }).fill(credentials[role + '_username']);
     await page.getByLabel('Password', { exact: true }).fill(credentials[role + '_password']);
     await page.getByRole('button', { name: 'Sign in', exact: true }).click();
@@ -31,6 +34,28 @@ const base = process.env.BROWSER_TEST_URL || 'http://127.0.0.1:5173';
   try {
     await login(student, 'student'); await login(staff, 'staff');
     assert.match(staff.url(), /\/staff$/);
+    if(process.env.BROWSER_CHECK_MINIMAL_UI){
+      await student.evaluate(()=>document.fonts.ready);
+      const fonts=await student.evaluate(()=>({body:getComputedStyle(document.body).fontFamily,
+        input:getComputedStyle(document.querySelector('textarea')).fontFamily,
+        faces:[...document.fonts].filter(face=>face.family==='Clear Pro' && face.status==='loaded').map(face=>face.weight)}));
+      assert.match(fonts.body,/Clear Pro/);assert.match(fonts.input,/Clear Pro/);assert.ok(fonts.faces.includes('400'));
+      for(const [width,height] of [[375,812],[1280,720],[1440,1000]]){
+        await student.setViewportSize({width,height});
+        await student.screenshot({path:path.join(output,'screenshots',`welcome-${width}.png`)});
+        const overflow=await student.evaluate(()=>document.documentElement.scrollWidth>innerWidth);
+        assert.equal(overflow,false);
+      }
+      await student.getByRole('link',{name:'Knowledge base',exact:true}).click();
+      await visible(student.getByRole('button',{name:/Controlled browser test source/}));
+      await student.screenshot({path:path.join(output,'screenshots','knowledge.png')});
+      await student.getByLabel('Topic',{exact:true}).selectOption('library');
+      await visible(student.getByRole('button',{name:/Controlled browser test source/}));
+      await student.getByRole('link',{name:'Ask a question',exact:true}).click();
+      await visible(student.getByRole('heading',{name:'Ask the helpdesk',exact:true}));
+      await staff.screenshot({path:path.join(output,'screenshots','staff-queue-empty.png')});
+      checks.push('Clear Pro font files loaded for body and composer; welcome layouts and native topic filter verified');
+    }
     const cookie = (await studentContext.cookies()).find(c => c.name === 'campus_session');
     assert.equal(cookie.httpOnly, true);
     checks.push('Separate student/staff logins and role redirects; HttpOnly cookie');
@@ -48,7 +73,7 @@ const base = process.env.BROWSER_TEST_URL || 'http://127.0.0.1:5173';
     assert.equal(await staff.getByRole('link').filter({hasText:'How do I renew library books?'}).count(),0);
     checks.push('Supported answers retain citations, keyboard-dismissible source dialog and explicit manual handoff consent');
     await student.getByRole('link',{name:'New conversation',exact:true}).click();
-    await visible(student.getByRole('heading',{name:'A question about campus?',exact:true}));
+    await visible(student.getByRole('heading',{name:'Ask the helpdesk',exact:true}));
 
     const question = 'What is my private timetable for browser test '+Date.now()+'?';
     await student.getByLabel('Ask a campus question', { exact: true }).fill(question);
@@ -58,7 +83,9 @@ const base = process.env.BROWSER_TEST_URL || 'http://127.0.0.1:5173';
     checks.push('Unsupported answer offers a ticket without creating a staff queue entry');
     await student.getByRole('button', { name: 'Yes, raise a ticket', exact: true }).click();
     const staffLink = staff.getByRole('link').filter({hasText:question});
-    await visible(staffLink); await staffLink.click();
+    await visible(staffLink);
+    if(process.env.BROWSER_CHECK_MINIMAL_UI)await staff.screenshot({path:path.join(output,'screenshots','staff-queue.png')});
+    await staffLink.click();
     await visible(staff.getByRole('button', { name: 'Start chat', exact: true }));
     assert.equal(await staff.getByLabel('Message student', { exact: true }).isDisabled(), true);
     await staff.getByRole('button', { name: 'Start chat', exact: true }).click();
@@ -105,7 +132,7 @@ const base = process.env.BROWSER_TEST_URL || 'http://127.0.0.1:5173';
     const layouts = [];
     for (const [width,height] of [[375,812],[768,1024],[1024,900],[1280,720],[1440,1000]]) {
       await student.setViewportSize({ width, height });
-      await student.evaluate(()=>window.scrollTo(0,document.documentElement.scrollHeight));
+      await student.evaluate(()=>{window.scrollTo(0,document.documentElement.scrollHeight);const transcript=document.querySelector('.conversation');if(transcript)transcript.scrollTop=transcript.scrollHeight;});
       await student.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))));
       const dimensions = await student.evaluate(() => ({ viewport: innerWidth, content: document.documentElement.scrollWidth }));
       assert.ok(dimensions.content <= dimensions.viewport, 'Horizontal overflow at ' + width);
