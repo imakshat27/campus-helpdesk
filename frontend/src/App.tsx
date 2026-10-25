@@ -131,16 +131,27 @@ function Chat({staffMode=false}:{staffMode?:boolean}) {
   const nearBottom = useRef(true);
   const previousMessage = useRef<string | undefined>(undefined);
   const [unseenMessages,setUnseenMessages] = useState(false);
-  function scrollToLatest() {
+  function updateFades() {
     const transcript=transcriptRef.current;
-    if(transcript)transcript.scrollTop=transcript.scrollHeight;
-    nearBottom.current=true;setUnseenMessages(false);
+    if(!transcript)return;
+    transcript.dataset.fadeTop=String(transcript.scrollTop>4);
+    transcript.dataset.fadeBottom=String(transcript.scrollHeight-transcript.clientHeight-transcript.scrollTop>4);
+  }
+  function scrollToLatest(smooth=false) {
+    const transcript=transcriptRef.current;
+    if(transcript){
+      const reduced=window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+      if(smooth && !reduced)transcript.scrollTo({top:transcript.scrollHeight,behavior:'smooth'});
+      else transcript.scrollTop=transcript.scrollHeight;
+    }
+    nearBottom.current=true;setUnseenMessages(false);updateFades();
   }
   function trackScroll() {
     const transcript=transcriptRef.current;
     if(!transcript)return;
     nearBottom.current=transcript.scrollHeight-transcript.clientHeight-transcript.scrollTop<64;
     if(nearBottom.current)setUnseenMessages(false);
+    updateFades();
   }
   const lock = useRef(false);
   useEffect(()=>{
@@ -283,7 +294,7 @@ function Chat({staffMode=false}:{staffMode?:boolean}) {
       {confirmationTarget && <section className="manual-ticket-prompt" aria-label="Confirm support ticket"><h2 ref={confirmationHeading} tabIndex={-1}>Raise a ticket for this question?</h2><p>{confirmationTarget.question}</p>{ticketActions(confirmationTarget, () => setConfirmationTarget(null))}</section>}
     </section>}
 
-    {unseenMessages && <Button variant="outline" className="new-messages" onClick={scrollToLatest}>New messages<ArrowDown size={17} aria-hidden="true"/></Button>}
+    {unseenMessages && <Button variant="outline" className="new-messages" onClick={()=>scrollToLatest(true)}>New messages<ArrowDown size={17} aria-hidden="true"/></Button>}
     <div className="composer-area">
       {error && <Alert variant="destructive" className="error-banner"><HelpCircle size={21} /><AlertDescription>{error}</AlertDescription>{conversationId && <Button variant="outline" onClick={conversationChanged}>Retry</Button>}<Button variant="ghost" size="icon" aria-label="Dismiss error" onClick={() => setError('')}><X size={19} /></Button></Alert>}
       <form className="composer" onSubmit={e => { e.preventDefault(); void send(draft); }}>
