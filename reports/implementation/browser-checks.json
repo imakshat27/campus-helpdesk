@@ -1,0 +1,46 @@
+{
+  "environment": "Local Chromium; isolated SQLite; controlled answers; no Neon tickets/model calls",
+  "checks": [
+    "Separate student/staff logins and role redirects; HttpOnly cookie",
+    "Supported answers retain citations, keyboard-dismissible source dialog and explicit manual handoff consent",
+    "Unsupported answer offers a ticket without creating a staff queue entry",
+    "Confirmed ticket appears live in staff queue; acceptance updates the student",
+    "Two-way staff/student messages arrive without page refresh",
+    "Concurrent student/staff sends persist once each with unique ordering; retry any SQLite write contention",
+    "Refresh restores persisted transcript and session",
+    "Reconnect reloads messages saved while offline",
+    "375, 768, 1024, 1280×720 and 1440 layouts: no horizontal overflow; composer visible",
+    "Resolution closes the composer; student reopening returns it to the staff queue",
+    "Logout and new login preserve account-owned history"
+  ],
+  "layouts": [
+    {
+      "width": 375,
+      "height": 812,
+      "horizontalOverflow": false
+    },
+    {
+      "width": 768,
+      "height": 1024,
+      "horizontalOverflow": false
+    },
+    {
+      "width": 1024,
+      "height": 900,
+      "horizontalOverflow": false
+    },
+    {
+      "width": 1280,
+      "height": 720,
+      "horizontalOverflow": false
+    },
+    {
+      "width": 1440,
+      "height": 1000,
+      "horizontalOverflow": false
+    }
+  ],
+  "concurrentRetries": 1,
+  "pageErrors": [],
+  "verdict": "PASS"
+}

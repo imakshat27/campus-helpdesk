@@ -5,10 +5,10 @@ import { Card } from './ui/card';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
 import { Button } from './ui/button';
-import { api } from '../api';
+import { api, ApiError } from '../api';
 import { clearAccess } from '../access';
 import type { Account } from '../access';
-const AccountContext = createContext<Account | null>(null);
+export const AccountContext = createContext<Account | null>(null);
 export const useAccount = () => useContext(AccountContext);
 
 export default function AccessGate({ children }: { children: ReactNode }) {
@@ -22,7 +22,7 @@ export default function AccessGate({ children }: { children: ReactNode }) {
     let active = true;
     function expired() { setAccount(null); setError('Please sign in to continue. Your draft is kept in this tab.'); }
     window.addEventListener('campus-access-expired', expired);
-    void api<Account>('/auth/session').then(user => { if (active) setAccount(user); }).catch(e => { if (active) { clearAccess(); setError(e instanceof Error ? e.message : 'Please sign in again.'); } }).finally(() => { if (active) setChecking(false); });
+    void api<Account>('/auth/session').then(user => { if (active) setAccount(user); }).catch(e => { if (active) { clearAccess(); setError(e instanceof ApiError && e.status===401 ? '' : e instanceof Error ? e.message : 'Please sign in again.'); } }).finally(() => { if (active) setChecking(false); });
     return () => { active = false; window.removeEventListener('campus-access-expired', expired); };
   }, []);
   async function submit(event: FormEvent) {

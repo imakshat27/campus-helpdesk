@@ -6,6 +6,7 @@ from sqlalchemy.pool import StaticPool
 from app.main import app, get_retriever
 from app.db import get_db
 from app.llm import get_generator, get_query_resolver, ResolvedQuery
+from app.events import get_event_engine
 from app.models import Base, Document, User, LoginSession, now
 from app.access import hasher, digest
 from datetime import timedelta
@@ -24,6 +25,7 @@ def database():
         db.add(User(id='test-staff', username='test-staff', role='staff', password_hash=hasher.hash('test-staff-password-long')))
         db.add(User(id='test-owner', username='test-student', role='student', password_hash=hasher.hash('test-student-password-long')))
         db.flush()
+        db.add(LoginSession(token_hash=digest('test-student-token'), user_id='test-owner', expires_at=now()+timedelta(hours=8)))
         db.add(LoginSession(token_hash=digest('test-staff-token'), user_id='test-staff', expires_at=now()+timedelta(hours=8)))
         db.commit()
     yield engine
@@ -38,6 +40,7 @@ def client(database,monkeypatch):
         with Session(database) as db:
             yield db
     app.dependency_overrides[get_db]=db_override
+    app.dependency_overrides[get_event_engine]=lambda:database
     app.dependency_overrides[require_access]=lambda:'test-owner'
     app.dependency_overrides[allow_chat]=lambda:'test-owner'
     class Resolver:
@@ -45,7 +48,7 @@ def client(database,monkeypatch):
             context=' '.join(m['content'] for m in history if m['role']=='user')
             return ResolvedQuery(query=(context+' '+query).strip(),uses_context=bool(history))
     app.dependency_overrides[get_query_resolver]=lambda:Resolver()
-    with TestClient(app,raise_server_exceptions=False,headers={'Origin':'http://localhost:5173'}) as client:
+    with TestClient(app,raise_server_exceptions=False,headers={'Origin':'http://localhost:5173','Cookie':'campus_session=test-student-token'}) as client:
         yield client
     app.dependency_overrides.clear()
 

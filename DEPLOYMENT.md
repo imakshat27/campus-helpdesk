@@ -62,3 +62,57 @@ source-backed answers, and browser cookies through the Vercel proxy. Record
 hosted results separately from local test results. A health check alone does
 not verify browser integration. Live model/consent regression requires explicit
 test confirmation because it saves a demo ticket.
+
+## Saved conversations and staff handoff
+
+Migration 005 backfills deterministic message order and conversation states,
+adds sender identities and retry records, and enforces one open ticket per
+conversation. Historical duplicate open tickets are preserved as resolved
+records; the newest remains active. Historical anonymous owners are retained.
+New student history is attached to the student account, not its login sessions.
+
+New conversation creation accepts a client-generated UUID. Message submission
+requires a client request UUID; retrying the same request returns the original
+result without saving another message. Reusing that UUID for different content
+or another conversation is rejected. Staff cannot reply until accepting a
+confirmed handoff. Resolving/reopening updates ticket and conversation together.
+
+## Real-time connections
+
+Set `VITE_WS_URL=wss://campus-helpdesk-ye2a.onrender.com/api/events` on Vercel
+(or use the matching built-in default). For a different backend, change both
+this public URL and the HTTP rewrite. Locally the default is
+`ws://<frontend-host>:8000/api/events`. No secret belongs in this URL.
+
+The browser obtains a single-use 30-second ticket through the authenticated
+same-origin `/api/auth/ws-ticket` endpoint, then sends it in the first WebSocket
+frame directly to Render. Query strings never contain authentication tokens.
+Only approved frontend Origins can connect. Tickets are stored hashed in Neon.
+Sessions are checked on notification delivery and at least every five seconds;
+logout closes existing sockets immediately. Each session allows five concurrent
+connections. The connection sends only committed-change notifications; clients
+reload authorized HTTP state on each change and after reconnecting.
+
+Keep **one Uvicorn worker**. The connection registry is process-local; messages,
+statuses and retry records are durable in Neon. Multiple workers or instances
+need a shared event broker first. No Redis or paid service is introduced here.
+The supplied startup command limits WebSocket frame size to 1024 bytes.
+
+The interface reconnects with increasing delays up to 30 seconds and detects
+missing heartbeats. Failed sends retain drafts and their request IDs for retry.
+Resolved conversations reject replies; staff takeover never invokes AI. Render
+service sleep/restarts can disconnect clients; show reconnection state rather
+than promising staff availability or silently simulating successful sends.
+
+## Verification evidence
+
+See `reports/implementation/live-chat.md` and `browser-checks.json`. The browser
+acceptance runner is `frontend/scripts/check-chat-browser.cjs`; run it against
+`backend/tests/browser_server.py` with a private temporary credential JSON file
+and isolated temporary SQLite database. It requires Playwright; a bundled
+installation can be supplied through `CAMPUS_PLAYWRIGHT_MODULE`, with
+`BROWSER_EXECUTABLE` when needed. Never point this fixture at Neon.
+
+Local browser success does not verify production Vercel rewriting or hosted
+WebSocket connectivity. Deploy the feature branch only when its four private
+account settings and exact frontend Origin are configured on the backend.

@@ -1,6 +1,6 @@
 from datetime import datetime, timezone
 import uuid
-from sqlalchemy import String, Text, DateTime, Boolean, ForeignKey, JSON, Integer, BigInteger
+from sqlalchemy import String, Text, DateTime, Boolean, ForeignKey, JSON, Integer, BigInteger, UniqueConstraint, Index, text
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 from pgvector.sqlalchemy import Vector
 
@@ -24,6 +24,12 @@ class LoginSession(Base):
     __tablename__ = 'login_sessions'
     token_hash: Mapped[str] = mapped_column(String(64), primary_key=True)
     user_id: Mapped[str] = mapped_column(ForeignKey('users.id'), index=True)
+    expires_at: Mapped[datetime] = mapped_column(DateTime(timezone=True))
+
+class WebSocketTicket(Base):
+    __tablename__ = 'websocket_tickets'
+    token_hash: Mapped[str] = mapped_column(String(64), primary_key=True)
+    session_hash: Mapped[str] = mapped_column(ForeignKey('login_sessions.token_hash', ondelete='CASCADE'), index=True)
     expires_at: Mapped[datetime] = mapped_column(DateTime(timezone=True))
 
 class Document(Base):
@@ -50,7 +56,10 @@ class Conversation(Base):
     __tablename__ = 'conversations'
     id: Mapped[str] = mapped_column(String(36), primary_key=True, default=new_id)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now)
-    owner: Mapped[str | None] = mapped_column(String(64), nullable=True)
+    owner: Mapped[str | None] = mapped_column(String(64), nullable=True, index=True)
+    state: Mapped[str] = mapped_column(String(30), default='ai')
+    updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now)
+    next_sequence: Mapped[int] = mapped_column(Integer, default=1)
 
 class RequestBudget(Base):
     __tablename__ = 'request_budgets'
@@ -60,19 +69,36 @@ class RequestBudget(Base):
 
 class Message(Base):
     __tablename__ = 'messages'
+    __table_args__ = (UniqueConstraint('conversation_id', 'sequence', name='uq_message_sequence'),)
     id: Mapped[str] = mapped_column(String(36), primary_key=True, default=new_id)
     conversation_id: Mapped[str] = mapped_column(ForeignKey('conversations.id'), index=True)
     role: Mapped[str] = mapped_column(String(20))
     content: Mapped[str] = mapped_column(Text)
+    sequence: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    sender_id: Mapped[str | None] = mapped_column(ForeignKey('users.id'), nullable=True)
+    details: Mapped[dict] = mapped_column(JSON, default=dict)
     outcome: Mapped[str | None] = mapped_column(String(30), nullable=True)
     sources: Mapped[list] = mapped_column(JSON, default=list)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now)
 
+class Submission(Base):
+    __tablename__ = 'submissions'
+    __table_args__ = (UniqueConstraint('user_id', 'request_id', name='uq_submission_request'),)
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=new_id)
+    user_id: Mapped[str] = mapped_column(ForeignKey('users.id'))
+    request_id: Mapped[str] = mapped_column(String(36))
+    conversation_id: Mapped[str] = mapped_column(ForeignKey('conversations.id'))
+    content: Mapped[str] = mapped_column(Text)
+    result: Mapped[dict] = mapped_column(JSON)
+
 class Ticket(Base):
     __tablename__ = 'tickets'
+    __table_args__ = (Index('uq_open_ticket_conversation', 'conversation_id', unique=True,
+                           postgresql_where=text("status = 'open'"), sqlite_where=text("status = 'open'")),)
     id: Mapped[str] = mapped_column(String(36), primary_key=True, default=new_id)
     reference: Mapped[str] = mapped_column(String(24), unique=True)
     conversation_id: Mapped[str] = mapped_column(ForeignKey('conversations.id'), index=True)
+    message_id: Mapped[str | None] = mapped_column(ForeignKey('messages.id'), nullable=True)
     query: Mapped[str] = mapped_column(Text)
     reason: Mapped[str] = mapped_column(String(100))
     status: Mapped[str] = mapped_column(String(20), default='open', index=True)

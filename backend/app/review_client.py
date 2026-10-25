@@ -15,6 +15,9 @@ def staff_headers(client):
     """Get a staff cookie without replacing the student's active session."""
     previous=httpx.Cookies(client.cookies)
     try:
+        # A successful login rotates any cookie it receives; leave the student's
+        # session untouched while issuing the independent staff session.
+        client.cookies.clear()
         authenticate(client,'staff')
         return {'Cookie':COOKIE+'='+client.cookies.get(COOKIE)}
     finally:

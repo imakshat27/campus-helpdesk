@@ -13,6 +13,7 @@ from datetime import timedelta
 
 @pytest.fixture
 def secured(client,monkeypatch):
+    client.headers.pop('Cookie',None)
     app.dependency_overrides.pop(require_access)
     app.dependency_overrides.pop(allow_chat)
     return client
@@ -157,3 +158,22 @@ def test_provisioning_is_idempotent_and_password_change_revokes_sessions(databas
         config.staff_password='changed-staff-password-long'
         provision(db,config)
         assert db.get(LoginSession,digest('test-staff-token')) is None
+
+def test_new_login_rotates_the_current_session(secured):
+    first=token(secured)
+    response=secured.post('/api/auth/session',headers=first,json={'username':'test-student','password':'test-student-password-long'})
+    assert response.status_code==200
+    second={'Cookie':COOKIE+'='+secured.cookies.get(COOKIE)}
+    secured.cookies.clear()
+    assert secured.get('/api/auth/session',headers=first).status_code==401
+    assert secured.get('/api/auth/session',headers=second).status_code==200
+
+def test_regression_staff_client_does_not_revoke_student_session(secured,monkeypatch):
+    from app.review_client import staff_headers
+    monkeypatch.setattr(settings(),'student_username','test-student')
+    monkeypatch.setattr(settings(),'student_password','test-student-password-long')
+    first=token(secured)
+    secured.cookies.set(COOKIE,first['Cookie'].split('=',1)[1],domain='testserver.local',path='/api')
+    staff_auth=staff_headers(secured)
+    assert secured.get('/api/staff/tickets',headers=staff_auth).status_code==200
+    assert secured.get('/api/auth/session',headers=first).json()['role']=='student'

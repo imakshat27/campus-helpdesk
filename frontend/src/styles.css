@@ -328,3 +328,20 @@ p { line-height:1.7; }
 .source-document ul { list-style:disc; }
 .source-document ol { list-style:decimal; }
 .source-document a { color:var(--primary); text-decoration:underline; }
+
+/* Account-owned history and live support states. */
+.chat-history a { min-height: 44px; }
+.chat-history span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.history-error { padding: 8px; font-size: 16px; color: var(--muted-foreground); }
+.conversation-status { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 20px; padding: 12px 0; border-bottom: 1px solid var(--border); font-size: 16px; }
+.conversation-status strong { font-size: 16px; }
+.message-name { display: flex; flex-wrap: wrap; align-items: baseline; gap: 12px; }
+.message-name time { color: var(--muted-foreground); font-size: 16px; font-weight: 400; }
+.message.staff .message-avatar { background: var(--secondary); color: var(--foreground); }
+.ticket-row > a { display: flex; align-items: center; gap: 16px; width: 100%; min-width: 0; text-decoration: none; }
+.ticket-row > a > div { min-width: 0; flex: 1; }
+.live-status { color: var(--muted-foreground); font-size: 16px; margin-left: auto; text-align: right; }
+@media (max-width: 767px) {
+  .topbar { flex-wrap: wrap; gap: 8px; }
+  .live-status { font-size: 16px; flex-basis: 100%; order: 3; text-align: left; margin-left: 0; }
+}

@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState, lazy, Suspense } from 'react';
 import type { ReactNode } from 'react';
-import { NavLink, Route, Routes, useLocation, Navigate } from 'react-router-dom';
-import { ArrowRight, ArrowUp, BookOpen, Check, CheckCircle2, ChevronRight, FileText, GraduationCap, Headphones, HelpCircle, Inbox, LibraryBig, LoaderCircle, MapPin, MessageSquare, Plus, Search, ShieldCheck, SquareArrowOutUpRight, Ticket as TicketIcon, UserRound, Wifi, Wrench, X } from 'lucide-react';
+import { NavLink, Route, Routes, useLocation, Navigate, useNavigate, useParams } from 'react-router-dom';
+import { ArrowRight, ArrowUp, BookOpen, CheckCircle2, ChevronRight, FileText, GraduationCap, Headphones, HelpCircle, Inbox, LibraryBig, LoaderCircle, MapPin, MessageSquare, Plus, Search, ShieldCheck, SquareArrowOutUpRight, Ticket as TicketIcon, UserRound, Wifi, Wrench, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -14,11 +14,12 @@ import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Dialog as UiDialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogClose, DialogFooter } from '@/components/ui/dialog';
 import { SidebarProvider, Sidebar, SidebarHeader, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupLabel, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarInset, SidebarTrigger, useSidebar } from '@/components/ui/sidebar';
-import { api } from './api';
+import { api, conversationChanged } from './api';
 import { clearAccess } from './access';
 import { useAccount } from './components/AccessGate';
+import { useLiveEvents } from './hooks/use-live-events';
 const SourceContent=lazy(()=>import('./components/SourceContent'));
-import type { ChatReply, Knowledge, Source, Ticket, TicketOffer } from './api';
+import type { Knowledge, Source, Ticket, TicketOffer, ConversationSummary, ConversationDetail, ConversationState } from './api';
 
 const categoryLabels: Record<string, string> = { classrooms: 'Classrooms', labs: 'Labs', events: 'Events', procedures: 'Student services', library: 'Library', it: 'IT support', academics: 'Academics', hostels: 'Hostels', welfare: 'Student welfare', facilities: 'Facilities', accessibility: 'Accessibility', safety: 'Safety', careers: 'Careers', admissions: 'Admissions', admission_info: 'Admissions', research: 'Research', alumni: 'Alumni', global: 'International', international: 'International' };
 const suggestions = [
@@ -56,40 +57,72 @@ function CampusSidebar({ onNew }: { onNew: () => void }) {
     </SidebarHeader>
     <SidebarContent><SidebarGroup><SidebarGroupLabel className="campus-nav-label">Helpdesk</SidebarGroupLabel><SidebarMenu className="campus-nav">
       {links.map(({to,label,icon:Icon}) => <SidebarMenuItem key={to}><SidebarMenuButton asChild isActive={to==='/' ? location.pathname==='/' : location.pathname.startsWith(to)}><NavLink to={to} onClick={closeMenu}><Icon size={21}/><span>{label}</span></NavLink></SidebarMenuButton></SidebarMenuItem>)}
-    </SidebarMenu></SidebarGroup></SidebarContent>
+    </SidebarMenu></SidebarGroup>{account?.role !== 'staff' && <ConversationHistory/>}</SidebarContent>
     <SidebarFooter className="campus-sidebar-footer"><div className="sample-note"><BookOpen size={19} aria-hidden="true"/><p>Vellore campus<span>Public VIT sources</span></p></div><Separator /><div className="campus-identity"><span className="university-avatar">V</span><div><strong>VIT campus</strong><span>Student support</span></div></div></SidebarFooter>
   </Sidebar>;
 }
 
+function ConversationHistory() {
+  const [rows,setRows]=useState<ConversationSummary[]>([]);
+  const [error,setError]=useState('');
+  const {setOpenMobile}=useSidebar();
+  useEffect(()=>{
+    let active=true,version=0;
+    const load=()=>{const current=++version;void api<ConversationSummary[]>('/conversations').then(data=>{if(active && current===version){setRows(data);setError('');}}).catch(()=>{if(active && current===version)setError('History could not be loaded.');});};
+    load();window.addEventListener('campus-conversation-updated',load);
+    return()=>{active=false;window.removeEventListener('campus-conversation-updated',load);};
+  },[]);
+  return <SidebarGroup><SidebarGroupLabel>Conversations</SidebarGroupLabel>
+    {error ? <p className="history-error" role="status">{error}<Button variant="link" onClick={conversationChanged}>Retry</Button></p> :
+    <SidebarMenu className="chat-history">{rows.map(row=><SidebarMenuItem key={row.id}><SidebarMenuButton asChild><NavLink to={'/conversations/'+row.id} onClick={()=>setOpenMobile(false)}><MessageSquare size={18}/><span>{row.title}</span></NavLink></SidebarMenuButton></SidebarMenuItem>)}</SidebarMenu>}
+  </SidebarGroup>;
+}
+
 export default function App() {
   const account = useAccount();
+  const liveStatus=useLiveEvents(!!account);
   const [logoutError, setLogoutError] = useState('');
   async function signOut() { try { await api('/auth/session', {method: 'DELETE'}); clearAccess(); } catch (e) {setLogoutError(errorText(e));} }
   const [resetKey, setResetKey] = useState(0);
   const location = useLocation();
   useEffect(() => { window.scrollTo({ top: 0, behavior: 'instant' }); }, [location.pathname]);
-  const name = location.pathname.startsWith('/knowledge') ? 'Knowledge base' : location.pathname.startsWith('/staff') ? 'Staff queue' : 'Ask a question';
-  function reset() { try { sessionStorage.removeItem('campus-chat-official-v1'); sessionStorage.removeItem('campus-draft'); } catch { /* Optional persistence. */ } setResetKey(k=>k+1); }
+  const name = location.pathname.startsWith('/conversations') ? 'Your conversation' : location.pathname.startsWith('/knowledge') ? 'Knowledge base' : location.pathname.startsWith('/staff') ? 'Staff queue' : 'Ask a question';
+  function reset() { try { sessionStorage.removeItem('campus-chat-official-v1'); sessionStorage.removeItem('campus-draft'); sessionStorage.removeItem(`campus-draft:${account?.id || 'student'}:new`); } catch { /* Optional persistence. */ } setResetKey(k=>k+1); }
   return <SidebarProvider className="helpdesk-shell">
     <a className="skip-link" href="#main">Skip to content</a>
     <CampusSidebar onNew={reset}/>
-    <SidebarInset id="main" className="main-shell"><header className="topbar"><div className="page-location"><SidebarTrigger className="mobile-menu md:hidden" aria-label="Open navigation"/><span>{name}</span></div><Button variant="ghost" onClick={() => void signOut()}>Sign out</Button></header>
-      {logoutError && <p role="alert">{logoutError}</p>}<Routes><Route path="/" element={account?.role === 'staff' ? <Navigate to="/staff" replace /> : <Chat key={resetKey}/>} /><Route path="/knowledge" element={<KnowledgeBase/>} /><Route path="/staff" element={account?.role === 'staff' ? <StaffQueue/> : <Navigate to="/" replace />} /><Route path="*" element={<div className="page"><h1>Page not found</h1><Button asChild><NavLink to="/">Back to helpdesk</NavLink></Button></div>} /></Routes>
+    <SidebarInset id="main" className="main-shell"><header className="topbar"><div className="page-location"><SidebarTrigger className="mobile-menu md:hidden" aria-label="Open navigation"/><span>{name}</span></div><span className="live-status" role="status">{liveStatus}</span><Button variant="ghost" onClick={() => void signOut()}>Sign out</Button></header>
+      {logoutError && <p role="alert">{logoutError}</p>}<Routes><Route path="/" element={account?.role === 'staff' ? <Navigate to="/staff" replace /> : <Chat key={resetKey}/>} /><Route path="/conversations/:conversationId" element={account?.role === 'staff' ? <Navigate to="/staff" replace/> : <Chat/>}/><Route path="/staff/:conversationId" element={account?.role === 'staff' ? <Chat staffMode/> : <Navigate to="/" replace/>}/><Route path="/knowledge" element={<KnowledgeBase/>} /><Route path="/staff" element={account?.role === 'staff' ? <StaffQueue/> : <Navigate to="/" replace />} /><Route path="*" element={<div className="page"><h1>Page not found</h1><Button asChild><NavLink to="/">Back to helpdesk</NavLink></Button></div>} /></Routes>
     </SidebarInset>
   </SidebarProvider>;
 }
 
-function readChat(): { messages: ChatMessage[]; conversation: string | null } {
-  try { const saved = JSON.parse(sessionStorage.getItem('campus-chat-official-v1') || 'null'); if (saved && Array.isArray(saved.messages) && typeof saved.conversation === 'string') return saved; } catch { /* Storage may be unavailable. */ }
-  return { messages: [], conversation: null };
-}
-type ChatMessage = { role: 'user' | 'assistant'; text: string; sources?: Source[]; outcome?: string; ticket?: string; messageId?: string; offer?: TicketOffer | null };
+type ChatMessage = { id: string; role: 'user' | 'assistant' | 'staff'; text: string; sources?: Source[]; outcome?: string; ticket?: string; messageId?: string; offer?: TicketOffer | null; createdAt?: string };
 type ConfirmationTarget = { messageId: string; question: string; index: number };
-function Chat() {
-  const [messages, setMessages] = useState<ChatMessage[]>(() => readChat().messages);
-  const [conversation, setConversation] = useState<string | null>(() => readChat().conversation);
-  const [draft, setDraft] = useState(()=>{try{return sessionStorage.getItem('campus-draft')||'';}catch{return '';}});
-  useEffect(()=>{try{sessionStorage.setItem('campus-draft',draft);}catch{/* Optional persistence. */}},[draft]);
+const stateLabels: Record<ConversationState,string> = {ai:'AI helpdesk',waiting_for_staff:'Waiting for staff · AI replies are paused',staff_active:'Chatting with staff · AI replies are paused',resolved:'Resolved · Reopen to contact staff again'};
+function Chat({staffMode=false}:{staffMode?:boolean}) {
+  const {conversationId}=useParams();
+  const navigate=useNavigate();
+  const account=useAccount();
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const [conversation, setConversation] = useState<string | null>(conversationId || null);
+  const [state,setState]=useState<ConversationState>('ai');
+  const [ticketReference,setTicketReference]=useState('');
+  const [loading,setLoading]=useState(!!conversationId);
+  const [loadFailed,setLoadFailed]=useState(false);
+  const draftKey=`campus-draft:${account?.id || 'student'}:${conversationId || 'new'}`;
+  const [draft, setDraft] = useState(()=>{try{return sessionStorage.getItem(draftKey)||'';}catch{return '';}});
+  const draftScope=useRef(draftKey);
+  useEffect(()=>{if(draftScope.current===draftKey){try{sessionStorage.setItem(draftKey,draft);}catch{/* Draft remains in memory. */}}},[draft,draftKey]);
+  useEffect(()=>{draftScope.current=draftKey;try{setDraft(sessionStorage.getItem(draftKey)||'');}catch{setDraft('');}},[draftKey]);
+  const newId=useRef(crypto.randomUUID());
+  const retry=useRef<{id:string;content:string;conversation:string}|null>(null);
+  const loadVersion=useRef(0);
+  function hydrate(data:ConversationDetail) {
+    setConversation(data.id);setState(data.state);setTicketReference(data.ticket_reference || '');
+    setMessages(data.messages.map(m=>({id:m.id,role:m.role,text:m.content,sources:m.sources,outcome:m.outcome,
+      ticket:m.ticket_reference,messageId:m.role==='user'?m.id:m.user_message_id,offer:m.ticket_offer,createdAt:m.created_at})));
+  }
   const [pending, setPending] = useState(false);
   const [pendingQuestion, setPendingQuestion] = useState('');
   const [error, setError] = useState('');
@@ -107,22 +140,40 @@ function Chat() {
     else if (hadConfirmation.current) (staffAction.current ?? inputRef.current)?.focus();
     hadConfirmation.current = !!confirmationTarget;
   }, [confirmationTarget]);
-  useEffect(() => { if (conversation) { try { sessionStorage.setItem('campus-chat-official-v1', JSON.stringify({ messages, conversation })); } catch { /* Chat still works without storage. */ } } }, [messages, conversation]);
+  useEffect(()=>{
+    let active=true;
+    setConversation(conversationId || null);setConfirmationTarget(null);setError('');setMessages([]);setLoadFailed(false);
+    if(!conversationId){newId.current=crypto.randomUUID();setMessages([]);setState('ai');setTicketReference('');setLoading(false);return;}
+    const load=async()=>{
+      const version=++loadVersion.current;
+      try{const data=await api<ConversationDetail>(`/conversations/${conversationId}`);if(active && version===loadVersion.current){hydrate(data);setError('');setLoadFailed(false);}}
+      catch(e){if(active && version===loadVersion.current){setError(errorText(e));setLoadFailed(true);}}
+      finally{if(active && version===loadVersion.current)setLoading(false);}
+    };
+    setLoading(true);void load();window.addEventListener('campus-conversation-updated',load);
+    return()=>{active=false;loadVersion.current++;window.removeEventListener('campus-conversation-updated',load);};
+  },[conversationId]);
   useEffect(() => { if (messages.length || pending) endRef.current?.scrollIntoView?.({ behavior: 'instant', block: 'end' }); }, [messages, pending]);
 
   async function send(text: string) {
     const question = text.trim();
-    if (!question || lock.current) return;
+    if (!question || lock.current || loading || loadFailed || state==='resolved' || (staffMode && state!=='staff_active')) return;
     lock.current = true;
     setPending(true); setPendingQuestion(question); setError(''); setDraft(''); setConfirmationTarget(null);
     try {
-      const reply = await api<ChatReply>('/chat', { method: 'POST', body: JSON.stringify({ message: question, conversation_id: conversation }) });
-      setConversation(reply.conversation_id);
-      setMessages(m => [...m,
-        { role: 'user', text: question, messageId: reply.user_message_id },
-        { role: 'assistant', text: reply.message, sources: reply.sources, outcome: reply.outcome, ticket: reply.ticket_reference, messageId: reply.user_message_id, offer: reply.ticket_offer },
-      ]);
-    } catch (e) { setError(errorText(e)); setDraft(question); try { sessionStorage.setItem('campus-draft',question); } catch { /* Keep the draft in memory if storage is unavailable. */ } }
+      let cid=conversation;
+      if(!cid){
+        const created=await api<ConversationSummary>('/conversations',{method:'POST',body:JSON.stringify({id:newId.current})});
+        cid=created.id;setConversation(cid);
+      }
+      if(!retry.current || retry.current.content!==question || retry.current.conversation!==cid)
+        retry.current={id:crypto.randomUUID(),content:question,conversation:cid};
+      const data=await api<ConversationDetail>(`/conversations/${cid}/messages`,{method:'POST',body:JSON.stringify({message:question,client_request_id:retry.current.id})});
+      loadVersion.current++;hydrate(data);retry.current=null;setDraft('');
+      try{sessionStorage.removeItem(draftKey);}catch{/* Optional browser storage. */}
+      if(!conversationId)navigate('/conversations/'+cid,{replace:true});
+      conversationChanged();
+    } catch (e) { setError(errorText(e)); setDraft(question); }
     finally { setPending(false); setPendingQuestion(''); lock.current = false; inputRef.current?.focus(); }
   }
 
@@ -133,54 +184,80 @@ function Chat() {
       const result = await api<{ ticket_reference: string }>(`/conversations/${conversation}/escalate`, {
         method: 'POST', body: JSON.stringify({ message_id: target.messageId, confirmed: true }),
       });
-      setMessages(current => current.map((message, index) => index === target.index ? { ...message, ticket: result.ticket_reference, outcome: 'escalated', offer: null } : message));
+      setTicketReference(result.ticket_reference);
+      const data=await api<ConversationDetail>(`/conversations/${conversation}`);hydrate(data);conversationChanged();
       setConfirmationTarget(null);
     } catch (e) { setError(errorText(e)); }
     finally { setEscalating(false); lock.current = false; }
   }
 
+  async function resolveChat() {
+    if(!conversation || lock.current)return;
+    lock.current=true;setEscalating(true);setError('');
+    try{
+      const tickets=await api<Ticket[]>('/staff/tickets?status=open');
+      const ticket=tickets.find(t=>t.conversation_id===conversation);
+      if(!ticket)throw new Error('No open ticket was found. Refresh the conversation.');
+      await api(`/staff/tickets/${ticket.id}`,{method:'PATCH',body:JSON.stringify({status:'resolved'})});
+      hydrate(await api<ConversationDetail>(`/conversations/${conversation}`));conversationChanged();
+    }catch(e){setError(errorText(e));}finally{lock.current=false;setEscalating(false);}
+  }
+  async function changeState(action:'accept'|'reopen') {
+    if(!conversation || lock.current)return;
+    lock.current=true;setEscalating(true);setError('');
+    try{const data=await api<ConversationDetail>(`/conversations/${conversation}/${action}`,{method:'POST'});hydrate(data);conversationChanged();}
+    catch(e){setError(errorText(e));}finally{lock.current=false;setEscalating(false);}
+  }
+  const disabled=loading || loadFailed || pending || escalating || state==='resolved' || (staffMode && state!=='staff_active');
   const last = messages[messages.length - 1];
-  const showingConversation = messages.length > 0 || pending;
+  const showingConversation = messages.length > 0 || pending || !!conversationId;
   function ticketActions(target: ConfirmationTarget, decline: () => void) {
     return <div className="ticket-actions" role="group" aria-label="Support ticket confirmation">
-      <Button variant="default" disabled={pending || escalating} onClick={() => void raiseTicket(target)}>{escalating ? <Spinner /> : <Plus size={19} />}Yes, raise a ticket</Button>
-      <Button variant="outline" disabled={pending || escalating} onClick={decline}>No thanks</Button>
+      <Button variant="default" disabled={disabled} onClick={() => void raiseTicket(target)}>{escalating ? <Spinner /> : <Plus size={19} />}Yes, raise a ticket</Button>
+      <Button variant="outline" disabled={disabled} onClick={decline}>No thanks</Button>
     </div>;
   }
 
   return <div className={`chat-page ${showingConversation ? 'has-messages' : ''}`}>
+    {staffMode && <Button asChild variant="link"><NavLink to="/staff">Back to staff queue</NavLink></Button>}
+    <div className="conversation-status" role="status"><span>{stateLabels[state]}</span>{ticketReference && <strong>{ticketReference}</strong>}
+      {staffMode && (state==='waiting_for_staff' || state==='staff_active') && <Button variant="outline" disabled={escalating} onClick={()=>void resolveChat()}>Mark resolved</Button>}
+      {staffMode && state==='waiting_for_staff' && <Button disabled={escalating} onClick={()=>void changeState('accept')}>Start chat</Button>}
+      {!staffMode && state==='resolved' && <Button disabled={escalating} onClick={()=>void changeState('reopen')}>Reopen conversation</Button>}
+    </div>
+    {loading && <p role="status">Loading conversation…</p>}
     {!showingConversation ? <section className="welcome" aria-labelledby="welcome-title">
       <span className="welcome-context">VIT · Student helpdesk</span>
       <h1 id="welcome-title">A question about campus?</h1>
       <p className="welcome-description">Ask about academics, hostels, library services, or student support at VIT Vellore.</p>
     </section> : <section className="conversation" aria-label="Conversation">
       <div className="conversation-start"><strong>Your conversation</strong><span>Campus Helpdesk</span></div>
-      {messages.map((m, i) => <article key={i} className={`message ${m.role}`}>
+      {messages.map((m, i) => <article key={m.id} className={`message ${m.role}`}>
         <div className="message-avatar" aria-hidden="true">{m.role === 'assistant' ? <GraduationCap size={22} /> : <UserRound size={21} />}</div>
         <div className="message-body">
-          <div className="message-name">{m.role === 'assistant' ? 'Campus Helpdesk' : 'You'}</div>
+          <div className="message-name">{m.role === 'assistant' ? 'Campus Helpdesk · AI' : m.role === 'staff' ? 'Student support · Staff' : staffMode ? 'Student' : 'You'}{m.createdAt && <time dateTime={m.createdAt}>{new Date(m.createdAt).toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'})}</time>}</div>
           <p>{m.text}</p>
           {!!m.sources?.length && <div className="answer-sources"><span className="source-label">Sources</span>{m.sources.filter((s,index,all)=>all.findIndex(item=>item.document_id===s.document_id)===index).map(s => <Button key={s.id} variant="outline" className="source-link" onClick={() => setSource({...s,content:m.sources!.filter(item=>item.document_id===s.document_id).map(item=>`${item.heading}\n${item.content}`).join('\n\n')})}><FileText size={18} /><span>{s.title}</span><SquareArrowOutUpRight size={16} /></Button>)}</div>}
           {m.ticket && <div className="ticket-confirmation" role="status"><CheckCircle2 size={21} /><span>Ticket raised · <strong>{m.ticket}</strong></span></div>}
-          {m.offer && i === messages.length - 1 && !m.ticket && ticketActions({ messageId: m.offer.message_id, question: m.offer.query, index: i }, () => void send('No thanks'))}
+          {!staffMode && state==='ai' && m.offer && i === messages.length - 1 && !m.ticket && ticketActions({ messageId: m.offer.message_id, question: m.offer.query, index: i }, () => void send('No thanks'))}
         </div>
       </article>)}
-      {pending && <><article className="message user"><div className="message-avatar" aria-hidden="true"><UserRound size={21} /></div><div className="message-body"><div className="message-name">You</div><p>{pendingQuestion}</p></div></article><div className="working" role="status"><Spinner /><span>Searching campus sources…</span></div></>}
-      {!pending && last?.outcome === 'answered' && last.messageId && !last.ticket && !confirmationTarget && <Button ref={staffAction} variant="ghost" className="staff-handoff" onClick={() => setConfirmationTarget({ messageId: last.messageId!, question: messages[messages.length - 2].text, index: messages.length - 1 })}><Headphones size={19} />Ask staff about this answer<ArrowRight size={18} /></Button>}
+      {pending && <><article className="message user"><div className="message-avatar" aria-hidden="true"><UserRound size={21} /></div><div className="message-body"><div className="message-name">You</div><p>{pendingQuestion}</p></div></article><div className="working" role="status"><Spinner /><span>{state==='ai' ? 'Searching campus sources…' : 'Saving your message…'}</span></div></>}
+      {!staffMode && state==='ai' && !pending && last?.outcome === 'answered' && last.messageId && !last.ticket && !confirmationTarget && <Button ref={staffAction} variant="ghost" className="staff-handoff" onClick={() => setConfirmationTarget({ messageId: last.messageId!, question: messages[messages.length - 2].text, index: messages.length - 1 })}><Headphones size={19} />Ask staff about this answer<ArrowRight size={18} /></Button>}
       {confirmationTarget && <section className="manual-ticket-prompt" aria-label="Confirm support ticket"><h2 ref={confirmationHeading} tabIndex={-1}>Raise a ticket for this question?</h2><p>{confirmationTarget.question}</p>{ticketActions(confirmationTarget, () => setConfirmationTarget(null))}</section>}
       <div ref={endRef} />
     </section>}
 
     <div className="composer-area">
-      {error && <Alert variant="destructive" className="error-banner"><HelpCircle size={21} /><AlertDescription>{error}</AlertDescription><Button variant="ghost" size="icon" aria-label="Dismiss error" onClick={() => setError('')}><X size={19} /></Button></Alert>}
+      {error && <Alert variant="destructive" className="error-banner"><HelpCircle size={21} /><AlertDescription>{error}</AlertDescription>{conversationId && <Button variant="outline" onClick={conversationChanged}>Retry</Button>}<Button variant="ghost" size="icon" aria-label="Dismiss error" onClick={() => setError('')}><X size={19} /></Button></Alert>}
       <form className="composer" onSubmit={e => { e.preventDefault(); void send(draft); }}>
-        <Label htmlFor="question" className={showingConversation ? "sr-only" : "composer-label"}>Ask a campus question</Label>
-        <Textarea id="question" ref={inputRef} rows={2} maxLength={2000} placeholder={showingConversation ? 'Ask a follow-up…' : 'What would you like to know about VIT Vellore?'} value={draft} disabled={pending || escalating} onChange={e => setDraft(e.target.value)} onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey && !e.nativeEvent.isComposing) { e.preventDefault(); void send(draft); } }} />
-        <div className="composer-bottom"><span><BookOpen size={18} aria-hidden="true"/>Answers include sources</span><Button className="send-button" type="submit" disabled={pending || escalating || !draft.trim()} aria-label="Send question">{pending ? <Spinner /> : <><span>Send question</span><ArrowUp size={19} aria-hidden="true"/></>}</Button></div>
+        <Label htmlFor="question" className={showingConversation ? "sr-only" : "composer-label"}>{staffMode ? 'Message student' : state==='ai' ? 'Ask a campus question' : 'Message student support'}</Label>
+        <Textarea id="question" ref={inputRef} rows={2} maxLength={2000} placeholder={staffMode ? 'Message student…' : state!=='ai' ? 'Message student support…' : showingConversation ? 'Ask a follow-up…' : 'What would you like to know about VIT Vellore?'} value={draft} disabled={disabled} onChange={e => setDraft(e.target.value)} onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey && !e.nativeEvent.isComposing) { e.preventDefault(); void send(draft); } }} />
+        <div className="composer-bottom"><span><BookOpen size={18} aria-hidden="true"/>{state==='ai' ? 'Answers include sources' : 'Messages saved to this conversation'}</span><Button className="send-button" type="submit" disabled={disabled || !draft.trim()} aria-label={state==='ai' ? 'Send question' : 'Send message'}>{pending ? <Spinner /> : <><span>{state==='ai' ? 'Send question' : 'Send message'}</span><ArrowUp size={19} aria-hidden="true"/></>}</Button></div>
       </form>
-      <div className="composer-caption"><span>Public sources · Check dates for policies</span><span className="enter-hint">Enter to send · Shift+Enter for a new line</span></div>
+      <div className="composer-caption"><span>{state==='ai' ? 'Public sources · Check dates for policies' : 'Staff replies are labelled separately from AI answers'}</span><span className="enter-hint">Enter to send · Shift+Enter for a new line</span></div>
     </div>
-    {!showingConversation && <section className="quick-start" aria-labelledby="topics-heading"><div className="quick-start-heading"><span id="topics-heading">Try a question</span><Button asChild variant="link"><NavLink to="/knowledge">Browse sources<ArrowRight size={17}/></NavLink></Button></div>
+    {!staffMode && !showingConversation && <section className="quick-start" aria-labelledby="topics-heading"><div className="quick-start-heading"><span id="topics-heading">Try a question</span><Button asChild variant="link"><NavLink to="/knowledge">Browse sources<ArrowRight size={17}/></NavLink></Button></div>
       <div className="suggestions">{suggestions.map(({icon:Icon,label,question,hint})=><Card key={label} className="topic-card"><Button variant="ghost" className="suggestion" onClick={()=>{setDraft(question);inputRef.current?.focus();}}><Icon size={21}/><span className="suggestion-copy"><strong>{label}</strong><span>{hint}</span></span><ChevronRight size={18}/></Button></Card>)}</div>
     </section>}
     {source && <SourceDialog provenance={source} title={source.title} onClose={() => setSource(null)}><Badge variant="secondary" className="source-badge">Supporting passage</Badge>{source.heading !== source.title && <h3>{source.heading}</h3>}<p className="source-text">{source.content}</p></SourceDialog>}
@@ -218,8 +295,6 @@ function StaffQueue() {
   const [status, setStatus] = useState('open');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const [selected, setSelected] = useState<Ticket | null>(null);
-  const [updating, setUpdating] = useState(false);
   const requestNumber = useRef(0);
   async function load(filter: string) {
     const request = ++requestNumber.current;
@@ -228,15 +303,9 @@ function StaffQueue() {
     catch (e) { if (request === requestNumber.current) setError(errorText(e)); }
     finally { if (request === requestNumber.current) setLoading(false); }
   }
-  useEffect(() => { void load(status); }, [status]);
-  async function resolve(ticket: Ticket) {
-    setUpdating(true); setError('');
-    try { await api(`/staff/tickets/${ticket.id}`, { method: 'PATCH', body: JSON.stringify({ status: ticket.status === 'open' ? 'resolved' : 'open' }) }); setSelected(null); await load(status); }
-    catch (e) { setError(errorText(e)); }
-    finally { setUpdating(false); }
-  }
-  return <div className="page"><div className="staff-title"><div className="page-heading"><span className="eyebrow">STUDENT SUPPORT</span><h1>Staff queue</h1><p>Review questions sent to student support and track their resolution.</p></div></div><div className="queue-toolbar"><Tabs value={status} onValueChange={value=>{setStatus(value);void load(value);}}><TabsList aria-label="Ticket status">{['open','resolved','all'].map(value=><TabsTrigger key={value} value={value}>{value==='open'?'Unresolved':value==='resolved'?'Resolved':'All questions'}</TabsTrigger>)}</TabsList></Tabs><Button variant="outline" disabled={loading} onClick={() => void load(status)}>Refresh{loading && <Spinner />}</Button></div>{error && <p className="error-banner" role="alert">{error}</p>}
-    {loading ? <div className="empty-state"><Spinner /><p>Loading staff queue…</p></div> : tickets.length ? <div className="ticket-list">{tickets.map(t => <Button variant="ghost" className="ticket-row" key={t.id} onClick={() => setSelected(t)}><span className="document-icon"><MessageSquare size={23} /></span><div><span className="document-meta">{t.reference}<span>·</span>{new Date(t.created_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })}</span><strong>{t.query}</strong><span className="document-excerpt">{t.reason}</span></div><Badge variant="outline" className={`status-pill ${t.status}`}>{t.status === 'open' ? 'Unresolved' : 'Resolved'}</Badge><ChevronRight size={21} /></Button>)}</div> : <div className="empty-state queue-empty"><CheckCircle2 size={38} strokeWidth={1.4} /><h2>{status === 'open' ? 'No unresolved tickets.' : 'No tickets found.'}</h2><p>{status === 'open' ? 'Questions sent to student support will appear here.' : 'Try another filter to view more questions.'}</p></div>}
-    {selected && <SourceDialog title={selected.reference} onClose={() => { if (!updating) setSelected(null); }}><Badge variant="outline" className={`status-pill ${selected.status}`}>{selected.status === 'open' ? 'Unresolved' : 'Resolved'}</Badge><h3>{selected.query}</h3><div className="ticket-context">{selected.messages.map((m, i) => <div key={i}><strong>{m.role === 'user' ? 'Student' : 'Helpdesk'}</strong><p>{m.content}</p></div>)}</div>{error && <p role="alert" className="form-error">{error}</p>}<Button variant="default" disabled={updating} onClick={() => void resolve(selected)}>{updating ? <Spinner /> : <Check size={19} />}{selected.status === 'open' ? 'Mark resolved' : 'Reopen question'}</Button></SourceDialog>}
+  useEffect(() => { let active=true;const refresh=()=>{if(active)void load(status);};refresh();window.addEventListener('campus-conversation-updated',refresh);return()=>{active=false;requestNumber.current++;window.removeEventListener('campus-conversation-updated',refresh);}; }, [status]);
+  return <div className="page"><div className="staff-title"><div className="page-heading"><span className="eyebrow">STUDENT SUPPORT</span><h1>Staff queue</h1><p>Review questions sent to student support and track their resolution.</p></div></div><div className="queue-toolbar"><Tabs value={status} onValueChange={setStatus}><TabsList aria-label="Ticket status">{['open','resolved','all'].map(value=><TabsTrigger key={value} value={value}>{value==='open'?'Unresolved':value==='resolved'?'Resolved':'All questions'}</TabsTrigger>)}</TabsList></Tabs><Button variant="outline" disabled={loading} onClick={() => void load(status)}>Refresh{loading && <Spinner />}</Button></div>{error && <p className="error-banner" role="alert">{error}</p>}
+    {loading ? <div className="empty-state"><Spinner /><p>Loading staff queue…</p></div> : tickets.length ? <div className="ticket-list">{tickets.map(t => <Button variant="ghost" className="ticket-row" key={t.id} asChild><NavLink to={'/staff/'+t.conversation_id}><span className="document-icon"><MessageSquare size={23} /></span><div><span className="document-meta">{t.reference}<span>·</span>{new Date(t.created_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })}</span><strong>{t.query}</strong><span className="document-excerpt">{t.reason}</span></div><Badge variant="outline" className={`status-pill ${t.status}`}>{t.status === 'open' ? 'Unresolved' : 'Resolved'}</Badge><ChevronRight size={21} /></NavLink></Button>)}</div> : <div className="empty-state queue-empty"><CheckCircle2 size={38} strokeWidth={1.4} /><h2>{status === 'open' ? 'No unresolved tickets.' : 'No tickets found.'}</h2><p>{status === 'open' ? 'Questions sent to student support will appear here.' : 'Try another filter to view more questions.'}</p></div>}
+
   </div>;
 }

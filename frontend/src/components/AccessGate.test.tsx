@@ -7,7 +7,7 @@ beforeEach(()=>{sessionStorage.clear();vi.stubGlobal('fetch',request);request.mo
 afterEach(()=>{cleanup();request.mockReset();vi.unstubAllGlobals();});
 function show(){render(<AccessGate><p>Protected chat</p></AccessGate>);}
 it('checks the server session before displaying the shared account form',async()=>{
- show();expect(await screen.findByLabelText('Username')).toBeVisible();expect(screen.getByLabelText('Password')).toHaveAttribute('type','password');expect(screen.queryByText('Protected chat')).not.toBeInTheDocument();
+ show();expect(await screen.findByLabelText('Username')).toBeVisible();expect(screen.queryByRole('alert')).not.toBeInTheDocument();expect(screen.getByLabelText('Password')).toHaveAttribute('type','password');expect(screen.queryByText('Protected chat')).not.toBeInTheDocument();
 });
 it('keeps incorrect login errors beside the form',async()=>{
  show();const user=userEvent.setup();await user.type(await screen.findByLabelText('Username'),'student');await user.type(screen.getByLabelText('Password'),'wrong');

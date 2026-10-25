@@ -104,8 +104,8 @@ def test_failed_commit_does_not_confirm_handoff(client,database,monkeypatch):
         assert not db.scalars(select(Ticket)).all()
 
 def test_staff_auth_and_invalid_updates(client):
-    assert client.get('/api/staff/tickets').status_code==401
-    assert client.get('/api/staff/tickets',auth=('wrong','wrong')).status_code==401
+    assert client.get('/api/staff/tickets').status_code==403
+    assert client.get('/api/staff/tickets',auth=('wrong','wrong')).status_code==403
     assert client.get('/api/staff/tickets',headers=AUTH).status_code==200
     assert client.patch('/api/staff/tickets/missing',headers=AUTH,json={'status':'invalid'}).status_code==422
     assert client.patch('/api/staff/tickets/missing',headers=AUTH,json={'status':'resolved'}).status_code==404
@@ -113,7 +113,7 @@ def test_staff_auth_and_invalid_updates(client):
 def test_unconfigured_staff_has_no_default_access(client,monkeypatch):
     # Environment credentials are only used by provisioning, never as an auth fallback.
     monkeypatch.setattr(settings(),'staff_password','')
-    assert client.get('/api/staff/tickets',auth=('test-staff','test-password')).status_code==401
+    assert client.get('/api/staff/tickets',auth=('test-staff','test-password')).status_code==403
 
 def test_search_and_unapproved_documents(client,database):
     assert len(client.get('/api/knowledge').json())==29
