@@ -1,6 +1,6 @@
 # Vercel frontend, Render backend, Neon database
 
-The checked-in frontend proxy targets `https://campus-helpdesk-ye2a.onrender.com`.
+The checked-in frontend proxy targets `https://campus-helpdesk-1-0oa0.onrender.com`.
 The frontend is `https://campus-helpdesk-rho.vercel.app`. These are deployment
 configuration values, not proof the latest commit is running on either host.
 
@@ -79,7 +79,7 @@ confirmed handoff. Resolving/reopening updates ticket and conversation together.
 
 ## Real-time connections
 
-Set `VITE_WS_URL=wss://campus-helpdesk-ye2a.onrender.com/api/events` on Vercel
+Set `VITE_WS_URL=wss://campus-helpdesk-1-0oa0.onrender.com/api/events` on Vercel
 (or use the matching built-in default). For a different backend, change both
 this public URL and the HTTP rewrite. Locally the default is
 `ws://<frontend-host>:8000/api/events`. No secret belongs in this URL.

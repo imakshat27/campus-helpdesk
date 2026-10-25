@@ -6,7 +6,7 @@
   "rewrites": [
     {
       "source": "/api/:path*",
-      "destination": "https://campus-helpdesk-ye2a.onrender.com/api/:path*"
+      "destination": "https://campus-helpdesk-1-0oa0.onrender.com/api/:path*"
     },
     {
       "source": "/((?!assets/).*)",

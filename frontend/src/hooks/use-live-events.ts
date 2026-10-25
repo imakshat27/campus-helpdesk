@@ -14,7 +14,7 @@ export function useLiveEvents(enabled=true) {
     let watchdog:ReturnType<typeof setTimeout> | undefined;
     const wsUrl=import.meta.env.VITE_WS_URL || (import.meta.env.DEV
       ? `ws://${window.location.hostname}:8000/api/events`
-      : 'wss://campus-helpdesk-ye2a.onrender.com/api/events');
+      : 'wss://campus-helpdesk-1-0oa0.onrender.com/api/events');
     function retry(){
       if(stopped)return;
       setStatus('Live updates disconnected · Reconnecting…');
