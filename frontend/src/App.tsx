@@ -8,6 +8,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Skeleton } from '@/components/ui/skeleton';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Dialog as UiDialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogClose, DialogFooter } from '@/components/ui/dialog';
 import { SidebarProvider, Sidebar, SidebarHeader, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupLabel, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarInset, SidebarTrigger, useSidebar } from '@/components/ui/sidebar';
@@ -27,6 +28,14 @@ const suggestions = [
 ];
 const categoryIcons: Record<string, typeof MapPin> = { classrooms: MapPin, labs: Wrench, events: TicketIcon, procedures: FileText, library: LibraryBig, it: Wifi };
 function errorText(e: unknown) { return e instanceof Error ? e.message : 'Something went wrong. Please try again.'; }
+function RowSkeletons({ count = 5, label }: { count?: number; label: string }) {
+  return <div className="skeleton-list" role="status" aria-busy="true"><span className="sr-only">{label}</span>{Array.from({length:count},(_,i)=><div className="skeleton-row" aria-hidden="true" key={i}><Skeleton className="skeleton-icon"/><div className="skeleton-copy"><Skeleton className="skeleton-line short"/><Skeleton className="skeleton-line"/><Skeleton className="skeleton-line medium"/></div></div>)}</div>;
+}
+function ConversationSkeleton() {
+  return <div className="conversation conversation-skeleton" role="status" aria-busy="true"><span className="sr-only">Loading conversation…</span><div aria-hidden="true"><div className="skeleton-user"><Skeleton className="skeleton-bubble"/></div><div className="skeleton-assistant"><Skeleton className="skeleton-avatar"/><div className="skeleton-copy"><Skeleton className="skeleton-line short"/><Skeleton className="skeleton-line"/><Skeleton className="skeleton-line"/><Skeleton className="skeleton-line medium"/></div></div><div className="skeleton-user"><Skeleton className="skeleton-bubble narrow"/></div><div className="skeleton-assistant"><Skeleton className="skeleton-avatar"/><div className="skeleton-copy"><Skeleton className="skeleton-line short"/><Skeleton className="skeleton-line"/><Skeleton className="skeleton-line medium"/></div></div></div></div>;
+}
+// Survives the remount when a first message moves the chat from / to /conversations/:id.
+const refocusInput: { current: string | null } = { current: null };
 function Spinner() { return <LoaderCircle size={20} className="spinner" aria-hidden="true" />; }
 
 function SourceDialog({ title, children, onClose, provenance }: { title: string; children: ReactNode; onClose: () => void; provenance?: { source_url?: string | null; campus?: string | null; retrieved_at?: string | null } }) {
@@ -49,18 +58,18 @@ function CampusSidebar({ onNew }: { onNew: () => void }) {
   return <Sidebar className="campus-sidebar" role="navigation" aria-label="Main navigation">
     <SidebarHeader className="campus-sidebar-header">
       <Button className="sidebar-close md:hidden" variant="ghost" size="icon" aria-label="Close navigation" onClick={closeMenu}><X /></Button>
-      <NavLink to={account?.role==='staff'?'/staff':'/'} className="brand" onClick={closeMenu}><span>Campus Helpdesk<span className="brand-sub">VIT Vellore</span></span></NavLink>
+      <NavLink to={account?.role==='staff'?'/staff':'/'} className="brand" onClick={closeMenu}><span className="brand-mark" aria-hidden="true">CH</span><span>Campus Helpdesk<span className="brand-sub">VIT Vellore</span></span></NavLink>
       {account?.role !== 'staff' && <Button asChild variant="secondary" className="new-chat"><NavLink to="/" onClick={() => { onNew(); closeMenu(); }}><Plus size={20} />New conversation</NavLink></Button>}
     </SidebarHeader>
     <SidebarContent><SidebarGroup><SidebarMenu className="campus-nav">
       {links.map(({to,label,icon:Icon}) => <SidebarMenuItem key={to}><SidebarMenuButton asChild isActive={to==='/' ? location.pathname==='/' : location.pathname.startsWith(to)}><NavLink to={to} onClick={closeMenu}><Icon size={21}/><span>{label}</span></NavLink></SidebarMenuButton></SidebarMenuItem>)}
     </SidebarMenu></SidebarGroup>{account?.role !== 'staff' && <ConversationHistory/>}</SidebarContent>
-    <SidebarFooter className="campus-sidebar-footer"><div className="campus-identity"><strong>{account?.username}</strong><span>{account?.role==='staff'?'Staff account':'Student account'}</span></div></SidebarFooter>
+    <SidebarFooter className="campus-sidebar-footer"><span className="avatar" aria-hidden="true">{(account?.username||'?').slice(0,1).toUpperCase()}</span><div className="campus-identity"><strong>{account?.username}</strong><span>{account?.role==='staff'?'Staff account':'Student account'}</span></div></SidebarFooter>
   </Sidebar>;
 }
 
 function ConversationHistory() {
-  const [rows,setRows]=useState<ConversationSummary[]>([]);
+  const [rows,setRows]=useState<ConversationSummary[]|null>(null);
   const [error,setError]=useState('');
   const {setOpenMobile}=useSidebar();
   useEffect(()=>{
@@ -71,6 +80,7 @@ function ConversationHistory() {
   },[]);
   return <SidebarGroup><SidebarGroupLabel>Conversations</SidebarGroupLabel>
     {error ? <p className="history-error" role="status">{error}<Button variant="link" onClick={conversationChanged}>Retry</Button></p> :
+    !rows ? <div className="history-skeleton" role="status" aria-busy="true"><span className="sr-only">Loading conversations…</span>{[0,1,2].map(i=><Skeleton key={i} className="skeleton-history" aria-hidden="true"/>)}</div> :
     <SidebarMenu className="chat-history">{rows.map(row=><SidebarMenuItem key={row.id}><SidebarMenuButton asChild><NavLink to={'/conversations/'+row.id} onClick={()=>setOpenMobile(false)}><MessageSquare size={18}/><span>{row.title}</span></NavLink></SidebarMenuButton></SidebarMenuItem>)}</SidebarMenu>}
   </SidebarGroup>;
 }
@@ -131,16 +141,27 @@ function Chat({staffMode=false}:{staffMode?:boolean}) {
   const nearBottom = useRef(true);
   const previousMessage = useRef<string | undefined>(undefined);
   const [unseenMessages,setUnseenMessages] = useState(false);
-  function scrollToLatest() {
+  function updateFades() {
     const transcript=transcriptRef.current;
-    if(transcript)transcript.scrollTop=transcript.scrollHeight;
-    nearBottom.current=true;setUnseenMessages(false);
+    if(!transcript)return;
+    transcript.dataset.fadeTop=String(transcript.scrollTop>4);
+    transcript.dataset.fadeBottom=String(transcript.scrollHeight-transcript.clientHeight-transcript.scrollTop>4);
+  }
+  function scrollToLatest(smooth=false) {
+    const transcript=transcriptRef.current;
+    if(transcript){
+      const reduced=window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+      if(smooth && !reduced)transcript.scrollTo({top:transcript.scrollHeight,behavior:'smooth'});
+      else transcript.scrollTop=transcript.scrollHeight;
+    }
+    nearBottom.current=true;setUnseenMessages(false);updateFades();
   }
   function trackScroll() {
     const transcript=transcriptRef.current;
     if(!transcript)return;
     nearBottom.current=transcript.scrollHeight-transcript.clientHeight-transcript.scrollTop<64;
     if(nearBottom.current)setUnseenMessages(false);
+    updateFades();
   }
   const lock = useRef(false);
   useEffect(()=>{
@@ -196,12 +217,14 @@ function Chat({staffMode=false}:{staffMode?:boolean}) {
     lock.current = true;
     nearBottom.current=true;setUnseenMessages(false);
     setPending(true); setPendingQuestion(question); setError(''); setDraft(''); setConfirmationTarget(null);
+    let sentTo: string | null = conversation;
     try {
       let cid=conversation;
       if(!cid){
         const created=await api<ConversationSummary>('/conversations',{method:'POST',body:JSON.stringify({id:newId.current})});
         cid=created.id;setConversation(cid);
       }
+      sentTo=cid;
       if(!retry.current || retry.current.content!==question || retry.current.conversation!==cid)
         retry.current={id:crypto.randomUUID(),content:question,conversation:cid};
       const data=await api<ConversationDetail>(`/conversations/${cid}/messages`,{method:'POST',body:JSON.stringify({message:question,client_request_id:retry.current.id})});
@@ -210,7 +233,7 @@ function Chat({staffMode=false}:{staffMode?:boolean}) {
       if(!conversationId)navigate('/conversations/'+cid,{replace:true});
       conversationChanged();
     } catch (e) { setError(errorText(e)); setDraft(question); }
-    finally { setPending(false); setPendingQuestion(''); lock.current = false; inputRef.current?.focus({preventScroll:true}); }
+    finally { setPending(false); setPendingQuestion(''); lock.current = false; refocusInput.current = sentTo; }
   }
 
   async function raiseTicket(target: ConfirmationTarget) {
@@ -246,6 +269,8 @@ function Chat({staffMode=false}:{staffMode?:boolean}) {
   }
   const disabled=loading || loadFailed || pending || escalating || state==='resolved' || (staffMode && state!=='staff_active');
   const last = messages[messages.length - 1];
+  // The textarea is disabled while sending, so focus can only return once it is enabled again.
+  useEffect(()=>{ const input=inputRef.current; if(refocusInput.current && refocusInput.current===conversationId && !disabled && input){ input.focus({preventScroll:true}); if(document.activeElement===input)refocusInput.current=null; } });
   const showingConversation = messages.length > 0 || pending || !!conversationId;
   function ticketActions(target: ConfirmationTarget, decline: () => void) {
     return <div className="ticket-actions" role="group" aria-label="Support ticket confirmation">
@@ -261,13 +286,14 @@ function Chat({staffMode=false}:{staffMode?:boolean}) {
       {staffMode && state==='waiting_for_staff' && <Button disabled={escalating} onClick={()=>void changeState('accept')}>Start chat</Button>}
       {!staffMode && state==='resolved' && <Button disabled={escalating} onClick={()=>void changeState('reopen')}>Reopen conversation</Button>}
     </div>}
-    {loading && <p role="status">Loading conversation…</p>}
     {!showingConversation ? <section className="welcome" aria-labelledby="welcome-title">
+      <p className="welcome-eyebrow">VIT Vellore</p>
       <h1 id="welcome-title">Ask the helpdesk</h1>
       <p className="welcome-description">Questions about academics, campus services or student support.</p>
-    </section> : <section ref={transcriptRef} onScroll={trackScroll} className="conversation" aria-label="Conversation">
+    </section> : loading && !messages.length ? <ConversationSkeleton/> : <section ref={transcriptRef} onScroll={trackScroll} className="conversation" aria-label="Conversation">
 
       {messages.map((m, i) => <article key={m.id} className={`message ${m.role}`}>
+        {m.role !== 'user' && <span className="message-avatar" aria-hidden="true">{m.role === 'staff' ? 'S' : 'AI'}</span>}
         <div className="message-body">
           <div className="message-name">{m.role === 'assistant' ? 'Campus Helpdesk · AI' : m.role === 'staff' ? 'Student support · Staff' : staffMode ? 'Student' : 'You'}{m.createdAt && <time dateTime={m.createdAt}>{new Date(m.createdAt).toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'})}</time>}</div>
           <p>{m.text}</p>
@@ -276,12 +302,12 @@ function Chat({staffMode=false}:{staffMode?:boolean}) {
           {!staffMode && state==='ai' && m.offer && i === messages.length - 1 && !m.ticket && ticketActions({ messageId: m.offer.message_id, question: m.offer.query, index: i }, () => void send('No thanks'))}
         </div>
       </article>)}
-      {pending && <><article className="message user"><div className="message-body"><div className="message-name">You</div><p>{pendingQuestion}</p></div></article><div className="working" role="status"><Spinner /><span>{state==='ai' ? 'Searching campus sources…' : 'Saving your message…'}</span></div></>}
+      {pending && <><article className="message user pending-message"><div className="message-body"><div className="message-name">You</div><p>{pendingQuestion}</p></div></article><div className="working" role="status"><Spinner /><span>{state==='ai' ? 'Searching campus sources…' : 'Saving your message…'}</span></div></>}
       {!staffMode && state==='ai' && !pending && last?.outcome === 'answered' && last.messageId && !last.ticket && !confirmationTarget && <Button ref={staffAction} variant="ghost" className="staff-handoff" onClick={() => setConfirmationTarget({ messageId: last.messageId!, question: messages[messages.length - 2].text, index: messages.length - 1 })}><Headphones size={19} />Ask staff about this answer<ArrowRight size={18} /></Button>}
       {confirmationTarget && <section className="manual-ticket-prompt" aria-label="Confirm support ticket"><h2 ref={confirmationHeading} tabIndex={-1}>Raise a ticket for this question?</h2><p>{confirmationTarget.question}</p>{ticketActions(confirmationTarget, () => setConfirmationTarget(null))}</section>}
     </section>}
 
-    {unseenMessages && <Button variant="outline" className="new-messages" onClick={scrollToLatest}>New messages<ArrowDown size={17} aria-hidden="true"/></Button>}
+    {unseenMessages && <Button variant="outline" className="new-messages" onClick={()=>scrollToLatest(true)}>New messages<ArrowDown size={17} aria-hidden="true"/></Button>}
     <div className="composer-area">
       {error && <Alert variant="destructive" className="error-banner"><HelpCircle size={21} /><AlertDescription>{error}</AlertDescription>{conversationId && <Button variant="outline" onClick={conversationChanged}>Retry</Button>}<Button variant="ghost" size="icon" aria-label="Dismiss error" onClick={() => setError('')}><X size={19} /></Button></Alert>}
       <form className="composer" onSubmit={e => { e.preventDefault(); void send(draft); }}>
@@ -292,7 +318,7 @@ function Chat({staffMode=false}:{staffMode?:boolean}) {
       <div className="composer-caption"><span className="enter-hint">Enter to send · Shift+Enter for a new line</span></div>
     </div>
     {!staffMode && !showingConversation && <section className="quick-start" aria-labelledby="topics-heading"><div className="quick-start-heading"><h2 id="topics-heading">Suggested questions</h2><NavLink to="/knowledge">Browse sources</NavLink></div>
-      <div className="suggestions">{suggestions.map(({label,question})=><Button key={label} variant="ghost" className="suggestion" onClick={()=>{setDraft(question);inputRef.current?.focus({preventScroll:true});}}><span className="suggestion-copy"><strong>{label}</strong><span>{question}</span></span></Button>)}</div>
+      <div className="suggestions">{suggestions.map(({label,question})=><Button key={label} variant="ghost" className="suggestion" onClick={()=>{setDraft(question);inputRef.current?.focus({preventScroll:true});}}><span className="suggestion-copy"><strong>{label}</strong><span>{question}</span></span><ArrowRight size={18} className="suggestion-arrow" aria-hidden="true"/></Button>)}</div>
     </section>}
     {source && <SourceDialog provenance={source} title={source.title} onClose={() => setSource(null)}><Badge variant="secondary" className="source-badge">Supporting passage</Badge>{source.heading !== source.title && <h3>{source.heading}</h3>}<p className="source-text">{source.content}</p></SourceDialog>}
   </div>;
@@ -319,8 +345,8 @@ function KnowledgeBase() {
 
 
     {error && <p className="error-banner" role="alert">{error}</p>}
-    {loading ? <div className="empty-state"><Spinner /><p>Loading campus information…</p></div> : <><div className="section-heading"><h2>{category === 'all' ? 'All campus information' : categoryLabels[category]}</h2><span>{filtered.length} {filtered.length===1?'result':'results'}</span></div><div className="knowledge-list">{filtered.slice(0,visibleCount).map(d => { const Icon = categoryIcons[d.category] || FileText; return <Button variant="ghost" className="knowledge-row" key={d.id} onClick={() => setSelected(d)}><span className="document-icon"><Icon size={23} strokeWidth={1.7} /></span><span className="document-copy"><span className="document-meta">{categoryLabels[d.category] || d.category}<span>·</span>{d.kind === 'official' ? 'VIT source' : d.kind === 'faq' ? 'FAQ' : 'Guide'}</span><strong>{d.title}</strong><span className="document-excerpt">{d.content.replace(/[#\n]/g, ' ').slice(0, 135)}</span></span><ChevronRight size={21} /></Button>; })}</div>{filtered.length>visibleCount && <Button variant="outline" className="load-sources" onClick={()=>setVisibleCount(n=>n+15)}>Show more sources ({filtered.length-visibleCount} remaining)</Button>}{!filtered.length && <div className="empty-state"><Search size={30} /><h2>No matching sources</h2><p>Try a different search or choose another topic.</p><Button variant="outline" onClick={() => { setQuery(''); setCategory('all'); }}>Clear filters</Button></div>}</>}
-    {selected && <SourceDialog provenance={selected} title={selected.title} onClose={() => setSelected(null)}><Badge variant="secondary" className="source-badge">{categoryLabels[selected.category]} · {selected.kind === 'official' ? 'VIT source' : selected.kind === 'faq' ? 'FAQ' : 'Guide'}</Badge><Suspense fallback={<p role="status">Loading source…</p>}><SourceContent content={selected.content} title={selected.title}/></Suspense></SourceDialog>}
+    {loading ? <RowSkeletons count={6} label="Loading campus information…"/> : <><div className="section-heading"><h2>{category === 'all' ? 'All campus information' : categoryLabels[category]}</h2><span>{filtered.length} {filtered.length===1?'result':'results'}</span></div><div className="knowledge-list">{filtered.slice(0,visibleCount).map(d => { const Icon = categoryIcons[d.category] || FileText; return <Button variant="ghost" className="knowledge-row" key={d.id} onClick={() => setSelected(d)}><span className="document-icon"><Icon size={23} strokeWidth={1.7} /></span><span className="document-copy"><span className="document-meta"><span className="chip">{categoryLabels[d.category] || d.category}</span>{d.kind === 'official' ? 'VIT source' : d.kind === 'faq' ? 'FAQ' : 'Guide'}</span><strong>{d.title}</strong><span className="document-excerpt">{d.content.replace(/[#\n]/g, ' ').slice(0, 135)}</span></span><ChevronRight size={21} /></Button>; })}</div>{filtered.length>visibleCount && <Button variant="outline" className="load-sources" onClick={()=>setVisibleCount(n=>n+15)}>Show more sources ({filtered.length-visibleCount} remaining)</Button>}{!filtered.length && <div className="empty-state"><Search size={30} /><h2>No matching sources</h2><p>Try a different search or choose another topic.</p><Button variant="outline" onClick={() => { setQuery(''); setCategory('all'); }}>Clear filters</Button></div>}</>}
+    {selected && <SourceDialog provenance={selected} title={selected.title} onClose={() => setSelected(null)}><Badge variant="secondary" className="source-badge">{categoryLabels[selected.category]} · {selected.kind === 'official' ? 'VIT source' : selected.kind === 'faq' ? 'FAQ' : 'Guide'}</Badge><Suspense fallback={<div role="status" aria-busy="true"><span className="sr-only">Loading source…</span><div className="skeleton-copy" aria-hidden="true"><Skeleton className="skeleton-line"/><Skeleton className="skeleton-line"/><Skeleton className="skeleton-line medium"/><Skeleton className="skeleton-line"/></div></div>}><SourceContent content={selected.content} title={selected.title}/></Suspense></SourceDialog>}
   </div>;
 }
 
@@ -339,7 +365,7 @@ function StaffQueue() {
   }
   useEffect(() => { let active=true;const refresh=()=>{if(active)void load(status);};refresh();window.addEventListener('campus-conversation-updated',refresh);return()=>{active=false;requestNumber.current++;window.removeEventListener('campus-conversation-updated',refresh);}; }, [status]);
   return <div className="page"><div className="staff-title"><div className="page-heading"><h1>Staff queue</h1><p>Review confirmed requests and reply to students.</p></div></div><div className="queue-toolbar"><Tabs value={status} onValueChange={setStatus}><TabsList variant="line" aria-label="Ticket status">{['open','resolved','all'].map(value=><TabsTrigger key={value} value={value}>{value==='open'?'Unresolved':value==='resolved'?'Resolved':'All questions'}</TabsTrigger>)}</TabsList></Tabs><Button variant="outline" disabled={loading} onClick={() => void load(status)}>Refresh{loading && <Spinner />}</Button></div>{error && <p className="error-banner" role="alert">{error}</p>}
-    {loading ? <div className="empty-state"><Spinner /><p>Loading staff queue…</p></div> : tickets.length ? <div className="ticket-list">{tickets.map(t => <Button variant="ghost" className="ticket-row" key={t.id} asChild><NavLink to={'/staff/'+t.conversation_id}><span className="document-icon"><MessageSquare size={23} /></span><div><span className="document-meta">{t.reference}<span>·</span>{new Date(t.created_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })}</span><strong>{t.query}</strong><span className="document-excerpt">{t.reason}</span></div><Badge variant="outline" className={`status-pill ${t.status}`}>{t.status === 'open' ? 'Unresolved' : 'Resolved'}</Badge><ChevronRight size={21} /></NavLink></Button>)}</div> : <div className="empty-state queue-empty"><h2>{status === 'open' ? 'No unresolved tickets.' : 'No tickets found.'}</h2><p>{status === 'open' ? 'Questions sent to student support will appear here.' : 'Try another filter to view more questions.'}</p></div>}
+    {loading ? <RowSkeletons count={4} label="Loading staff queue…"/> : tickets.length ? <div className="ticket-list">{tickets.map(t => <Button variant="ghost" className="ticket-row" key={t.id} asChild><NavLink to={'/staff/'+t.conversation_id}><span className="document-icon"><MessageSquare size={23} /></span><div><span className="document-meta">{t.reference}<span>·</span>{new Date(t.created_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })}</span><strong>{t.query}</strong><span className="document-excerpt">{t.reason}</span></div><Badge variant="outline" className={`status-pill ${t.status}`}>{t.status === 'open' ? 'Unresolved' : 'Resolved'}</Badge><ChevronRight size={21} /></NavLink></Button>)}</div> : <div className="empty-state queue-empty"><h2>{status === 'open' ? 'No unresolved tickets.' : 'No tickets found.'}</h2><p>{status === 'open' ? 'Questions sent to student support will appear here.' : 'Try another filter to view more questions.'}</p></div>}
 
   </div>;
 }

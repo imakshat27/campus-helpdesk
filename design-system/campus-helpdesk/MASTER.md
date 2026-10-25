@@ -2,7 +2,7 @@
 
 ## Direction: a quiet support workspace
 
-Use a minimal application layout with a white work surface, a neutral navigation rail, dark readable type, thin separators, and restrained evergreen actions. Keep the interface useful and direct. Avoid oversized landing-page headings, decorative icon tiles, redundant captions, card grids, gradients, glass effects, and fabricated activity or queue data.
+Use a minimal application layout with a white work surface, a neutral navigation rail, dark readable type, thin separators, and restrained evergreen actions. Keep the interface useful and direct. Avoid oversized landing-page headings, decorative icon tiles, redundant captions, gradients, glass effects, tinted accent banners, and fabricated activity or queue data. Structure comes from bordered 10–14px surfaces (suggestions, knowledge and queue rows, source chips, the composer), a monogram brand mark, and a neutral active navigation state with no accent bar. Student messages are solid evergreen bubbles, AI replies carry a round AI avatar, and staff replies a neutral bordered bubble. Evergreen is reserved for actions, the student bubble and focus.
 
 ## Foundation
 
