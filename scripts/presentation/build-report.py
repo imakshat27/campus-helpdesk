@@ -8,12 +8,12 @@ from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 
 ROOT=Path(__file__).resolve().parents[2]
-OUT=ROOT/'output/pdf/campus-helpdesk-project-report-25-oct.pdf'
+OUT=ROOT/'output/pdf/campus-helpdesk-project-report-black-and-white.pdf'
 OUT.parent.mkdir(parents=True,exist_ok=True)
 FD=Path('/System/Library/Fonts/Supplemental')
 for name,file in [('Arial','Arial.ttf'),('Arial-Bold','Arial Bold.ttf')]:pdfmetrics.registerFont(TTFont(name,str(FD/file)))
 pdfmetrics.registerFontFamily('Arial',normal='Arial',bold='Arial-Bold',italic='Arial',boldItalic='Arial-Bold')
-NAVY=colors.HexColor('#142B35'); TEAL=colors.HexColor('#176B64'); MUTED=colors.HexColor('#5F6D72'); LIGHT=colors.HexColor('#CFE5DF'); LINE=colors.HexColor('#D9E1DF'); PAPER=colors.HexColor('#F6F3ED')
+NAVY=colors.black; TEAL=colors.black; MUTED=colors.HexColor('#444444'); LIGHT=colors.black; LINE=colors.HexColor('#CCCCCC'); PAPER=colors.white
 S={
  'body':ParagraphStyle('body',fontName='Arial',fontSize=10.5,leading=16,textColor=NAVY,spaceAfter=11),
  'h1':ParagraphStyle('h1',fontName='Arial-Bold',fontSize=26,leading=31,textColor=NAVY,spaceAfter=19),
@@ -21,8 +21,8 @@ S={
  'kicker':ParagraphStyle('kicker',fontName='Arial-Bold',fontSize=9,leading=14,textColor=TEAL,spaceAfter=9),
  'small':ParagraphStyle('small',fontName='Arial',fontSize=8.5,leading=12,textColor=MUTED,spaceAfter=8),
  'cell':ParagraphStyle('cell',fontName='Arial',fontSize=9.5,leading=14,textColor=NAVY),
- 'headcell':ParagraphStyle('headcell',fontName='Arial-Bold',fontSize=9.5,leading=14,textColor=colors.white),
- 'cover':ParagraphStyle('cover',fontName='Arial-Bold',fontSize=58,leading=63,textColor=colors.white,spaceAfter=22),
+ 'headcell':ParagraphStyle('headcell',fontName='Arial-Bold',fontSize=9.5,leading=14,textColor=colors.black),
+ 'cover':ParagraphStyle('cover',fontName='Arial-Bold',fontSize=58,leading=63,textColor=colors.black,spaceAfter=22),
  'coversub':ParagraphStyle('coversub',fontName='Arial',fontSize=20,leading=29,textColor=LIGHT,spaceAfter=22),
  'coverbody':ParagraphStyle('coverbody',fontName='Arial',fontSize=11,leading=18,textColor=LIGHT,spaceAfter=13),
  'coverlabel':ParagraphStyle('coverlabel',fontName='Arial-Bold',fontSize=10,leading=15,textColor=LIGHT,spaceAfter=17),
@@ -37,7 +37,7 @@ def page(n,title):
 def table(headers,rows,widths):
  data=[[p(str(x),'headcell') for x in headers]]+[[p(str(x),'cell') for x in row] for row in rows]
  t=Table(data,colWidths=widths,hAlign='LEFT',repeatRows=1)
- t.setStyle(TableStyle([('BACKGROUND',(0,0),(-1,0),TEAL),('ROWBACKGROUNDS',(0,1),(-1,-1),[colors.white,PAPER]),('LINEBELOW',(0,1),(-1,-1),.4,LINE),('VALIGN',(0,0),(-1,-1),'TOP'),('LEFTPADDING',(0,0),(-1,-1),10),('RIGHTPADDING',(0,0),(-1,-1),10),('TOPPADDING',(0,0),(-1,-1),8),('BOTTOMPADDING',(0,0),(-1,-1),8)]))
+ t.setStyle(TableStyle([('BACKGROUND',(0,0),(-1,0),colors.HexColor('#EEEEEE')),('ROWBACKGROUNDS',(0,1),(-1,-1),[colors.white,PAPER]),('LINEBELOW',(0,1),(-1,-1),.4,LINE),('VALIGN',(0,0),(-1,-1),'TOP'),('LEFTPADDING',(0,0),(-1,-1),10),('RIGHTPADDING',(0,0),(-1,-1),10),('TOPPADDING',(0,0),(-1,-1),8),('BOTTOMPADDING',(0,0),(-1,-1),8)]))
  story.append(t);story.append(Spacer(1,12))
 
 add('VIT VELLORE / INDEPENDENT ACADEMIC PROJECT','coverlabel')
@@ -114,7 +114,7 @@ h('Demo preparation')
 add('Prepare a saved conversation and use an ordinary campus question. Confirming the handoff saves or reuses a real demo ticket. Resolve it afterward. Verify visible delivery before claiming a send succeeded.')
 h('Fallback')
 add('If the service is unavailable, describe the team-verified workflow and label recorded material accurately. The earlier source-screen screenshot does not show the new account or staff-chat interface. This is a runbook, not a fresh test record.')
-add('Presentation date: 25 October 2026. Public frontend recorded in deployment notes: <link href="https://campus-helpdesk-rho.vercel.app" color="#176B64">campus-helpdesk-rho.vercel.app</link>. Use the teammate-verified build for the account/live-chat demonstration. [R3, R10]','small')
+add('Presentation date: 25 October 2026. Public frontend recorded in deployment notes: <link href="https://campus-helpdesk-rho.vercel.app" color="#000000">campus-helpdesk-rho.vercel.app</link>. Use the teammate-verified build for the account/live-chat demonstration. [R3, R10]','small')
 
 page(8,'Limitations and future scope')
 h('Current limitations')
@@ -136,7 +136,7 @@ h('Version note')
 add('Prepared and presented: 25 October 2026. This edition supersedes the earlier report dated for 26 October. The account/live-chat status uses the owner\'s latest confirmation. No credentials or complete database connection strings belong in the report.','small')
 
 def cover(c,doc):
- c.setFillColor(NAVY);c.rect(0,0,595.28,841.89,fill=1,stroke=0)
+ c.setFillColor(colors.white);c.rect(0,0,595.28,841.89,fill=1,stroke=0)
  c.setFont('Arial',8);c.setFillColor(LIGHT);c.drawString(55,29,'CAMPUS HELPDESK / 25 OCTOBER 2026');c.drawRightString(540,29,'01')
 def footer(c,doc):
  c.setFillColor(MUTED);c.setFont('Arial',8);c.drawString(55,812,'CAMPUS HELPDESK / PROJECT REPORT');c.drawRightString(540,812,'25 OCTOBER 2026')
