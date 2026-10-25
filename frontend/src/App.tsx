@@ -269,6 +269,8 @@ function Chat({staffMode=false}:{staffMode?:boolean}) {
   }
   const disabled=loading || loadFailed || pending || escalating || state==='resolved' || (staffMode && state!=='staff_active');
   const last = messages[messages.length - 1];
+  // Consecutive messages from one sender within five minutes share a single name and time header.
+  const grouped = messages.map((m,i)=>{const prev=messages[i-1];return !!prev && prev.role===m.role && !(m.createdAt && prev.createdAt && new Date(m.createdAt).getTime()-new Date(prev.createdAt).getTime()>300000);});
   // The textarea is disabled while sending, so focus can only return once it is enabled again.
   useEffect(()=>{ const input=inputRef.current; if(refocusInput.current && refocusInput.current===conversationId && !disabled && input){ input.focus({preventScroll:true}); if(document.activeElement===input)refocusInput.current=null; } });
   const showingConversation = messages.length > 0 || pending || !!conversationId;
@@ -292,7 +294,7 @@ function Chat({staffMode=false}:{staffMode?:boolean}) {
       <p className="welcome-description">Questions about academics, campus services or student support.</p>
     </section> : loading && !messages.length ? <ConversationSkeleton/> : <section ref={transcriptRef} onScroll={trackScroll} className="conversation" aria-label="Conversation">
 
-      {messages.map((m, i) => <article key={m.id} className={`message ${m.role}`}>
+      {messages.map((m, i) => <article key={m.id} className={`message ${m.role}${grouped[i] ? ' grouped' : ''}`}>
         {m.role !== 'user' && <span className="message-avatar" aria-hidden="true">{m.role === 'staff' ? 'S' : 'AI'}</span>}
         <div className="message-body">
           <div className="message-name">{m.role === 'assistant' ? 'Campus Helpdesk · AI' : m.role === 'staff' ? 'Student support · Staff' : staffMode ? 'Student' : 'You'}{m.createdAt && <time dateTime={m.createdAt}>{new Date(m.createdAt).toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'})}</time>}</div>
