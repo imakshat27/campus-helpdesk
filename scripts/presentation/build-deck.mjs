@@ -1,92 +1,93 @@
 import fs from 'node:fs/promises';
 
-// Authored against the Artifact Tool presentation API. All slide text is editable.
+// Audience-facing project story. Development verification stays in the report.
 export async function buildDeck(presentation, root) {
   presentation.slides.keep([]);
-  const C={paper:'#F8F7F4',ink:'#232B27',muted:'#606861',green:'#294F40',white:'#FFFFFF'};
-  const font='Arial';
-  presentation.theme.defaultFont=font;
+  const C={paper:'#F8F7F4',ink:'#232B27',muted:'#606861',green:'#294F40',white:'#FFFFFF',light:'#DBE6DD'};
+  presentation.theme.defaultFont='Arial';
   function text(s,value,x,y,w,h,size=28,color=C.ink,bold=false){
     const sh=s.shapes.add({geometry:'textbox',position:{left:x,top:y,width:w,height:h},fill:'none',line:{fill:'none',width:0}});
-    sh.text=value; sh.text.style={typeface:font,fontSize:size,color,bold};return sh;
+    sh.text=value;sh.text.style={typeface:'Arial',fontSize:size,color,bold};return sh;
   }
   function slide(section,title,n,dark=false){
     const s=presentation.slides.add({width:1280,height:720});s.background.fill=dark?C.green:C.paper;
-    text(s,section.toUpperCase(),72,38,1100,30,18,dark?'#DBE6DD':C.green,true);
-    text(s,title,72,100,1136,112,46,dark?C.white:C.ink,true);
-    text(s,`CAMPUS HELPDESK     /     ${String(n).padStart(2,'0')}`,72,671,1100,24,14,dark?'#DBE6DD':C.muted);
-    return s;
+    text(s,section.toUpperCase(),72,38,1100,28,18,dark?C.light:C.green,true);
+    text(s,title,72,100,1136,115,46,dark?C.white:C.ink,true);
+    text(s,`CAMPUS HELPDESK     /     ${String(n).padStart(2,'0')}`,72,674,1100,22,14,dark?C.light:C.muted);return s;
   }
-  function notes(s,body,refs){s.speakerNotes.text=body+'\n\nProject evidence: '+refs.join(', ')+'. Repository: imakshat27/campus-helpdesk. Prepared 25 October 2026 for presentation on 26 October 2026.';}
-  function row(s,num,title,body,y,w=1100){text(s,num,72,y,65,50,30,C.green,true);text(s,title,158,y,w-100,44,29,C.ink,true);text(s,body,158,y+48,w-100,78,25,C.muted);}
+  function row(s,num,title,body,y,dark=false){
+    text(s,num,72,y,65,45,28,dark?C.light:C.green,true);
+    text(s,title,158,y,1030,45,30,dark?C.white:C.ink,true);
+    text(s,body,158,y+49,1030,83,27,dark?C.light:C.muted);
+  }
+  function notes(s,body,refs=[]){s.speakerNotes.text=body+'\n\nEvidence: '+refs.join(', ')+'. Prepared 25 October 2026 for 26 October 2026. Planned work comes from the user-provided “Two-account login and persistent live chat” specification and is not implemented.';}
 
   let s=slide('Project presentation','Campus Helpdesk',1,true);
-  text(s,'Source-backed student support\nfor VIT Vellore',72,250,1050,140,48,C.white);
-  text(s,'26 October 2026',72,490,1000,40,25,'#DBE6DD');
-  text(s,'Independent academic prototype',72,548,1100,38,24,'#DBE6DD');
-  notes(s,'Opening, 20 seconds. Introduce a working web prototype that answers public campus questions with inspectable sources and asks for consent before creating a staff ticket. It is independent of VIT. Suggested total: 7 minutes, including a 2-minute live demonstration.', ['README.md']);
+  text(s,'An AI helpdesk for\ncampus questions',72,250,1136,150,55,C.white);
+  text(s,'VIT Vellore',72,465,1100,50,30,C.light);
+  text(s,'26 October 2026',72,546,1100,40,25,C.light);
+  notes(s,'15 seconds. Introduce the project as an independent academic prototype. The story is problem, idea, working implementation, demonstration, limitations and the planned next version. Suggested duration: 7 to 8 minutes including a short demo.',['README.md']);
 
-  s=slide('01  Problem and scope','Student questions and project scope',2);
-  row(s,'01','Problem','Campus information spans web pages, policy PDFs and different offices.',224);
-  row(s,'02','Objective','Provide one question interface with evidence students can inspect.',363);
-  row(s,'03','Boundary','Public Vellore information. Personal VTOP records remain unavailable.',502);
-  notes(s,'40 seconds. Explain the information-finding problem as the design motivation, not a measured survey result. The project does not access private attendance, personal timetables or live allocations. Roadmap: scope, implementation, demonstration, evidence and future work.',['README.md','reports/official-dataset.md']);
+  s=slide('01  Problem','Finding the right campus information',2);
+  text(s,'“Where do I find the answer?”',72,232,1136,80,43,C.green,true);
+  row(s,'01','Information is spread out','Students search across university pages, policy PDFs and different offices.',346);
+  row(s,'02','Some questions need a person','An unclear or unpublished detail still needs staff confirmation.',502);
+  notes(s,'30 seconds. Use hostel booking, library rules or transcript procedures as familiar examples. Describe the problem as project motivation, not a measured survey result. A conversational interface can help discovery, while staff remain necessary for information outside the public collection.',['README.md','reports/official-dataset.md']);
 
-  s=slide('02  Implemented system','Implemented features',3);
-  text(s,'Student workspace',72,224,680,48,32,C.green,true);
-  text(s,'Cited chat answers and source inspection\nConversation follow-ups and topic returns\nSearchable official-source knowledge base',72,287,700,183,29);
-  text(s,'Staff workflow',72,492,680,48,32,C.green,true);
-  text(s,'Explicit ticket consent, protected queue,\nresolve and reopen actions',72,548,720,85,29);
+  s=slide('02  Idea','One place to ask for campus help',3,true);
+  text(s,'Ask a question in everyday language.\nRead an answer with its source.\nChoose staff help when needed.',72,245,1136,235,43,C.white);
+  text(s,'The student decides when a question goes to staff.',72,555,1136,58,29,C.light);
+  notes(s,'30 seconds. Introduce the solution before technology. The goal is to make public information easier to find and inspect, with a clear route for unanswered questions. These are design objectives, not measured time-saving claims. Staff handoff currently creates a queue ticket. Live staff messaging belongs to the planned version.',['README.md','backend/app/main.py']);
+
+  s=slide('03  Approach','How a question becomes an answer',4);
+  const flow=[['01','Understand','Use the question and its conversation context.'],['02','Find evidence','Search approved VIT Vellore source passages.'],['03','Answer','Generate a response and attach supporting sources.'],['04','Handle gaps','Ask for clarification or offer a ticket with consent.']];
+  flow.forEach((a,i)=>{const y=228+i*100;text(s,a[0],72,y,65,40,28,C.green,true);text(s,a[1],170,y,280,42,30,C.ink,true);text(s,a[2],490,y,720,75,27,C.muted);});
+  notes(s,'40 seconds. Explain retrieval-augmented generation, or RAG: retrieve relevant university text first, then generate from those passages. Follow-ups use stored history. Cite source IDs only when they match supplied passages. A valid citation establishes provenance, but a reader should still check critical details.',['backend/app/retrieval.py','backend/app/llm.py','backend/app/main.py']);
+
+  s=slide('04  Implementation','Technology behind the prototype',5);
+  const parts=[['React + TypeScript','Chat, source browser and staff workspace',72,234],['FastAPI + Python','Conversation logic and ticket handling',692,234],['Neon PostgreSQL + pgvector','Stored sources, vector search and chat data',72,428],['OpenRouter','AI responses grounded in retrieved text',692,428]];
+  parts.forEach(([a,b,x,y])=>{text(s,a,x,y,510,85,33,C.green,true);text(s,b,x,y+91,510,100,28,C.muted);});
+  notes(s,'35 seconds. Keep this at component level. The React frontend runs on Vercel and the FastAPI backend uses Render deployment configuration. Sentence Transformers generates embeddings for pgvector search. Alembic manages database migrations. Secrets stay on the backend. Avoid reading configuration commands or development test counts aloud.',['README.md','DEPLOYMENT.md','backend/app/models.py']);
+
+  s=slide('04  Implementation','What works today',6);
+  text(s,'Student questions',72,230,760,44,32,C.green,true);
+  text(s,'AI answers with inspectable sources\nFollow-up questions in the same conversation\nSearchable public VIT Vellore information',72,295,775,150,29);
+  text(s,'Staff support',72,487,760,44,32,C.green,true);
+  text(s,'Confirmed tickets in a protected staff queue\nReview context, resolve and reopen tickets',72,551,785,86,29);
   const b=await fs.readFile(root+'/scripts/presentation/assets/helpdesk-home.png');
-  s.images.add({dataUrl:'data:image/png;base64,'+b.toString('base64'),contentType:'image/png',alt:'Actual deployed Campus Helpdesk home screen captured 25 October 2026',fit:'contain',position:{left:875,top:204,width:265,height:430}});
-  notes(s,'40 seconds. These capabilities exist in the source code. Screenshot: actual deployed home screen captured 25 October 2026, with no generated answers or fabricated queue. Staff access uses configured HTTP Basic credentials. No student account system exists.',['frontend/src/App.tsx','backend/app/main.py','backend/app/schemas.py']);
+  s.images.add({dataUrl:'data:image/png;base64,'+b.toString('base64'),contentType:'image/png',alt:'Actual Campus Helpdesk chat home captured 25 October 2026',fit:'contain',position:{left:941,top:215,width:245,height:425}});
+  notes(s,'40 seconds. Everything on this slide is implemented. The current access model is a shared private review password with a signed session, plus separate staff authentication. Individual student/staff accounts and saved-history navigation across logins are planned. Database conversation persistence already exists, but it is not the same as an account-based history/resume feature. Screenshot shows the actual chat home captured earlier on 25 October 2026, before the newer review access gate.',['README.md','frontend/src/App.tsx','backend/app/access.py','backend/app/main.py']);
 
-  s=slide('02  Implemented system','Architecture and answer flow',4);
-  row(s,'01','React interface  /  Vercel','Student chat, knowledge browser and staff workspace',224);
-  row(s,'02','FastAPI backend  /  Render','History resolution, hybrid retrieval, OpenRouter generation and validation',363);
-  row(s,'03','Neon PostgreSQL with pgvector','Approved documents, 384-dimensional vectors, conversations and tickets',502);
-  notes(s,'45 seconds. A question reaches FastAPI. For follow-ups, the resolver uses actual stored history to form a search query. Retrieval combines vector similarity and keyword matching. OpenRouter generates structured output from passages. The server validates citation IDs before returning source cards. Alembic manages schema changes. Frontend and backend have separate deployment configurations.',['backend/app/main.py','backend/app/retrieval.py','backend/app/llm.py','backend/app/models.py','DEPLOYMENT.md']);
+  s=slide('05  Demonstration','A short walkthrough',7,true);
+  row(s,'01','Ask and inspect','“What choices does FFCS give students?” Open its source.',225,true);
+  row(s,'02','Continue the conversation','“What choices does it give me?” Keep the same topic.',371,true);
+  row(s,'03','Show an unanswered question','Ask for personal attendance, then show the ticket-consent offer.',517,true);
+  notes(s,'About 2 minutes. Open https://campus-helpdesk-rho.vercel.app and sign in through the existing review gate before presenting. Never project credentials. Ask the exact FFCS question, inspect a citation, then ask the pronoun follow-up. Ask “What is my personal attendance percentage today?” Show the offer, then select No thanks so the default demo saves no ticket. A staff-queue extension requires explicitly confirming a real demo ticket. Do not demonstrate two-account login or live staff replies as implemented. If the live service is unavailable, describe recorded examples from the official live evaluation and label them as recorded. The FFCS result lists course order, time slots and course load. The attendance query returns needs_staff_confirmation without a saved ticket. The complete proposed demo sequence has not been rerun for this revision.',['reports/official-live-evaluation.md','reports/official-context-and-consent.md','DEPLOYMENT.md']);
 
-  s=slide('02  Implemented system','Official knowledge and source boundaries',5);
-  const metrics=[['50','public source documents'],['1,073','searchable passages'],['968','extractive Q&A records']];
-  metrics.forEach((m,i)=>{text(s,m[0],72+i*385,235,355,90,64,C.green,true);text(s,m[1],72+i*385,336,350,75,25);});
-  text(s,'Public VIT Vellore HTML and PDFs, imported 24 October 2026',72,464,1136,60,29,C.ink,true);
-  text(s,'Original URLs and retrieval dates stay visible. Programme and policy-year scope matter.\nQ&A extracts are section records, not 968 independently reviewed FAQs.',72,546,1136,92,25,C.muted);
-  notes(s,'35 seconds. Counts come from the recorded official-dataset validation, not a fresh database recount in this artifact task. Ingestion uses allowlisted URLs, heading/page-aware splitting and OCR where needed. Refresh is manual. Official mode excludes the fictional sample corpus. Publication dates may differ from download dates.',['reports/official-dataset.md','knowledge/official/manifest.json','backend/app/import_official.py','backend/app/seed.py']);
+  s=slide('06  Current scope','What the current version can cover',8);
+  text(s,'Public campus information',72,239,520,50,33,C.green,true);
+  text(s,'Academics and library services\nHostel information and procedures\nStudent welfare and public contacts',72,316,540,180,29);
+  text(s,'Current limitations',692,239,520,50,33,C.green,true);
+  text(s,'No private VTOP records or live availability\nNo personal account history across logins\nNo live replies from staff yet',692,316,520,200,29);
+  text(s,'Policy dates and programme scope still need attention.',72,580,1136,55,27,C.muted);
+  notes(s,'35 seconds. This is an independent public-information prototype. The sources are public VIT Vellore material, and dated policies must retain their programme and year restrictions. Generated answers still need source review for critical decisions. Backend persistence exists, but the account-based resume workflow in the supplied plan does not. Current handoff saves an internal ticket rather than opening a live staff conversation. Full hosted verification of the latest unsupported-response fix remains pending in the project records.',['README.md','reports/official-dataset.md','reports/unsupported-citation-fix.md']);
 
-  s=slide('03  Short demonstration','Two-minute live demonstration',6,true);
-  const steps=[['00:00','Ask','What choices does FFCS give students?'],['00:30','Inspect','Open the citation and original source.'],['01:00','Follow up','What choices does it give me?'],['01:30','Handle a gap','What is my personal attendance percentage today?']];
-  steps.forEach((a,i)=>{const y=224+i*101;text(s,a[0],72,y,120,40,26,'#DBE6DD',true);text(s,a[1],230,y,235,40,28,C.white,true);text(s,a[2],495,y,710,70,26,C.white);});
-  notes(s,'Demo instructions. Open https://campus-helpdesk-rho.vercel.app before presenting. The backend may need time to wake. Start a new conversation. Ask the FFCS question, open its source, then use the pronoun follow-up in this same conversation. Ask the private attendance question and show the consent offer. Choose No thanks: this demonstration stops before saving a ticket. The exact demo sequence is proposed for the presentation, not a new test result. If a request fails, show the recorded examples on the next slide and label them as recorded. Never claim a failed save succeeded. A full optional staff demonstration requires explicit consent to create one real demo ticket.',['reports/official-live-evaluation.md','reports/official-context-and-consent.md','DEPLOYMENT.md']);
+  s=slide('07  Future scope  /  Proposed','Two accounts and saved conversations',9);
+  row(s,'01','One student account and one staff account','A shared login opens the workspace for each role.',225);
+  row(s,'02','History that survives sign-out','Start a new conversation or resume an earlier one after logging in.',371);
+  row(s,'03','Access tied to the account','Students see their own chats. Staff see confirmed handoffs.',517);
+  notes(s,'40 seconds. This entire slide describes future work from the user-provided plan, not current functionality. Exactly two fixed accounts will use the existing React/FastAPI/Neon stack. Proposed database users use Argon2 password hashes, revocable eight-hour sessions and an opaque cookie. There is no registration, password-reset or account-management feature in this phase. Preserve existing official retrieval, consent and request limits. Planned stages start with login, followed by saved conversations and handoff.',['User-provided specification: Two-account login and persistent live chat, 25 October 2026']);
 
-  s=slide('03  Short demonstration','Recorded behavior examples',7);
-  row(s,'A','Supported question','FFCS choices: the recorded answer lists course order, time slots and course load.',224);
-  row(s,'B','Ambiguous question','“When does the lab open?” returns “Which lab do you mean?”',363);
-  row(s,'C','Private information','Personal attendance returns a staff-confirmation offer with no saved ticket.',502);
-  notes(s,'30 seconds, or use as the demo fallback. These paraphrase the recorded official live evaluation. They are not screenshots or a fresh live run. The evaluator recorded eight supported responses, two clarifications and two unsupported outcomes. Do not present the examples as proof of universal answer accuracy.',['reports/official-live-evaluation.md']);
+  s=slide('07  Future scope  /  Proposed','Live staff chat after a confirmed handoff',10);
+  const stages=[['01','AI assistance','The assistant answers until the student confirms a handoff.'],['02','Waiting for staff','Save the request and pause AI replies.'],['03','Staff conversation','Staff selects Start chat. Both accounts exchange messages live.'],['04','Resolution','Close the chat, with an option to reopen or start a new AI chat.']];
+  stages.forEach((a,i)=>{const y=228+i*100;text(s,a[0],72,y,65,40,28,C.green,true);text(s,a[1],170,y,290,47,29,C.ink,true);text(s,a[2],495,y,710,78,26,C.muted);});
+  notes(s,'45 seconds. This is proposed, not implemented or demonstrated today. Conversation states are ai, waiting_for_staff, staff_active and resolved. A confirmed handoff creates or reuses one active ticket per conversation and keeps the exact originating question ID. Staff replies receive distinct labels. The plan uses authenticated HTTP for sends and WebSockets for committed messages/status updates. Save first, broadcast second, and recover from reconnects using authoritative Neon history with duplicate prevention. Keep AI paused while waiting and during staff chat. The third planned delivery stage is real-time chat. One backend worker is the initial design. Token streaming, typing indicators, attachments and read receipts are outside this phase.',['User-provided specification: Two-account login and persistent live chat, 25 October 2026']);
 
-  s=slide('04  Evaluation','Verification evidence and its limits',8);
-  const results=[['77 backend tests','Current isolated regression suite'],['18 frontend tests','Current UI/API component suite'],['30 / 30 retrieval checks','Expected source family in top eight'],['12 / 12 live checks','Recorded outcome and source-family checks']];
-  results.forEach((a,i)=>{const y=221+i*89;text(s,a[0],72,y,470,48,32,C.green,true);text(s,a[1],565,y+4,645,65,27);});
-  text(s,'Recorded consent regression: eight turns, one ticket only after confirmation.\nThese checks do not establish universal factual accuracy.',72,593,1136,65,23,C.muted);
-  notes(s,'45 seconds. Isolated test counts and production build were rerun during preparation. Retrieval and live model figures come from existing reports, not new paid calls for this presentation. The consent regression intentionally created one demo ticket after affirmative consent. Automatic source-family checks do not verify every sentence. Earlier failed live iterations remain documented.',['reports/official-retrieval.md','reports/official-live-evaluation.md','reports/official-context-and-consent.md','reports/unsupported-citation-fix.md','backend/tests','frontend/src/App.test.tsx']);
-
-  s=slide('04  Evaluation','Implemented safeguards and current limits',9);
-  text(s,'Implemented',72,223,515,48,32,C.green,true);
-  text(s,'Approved-source retrieval\nCitation-ID validation and bounded repair\nHistory-based follow-up resolution\nMessage-specific ticket confirmation\nVisible service and persistence errors',72,292,535,285,28);
-  text(s,'Current limits',694,223,515,48,32,C.green,true);
-  text(s,'Bounded conversation memory\nManual source refresh and OCR risk\nNo student identity or private records\nNo staff replies or notifications\nLatest hosted fix verification pending',694,292,515,285,28);
-  notes(s,'40 seconds. Citation validity proves provenance, not that every generated claim is entailed. Conversation handles are UUIDs without student authentication, so the prototype is unsuitable for sensitive student records. The unsupported-answer fix passed local checks but its hosted behavior still needs verification after deployment. Viewing the home screen today does not close that gap.',['README.md','reports/official-dataset.md','reports/unsupported-citation-fix.md','DEPLOYMENT.md']);
-
-  s=slide('05  Future work','Proposed next steps',10);
-  row(s,'01','Before a campus pilot','Verify hosted flows, review sources with staff, add request limits and retention rules.',224);
-  row(s,'02','Identity and communication','Institutional SSO, role-based access, staff replies and student notifications.',363);
-  row(s,'03','Knowledge and evaluation','Scheduled refresh, source-change review and a human-labelled answer benchmark.',502);
-  notes(s,'35 seconds. All items on this slide are proposed. They are not complete. Private VTOP integration would additionally require institutional approval, scoped access and privacy controls. Avoid promising a timeline without staffing or approval.',['README.md','DEPLOYMENT.md','reports/official-dataset.md']);
-
-  s=slide('05  Close','Project outcome',11,true);
-  text(s,'A working prototype for public campus questions,\nwith inspectable sources and consent-based\nstaff routing.',72,243,1136,205,42,C.white);
-  text(s,'Next milestone: a verified, staff-reviewed pilot',72,522,1136,60,29,'#DBE6DD');
-  text(s,'Questions',72,604,1136,42,26,C.white,true);
-  notes(s,'20 seconds. Close by separating the implemented prototype from the future campus pilot. The project demonstrates the complete public-information question path and staff ticket queue. It makes no claim of official VIT endorsement or production readiness.',['README.md','DEPLOYMENT.md']);
+  s=slide('08  Conclusion','Campus support with a clear next step',11,true);
+  text(s,'Today',72,235,230,50,31,C.light,true);
+  text(s,'Source-backed answers and\nconsent-based staff tickets',355,235,835,135,43,C.white);
+  text(s,'Next',72,435,230,50,31,C.light,true);
+  text(s,'Account-based history and\nlive conversations with staff',355,435,835,135,43,C.white);
+  text(s,'Questions',72,612,1136,40,27,C.light);
+  notes(s,'20 seconds. Close on the distinction between the working prototype and the planned extension. Today the project helps discover public campus information and creates staff tickets only with consent. The next version adds two role-specific accounts, cross-login history and live human takeover. No claims of official endorsement, measured workload reductions or completed future features.',['README.md','User-provided specification: Two-account login and persistent live chat, 25 October 2026']);
 }

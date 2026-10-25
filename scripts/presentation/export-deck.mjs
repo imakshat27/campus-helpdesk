@@ -17,18 +17,18 @@ for (const [i,slide] of presentation.slides.items.entries()) {
   const preview=await presentation.export({slide,format:'png',scale:1});
   await fs.writeFile(path.join(root,'.presentation-build/final-slide-'+String(i+1).padStart(2,'0')+'.png'),new Uint8Array(await preview.arrayBuffer()));
 }
-const candidatePath=path.join(root,'.presentation-build/candidate.pptx');
+const candidatePath=path.join(root,'.presentation-build/candidate-revised.pptx');
 await (await PresentationFile.exportPptx(presentation)).save(candidatePath);
 const {finalizePresentation}=await import(pathToFileURL(path.join(skill,'container_tools/artifact_tool_utils.mjs')).href);
 const result=await finalizePresentation({
   workspaceDir:root,candidatePath,
-  finalPath:path.join(root,'output/presentation/campus-helpdesk-presentation.pptx'),
+  finalPath:path.join(root,'output/presentation/campus-helpdesk-presentation-revised.pptx'),
   pythonExecutable:path.join(runtime,'python/bin/python3'),
   integrityValidatorPath:path.join(skill,'container_tools/inspect_presentation_package_integrity.py'),
   layoutValidatorPath:path.join(skill,'container_tools/inspect_presentation_layout_geometry.py'),
   layoutArgs:['--expected-slide-size-emu','12192000,6858000','--validate-bullet-geometry','--validate-heading-fit'],
   explicitTotalSlideCount:11,requiredNativeTableOwnerSlides:[],requiredNativeChartOwnerSlides:[],
   fontPolicy:{basis:'design',families:['Arial']},verifyArtifactToolImport:true,
-  receiptPath:path.join(root,'.presentation-build/validation.json')
+  receiptPath:path.join(root,'.presentation-build/validation-revised.json')
 });
 console.log(JSON.stringify(result));
