@@ -1,16 +1,13 @@
-import { useEffect, useRef, useState, lazy, Suspense } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState, lazy, Suspense } from 'react';
 import type { ReactNode } from 'react';
 import { NavLink, Route, Routes, useLocation, Navigate, useNavigate, useParams } from 'react-router-dom';
-import { ArrowRight, ArrowUp, BookOpen, CheckCircle2, ChevronRight, FileText, GraduationCap, Headphones, HelpCircle, Inbox, LibraryBig, LoaderCircle, MapPin, MessageSquare, Plus, Search, ShieldCheck, SquareArrowOutUpRight, Ticket as TicketIcon, UserRound, Wifi, Wrench, X } from 'lucide-react';
+import { ArrowDown, ArrowRight, ArrowUp, BookOpen, CheckCircle2, ChevronRight, FileText, Headphones, HelpCircle, Inbox, LibraryBig, LoaderCircle, MapPin, MessageSquare, Plus, Search, ShieldCheck, SquareArrowOutUpRight, Ticket as TicketIcon, Wifi, Wrench, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
-import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Separator } from '@/components/ui/separator';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Dialog as UiDialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogClose, DialogFooter } from '@/components/ui/dialog';
 import { SidebarProvider, Sidebar, SidebarHeader, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupLabel, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarInset, SidebarTrigger, useSidebar } from '@/components/ui/sidebar';
@@ -23,10 +20,10 @@ import type { Knowledge, Source, Ticket, TicketOffer, ConversationSummary, Conve
 
 const categoryLabels: Record<string, string> = { classrooms: 'Classrooms', labs: 'Labs', events: 'Events', procedures: 'Student services', library: 'Library', it: 'IT support', academics: 'Academics', hostels: 'Hostels', welfare: 'Student welfare', facilities: 'Facilities', accessibility: 'Accessibility', safety: 'Safety', careers: 'Careers', admissions: 'Admissions', admission_info: 'Admissions', research: 'Research', alumni: 'Alumni', global: 'International', international: 'International' };
 const suggestions = [
-  { icon: BookOpen, label: 'Library borrowing', question: 'What are the library borrowing rules for undergraduate students?', hint: 'Borrowing, renewals and library services' },
-  { icon: GraduationCap, label: 'Academic rules', question: 'How does the Fully Flexible Credit System work?', hint: 'FFCS, attendance and examinations' },
-  { icon: MapPin, label: 'Hostel admission', question: 'How do freshers book a hostel at VIT Vellore?', hint: 'Rooms, mess and hostel policies' },
-  { icon: Headphones, label: 'Student support', question: 'How can I contact student welfare at VIT Vellore?', hint: 'Welfare, counselling and accessibility' },
+  { label: 'Library borrowing', question: 'What are the library borrowing rules for undergraduate students?' },
+  { label: 'Academic rules', question: 'How does the Fully Flexible Credit System work?' },
+  { label: 'Hostel admission', question: 'How do freshers book a hostel at VIT Vellore?' },
+  { label: 'Student support', question: 'How can I contact student welfare at VIT Vellore?' },
 ];
 const categoryIcons: Record<string, typeof MapPin> = { classrooms: MapPin, labs: Wrench, events: TicketIcon, procedures: FileText, library: LibraryBig, it: Wifi };
 function errorText(e: unknown) { return e instanceof Error ? e.message : 'Something went wrong. Please try again.'; }
@@ -52,13 +49,13 @@ function CampusSidebar({ onNew }: { onNew: () => void }) {
   return <Sidebar className="campus-sidebar" role="navigation" aria-label="Main navigation">
     <SidebarHeader className="campus-sidebar-header">
       <Button className="sidebar-close md:hidden" variant="ghost" size="icon" aria-label="Close navigation" onClick={closeMenu}><X /></Button>
-      <NavLink to="/" className="brand" onClick={closeMenu}><span className="brand-mark"><GraduationCap size={27} strokeWidth={1.7} /></span><span>Campus<span className="brand-sub">Helpdesk</span></span></NavLink>
+      <NavLink to={account?.role==='staff'?'/staff':'/'} className="brand" onClick={closeMenu}><span>Campus Helpdesk<span className="brand-sub">VIT Vellore</span></span></NavLink>
       {account?.role !== 'staff' && <Button asChild variant="secondary" className="new-chat"><NavLink to="/" onClick={() => { onNew(); closeMenu(); }}><Plus size={20} />New conversation</NavLink></Button>}
     </SidebarHeader>
-    <SidebarContent><SidebarGroup><SidebarGroupLabel className="campus-nav-label">Helpdesk</SidebarGroupLabel><SidebarMenu className="campus-nav">
+    <SidebarContent><SidebarGroup><SidebarMenu className="campus-nav">
       {links.map(({to,label,icon:Icon}) => <SidebarMenuItem key={to}><SidebarMenuButton asChild isActive={to==='/' ? location.pathname==='/' : location.pathname.startsWith(to)}><NavLink to={to} onClick={closeMenu}><Icon size={21}/><span>{label}</span></NavLink></SidebarMenuButton></SidebarMenuItem>)}
     </SidebarMenu></SidebarGroup>{account?.role !== 'staff' && <ConversationHistory/>}</SidebarContent>
-    <SidebarFooter className="campus-sidebar-footer"><div className="sample-note"><BookOpen size={19} aria-hidden="true"/><p>Vellore campus<span>Public VIT sources</span></p></div><Separator /><div className="campus-identity"><span className="university-avatar">V</span><div><strong>VIT campus</strong><span>Student support</span></div></div></SidebarFooter>
+    <SidebarFooter className="campus-sidebar-footer"><div className="campus-identity"><strong>{account?.username}</strong><span>{account?.role==='staff'?'Staff account':'Student account'}</span></div></SidebarFooter>
   </Sidebar>;
 }
 
@@ -91,7 +88,7 @@ export default function App() {
   return <SidebarProvider className="helpdesk-shell">
     <a className="skip-link" href="#main">Skip to content</a>
     <CampusSidebar onNew={reset}/>
-    <SidebarInset id="main" className="main-shell"><header className="topbar"><div className="page-location"><SidebarTrigger className="mobile-menu md:hidden" aria-label="Open navigation"/><span>{name}</span></div><span className="live-status" role="status">{liveStatus}</span><Button variant="ghost" onClick={() => void signOut()}>Sign out</Button></header>
+    <SidebarInset id="main" className="main-shell"><header className="topbar"><div className="page-location"><SidebarTrigger className="mobile-menu md:hidden" aria-label="Open navigation"/><span>{name}</span></div><span className="live-status" role="status" title={liveStatus} aria-label={liveStatus} data-connected={liveStatus==='Live updates connected'}><span className="connection-dot" aria-hidden="true"/><span className="live-status-text">{liveStatus}</span><span className="mobile-connection-status" aria-hidden="true">{liveStatus==='Connecting to live updates…'?'Connecting…':'Reconnecting…'}</span></span><Button variant="ghost" onClick={() => void signOut()}>Sign out</Button></header>
       {logoutError && <p role="alert">{logoutError}</p>}<Routes><Route path="/" element={account?.role === 'staff' ? <Navigate to="/staff" replace /> : <Chat key={resetKey}/>} /><Route path="/conversations/:conversationId" element={account?.role === 'staff' ? <Navigate to="/staff" replace/> : <Chat/>}/><Route path="/staff/:conversationId" element={account?.role === 'staff' ? <Chat staffMode/> : <Navigate to="/" replace/>}/><Route path="/knowledge" element={<KnowledgeBase/>} /><Route path="/staff" element={account?.role === 'staff' ? <StaffQueue/> : <Navigate to="/" replace />} /><Route path="*" element={<div className="page"><h1>Page not found</h1><Button asChild><NavLink to="/">Back to helpdesk</NavLink></Button></div>} /></Routes>
     </SidebarInset>
   </SidebarProvider>;
@@ -129,9 +126,33 @@ function Chat({staffMode=false}:{staffMode?:boolean}) {
   const [source, setSource] = useState<Source | null>(null);
   const [escalating, setEscalating] = useState(false);
   const [confirmationTarget, setConfirmationTarget] = useState<ConfirmationTarget | null>(null);
-  const endRef = useRef<HTMLDivElement>(null);
+  const transcriptRef = useRef<HTMLElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
+  const nearBottom = useRef(true);
+  const previousMessage = useRef<string | undefined>(undefined);
+  const [unseenMessages,setUnseenMessages] = useState(false);
+  function scrollToLatest() {
+    const transcript=transcriptRef.current;
+    if(transcript)transcript.scrollTop=transcript.scrollHeight;
+    nearBottom.current=true;setUnseenMessages(false);
+  }
+  function trackScroll() {
+    const transcript=transcriptRef.current;
+    if(!transcript)return;
+    nearBottom.current=transcript.scrollHeight-transcript.clientHeight-transcript.scrollTop<64;
+    if(nearBottom.current)setUnseenMessages(false);
+  }
   const lock = useRef(false);
+  useEffect(()=>{
+    const resize=()=>{
+      const input=inputRef.current;
+      if(!input)return;
+      input.style.height='0px';
+      input.style.height=`${Math.min(input.scrollHeight,140)}px`;
+    };
+    resize();window.addEventListener('resize',resize);
+    return()=>window.removeEventListener('resize',resize);
+  },[draft,conversationId]);
   const confirmationHeading = useRef<HTMLHeadingElement>(null);
   const staffAction = useRef<HTMLButtonElement>(null);
   const hadConfirmation = useRef(false);
@@ -142,6 +163,7 @@ function Chat({staffMode=false}:{staffMode?:boolean}) {
   }, [confirmationTarget]);
   useEffect(()=>{
     let active=true;
+    nearBottom.current=true;previousMessage.current=undefined;setUnseenMessages(false);
     setConversation(conversationId || null);setConfirmationTarget(null);setError('');setMessages([]);setLoadFailed(false);
     if(!conversationId){newId.current=crypto.randomUUID();setMessages([]);setState('ai');setTicketReference('');setLoading(false);return;}
     const load=async()=>{
@@ -153,12 +175,26 @@ function Chat({staffMode=false}:{staffMode?:boolean}) {
     setLoading(true);void load();window.addEventListener('campus-conversation-updated',load);
     return()=>{active=false;loadVersion.current++;window.removeEventListener('campus-conversation-updated',load);};
   },[conversationId]);
-  useEffect(() => { if (messages.length || pending) endRef.current?.scrollIntoView?.({ behavior: 'instant', block: 'end' }); }, [messages, pending]);
+  useLayoutEffect(() => {
+    const latest=messages.at(-1)?.id;
+    if(nearBottom.current)scrollToLatest();
+    else if(latest && previousMessage.current && latest!==previousMessage.current)setUnseenMessages(true);
+    previousMessage.current=latest;
+  },[messages,pending]);
+  useLayoutEffect(()=>{
+    const transcript=transcriptRef.current;
+    if(!transcript || typeof ResizeObserver==='undefined')return;
+    // Keep the newest message visible as the composer or viewport changes size.
+    const observer=new ResizeObserver(()=>{if(nearBottom.current)scrollToLatest();});
+    observer.observe(transcript);
+    return()=>observer.disconnect();
+  },[messages.length>0 || pending || !!conversationId]);
 
   async function send(text: string) {
     const question = text.trim();
     if (!question || lock.current || loading || loadFailed || state==='resolved' || (staffMode && state!=='staff_active')) return;
     lock.current = true;
+    nearBottom.current=true;setUnseenMessages(false);
     setPending(true); setPendingQuestion(question); setError(''); setDraft(''); setConfirmationTarget(null);
     try {
       let cid=conversation;
@@ -174,7 +210,7 @@ function Chat({staffMode=false}:{staffMode?:boolean}) {
       if(!conversationId)navigate('/conversations/'+cid,{replace:true});
       conversationChanged();
     } catch (e) { setError(errorText(e)); setDraft(question); }
-    finally { setPending(false); setPendingQuestion(''); lock.current = false; inputRef.current?.focus(); }
+    finally { setPending(false); setPendingQuestion(''); lock.current = false; inputRef.current?.focus({preventScroll:true}); }
   }
 
   async function raiseTicket(target: ConfirmationTarget) {
@@ -220,20 +256,18 @@ function Chat({staffMode=false}:{staffMode?:boolean}) {
 
   return <div className={`chat-page ${showingConversation ? 'has-messages' : ''}`}>
     {staffMode && <Button asChild variant="link"><NavLink to="/staff">Back to staff queue</NavLink></Button>}
-    <div className="conversation-status" role="status"><span>{stateLabels[state]}</span>{ticketReference && <strong>{ticketReference}</strong>}
+    {(!!conversationId || staffMode || state!=='ai') && <div className="conversation-status" role="status"><span>{stateLabels[state]}</span>{ticketReference && <strong>{ticketReference}</strong>}
       {staffMode && (state==='waiting_for_staff' || state==='staff_active') && <Button variant="outline" disabled={escalating} onClick={()=>void resolveChat()}>Mark resolved</Button>}
       {staffMode && state==='waiting_for_staff' && <Button disabled={escalating} onClick={()=>void changeState('accept')}>Start chat</Button>}
       {!staffMode && state==='resolved' && <Button disabled={escalating} onClick={()=>void changeState('reopen')}>Reopen conversation</Button>}
-    </div>
+    </div>}
     {loading && <p role="status">Loading conversation…</p>}
     {!showingConversation ? <section className="welcome" aria-labelledby="welcome-title">
-      <span className="welcome-context">VIT · Student helpdesk</span>
-      <h1 id="welcome-title">A question about campus?</h1>
-      <p className="welcome-description">Ask about academics, hostels, library services, or student support at VIT Vellore.</p>
-    </section> : <section className="conversation" aria-label="Conversation">
-      <div className="conversation-start"><strong>Your conversation</strong><span>Campus Helpdesk</span></div>
+      <h1 id="welcome-title">Ask the helpdesk</h1>
+      <p className="welcome-description">Questions about academics, campus services or student support.</p>
+    </section> : <section ref={transcriptRef} onScroll={trackScroll} className="conversation" aria-label="Conversation">
+
       {messages.map((m, i) => <article key={m.id} className={`message ${m.role}`}>
-        <div className="message-avatar" aria-hidden="true">{m.role === 'assistant' ? <GraduationCap size={22} /> : <UserRound size={21} />}</div>
         <div className="message-body">
           <div className="message-name">{m.role === 'assistant' ? 'Campus Helpdesk · AI' : m.role === 'staff' ? 'Student support · Staff' : staffMode ? 'Student' : 'You'}{m.createdAt && <time dateTime={m.createdAt}>{new Date(m.createdAt).toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'})}</time>}</div>
           <p>{m.text}</p>
@@ -242,23 +276,23 @@ function Chat({staffMode=false}:{staffMode?:boolean}) {
           {!staffMode && state==='ai' && m.offer && i === messages.length - 1 && !m.ticket && ticketActions({ messageId: m.offer.message_id, question: m.offer.query, index: i }, () => void send('No thanks'))}
         </div>
       </article>)}
-      {pending && <><article className="message user"><div className="message-avatar" aria-hidden="true"><UserRound size={21} /></div><div className="message-body"><div className="message-name">You</div><p>{pendingQuestion}</p></div></article><div className="working" role="status"><Spinner /><span>{state==='ai' ? 'Searching campus sources…' : 'Saving your message…'}</span></div></>}
+      {pending && <><article className="message user"><div className="message-body"><div className="message-name">You</div><p>{pendingQuestion}</p></div></article><div className="working" role="status"><Spinner /><span>{state==='ai' ? 'Searching campus sources…' : 'Saving your message…'}</span></div></>}
       {!staffMode && state==='ai' && !pending && last?.outcome === 'answered' && last.messageId && !last.ticket && !confirmationTarget && <Button ref={staffAction} variant="ghost" className="staff-handoff" onClick={() => setConfirmationTarget({ messageId: last.messageId!, question: messages[messages.length - 2].text, index: messages.length - 1 })}><Headphones size={19} />Ask staff about this answer<ArrowRight size={18} /></Button>}
       {confirmationTarget && <section className="manual-ticket-prompt" aria-label="Confirm support ticket"><h2 ref={confirmationHeading} tabIndex={-1}>Raise a ticket for this question?</h2><p>{confirmationTarget.question}</p>{ticketActions(confirmationTarget, () => setConfirmationTarget(null))}</section>}
-      <div ref={endRef} />
     </section>}
 
+    {unseenMessages && <Button variant="outline" className="new-messages" onClick={scrollToLatest}>New messages<ArrowDown size={17} aria-hidden="true"/></Button>}
     <div className="composer-area">
       {error && <Alert variant="destructive" className="error-banner"><HelpCircle size={21} /><AlertDescription>{error}</AlertDescription>{conversationId && <Button variant="outline" onClick={conversationChanged}>Retry</Button>}<Button variant="ghost" size="icon" aria-label="Dismiss error" onClick={() => setError('')}><X size={19} /></Button></Alert>}
       <form className="composer" onSubmit={e => { e.preventDefault(); void send(draft); }}>
         <Label htmlFor="question" className={showingConversation ? "sr-only" : "composer-label"}>{staffMode ? 'Message student' : state==='ai' ? 'Ask a campus question' : 'Message student support'}</Label>
-        <Textarea id="question" ref={inputRef} rows={2} maxLength={2000} placeholder={staffMode ? 'Message student…' : state!=='ai' ? 'Message student support…' : showingConversation ? 'Ask a follow-up…' : 'What would you like to know about VIT Vellore?'} value={draft} disabled={disabled} onChange={e => setDraft(e.target.value)} onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey && !e.nativeEvent.isComposing) { e.preventDefault(); void send(draft); } }} />
-        <div className="composer-bottom"><span><BookOpen size={18} aria-hidden="true"/>{state==='ai' ? 'Answers include sources' : 'Messages saved to this conversation'}</span><Button className="send-button" type="submit" disabled={disabled || !draft.trim()} aria-label={state==='ai' ? 'Send question' : 'Send message'}>{pending ? <Spinner /> : <><span>{state==='ai' ? 'Send question' : 'Send message'}</span><ArrowUp size={19} aria-hidden="true"/></>}</Button></div>
+        <Textarea id="question" ref={inputRef} rows={1} maxLength={2000} placeholder={staffMode ? 'Message student…' : state!=='ai' ? 'Message student support…' : showingConversation ? 'Ask a follow-up…' : 'Type your question…'} value={draft} disabled={disabled} onChange={e => setDraft(e.target.value)} onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey && !e.nativeEvent.isComposing) { e.preventDefault(); void send(draft); } }} />
+        <div className="composer-bottom">{state==='ai' && <span>VIT sources</span>}<Button className="send-button" type="submit" disabled={disabled || !draft.trim()} aria-label={state==='ai' ? 'Send question' : 'Send message'}>{pending ? <Spinner /> : <><span className="send-label">Send</span><ArrowUp size={17} aria-hidden="true"/></>}</Button></div>
       </form>
-      <div className="composer-caption"><span>{state==='ai' ? 'Public sources · Check dates for policies' : 'Staff replies are labelled separately from AI answers'}</span><span className="enter-hint">Enter to send · Shift+Enter for a new line</span></div>
+      <div className="composer-caption"><span className="enter-hint">Enter to send · Shift+Enter for a new line</span></div>
     </div>
-    {!staffMode && !showingConversation && <section className="quick-start" aria-labelledby="topics-heading"><div className="quick-start-heading"><span id="topics-heading">Try a question</span><Button asChild variant="link"><NavLink to="/knowledge">Browse sources<ArrowRight size={17}/></NavLink></Button></div>
-      <div className="suggestions">{suggestions.map(({icon:Icon,label,question,hint})=><Card key={label} className="topic-card"><Button variant="ghost" className="suggestion" onClick={()=>{setDraft(question);inputRef.current?.focus();}}><Icon size={21}/><span className="suggestion-copy"><strong>{label}</strong><span>{hint}</span></span><ChevronRight size={18}/></Button></Card>)}</div>
+    {!staffMode && !showingConversation && <section className="quick-start" aria-labelledby="topics-heading"><div className="quick-start-heading"><h2 id="topics-heading">Suggested questions</h2><NavLink to="/knowledge">Browse sources</NavLink></div>
+      <div className="suggestions">{suggestions.map(({label,question})=><Button key={label} variant="ghost" className="suggestion" onClick={()=>{setDraft(question);inputRef.current?.focus({preventScroll:true});}}><span className="suggestion-copy"><strong>{label}</strong><span>{question}</span></span></Button>)}</div>
     </section>}
     {source && <SourceDialog provenance={source} title={source.title} onClose={() => setSource(null)}><Badge variant="secondary" className="source-badge">Supporting passage</Badge>{source.heading !== source.title && <h3>{source.heading}</h3>}<p className="source-text">{source.content}</p></SourceDialog>}
   </div>;
@@ -279,13 +313,13 @@ function KnowledgeBase() {
     finally { if (active) setLoading(false); }
   })(); return () => { active = false; }; }, []);
   const filtered = docs.filter(d => (category === 'all' || d.category === category) && query.toLowerCase().trim().split(/\s+/).every(term=>`${d.title} ${d.content}`.toLowerCase().includes(term)));
-  return <div className="page knowledge-page"><div className="page-heading"><span className="eyebrow">CAMPUS INFORMATION</span><h1>Knowledge base</h1><p>Browse downloaded VIT Vellore pages and policy documents. Each source includes its original link and retrieval date.</p></div>
-    <div className="knowledge-toolbar"><div className="search-field"><Label htmlFor="knowledge-search" className="sr-only">Search the knowledge base</Label><Search size={21} aria-hidden="true"/><Input id="knowledge-search" value={query} onChange={e => setQuery(e.target.value)} placeholder="Search campus information…" />{query && <Button variant="ghost" size="icon" onClick={() => setQuery('')} aria-label="Clear search"><X size={18} /></Button>}</div>{!loading && <span className="result-count">{docs.length} sources</span>}</div>
-    <ToggleGroup type="single" variant="outline" spacing={2} value={category} onValueChange={value=>{if(value)setCategory(value);}} className="filters" aria-label="Filter by category">{['all', ...Array.from(new Set(docs.map(d=>d.category))).sort()].map(c => <ToggleGroupItem key={c} value={c}>{c === 'all' ? 'All topics' : categoryLabels[c]}</ToggleGroupItem>)}</ToggleGroup>
+  return <div className="page knowledge-page"><div className="page-heading"><h1>Knowledge base</h1><p>Public VIT Vellore sources and policy documents.</p></div>
+    <div className="knowledge-toolbar"><div className="search-field"><Label htmlFor="knowledge-search" className="sr-only">Search the knowledge base</Label><Search size={21} aria-hidden="true"/><Input id="knowledge-search" value={query} onChange={e => setQuery(e.target.value)} placeholder="Search campus information…" />{query && <Button variant="ghost" size="icon" onClick={() => setQuery('')} aria-label="Clear search"><X size={18} /></Button>}</div>{!loading && <span className="result-count">{docs.length} {docs.length===1?'source':'sources'}</span>}</div>
+    <div className="category-filter"><Label htmlFor="knowledge-category">Topic</Label><select id="knowledge-category" value={category} onChange={event=>setCategory(event.target.value)}>{['all',...Array.from(new Set(docs.map(d=>d.category))).sort()].map(c=><option key={c} value={c}>{c==='all'?'All topics':categoryLabels[c] || c}</option>)}</select></div>
 
 
     {error && <p className="error-banner" role="alert">{error}</p>}
-    {loading ? <div className="empty-state"><Spinner /><p>Loading campus information…</p></div> : <><div className="section-heading"><h2>{category === 'all' ? 'All campus information' : categoryLabels[category]}</h2><span>{filtered.length} results</span></div><div className="knowledge-list">{filtered.slice(0,visibleCount).map(d => { const Icon = categoryIcons[d.category] || FileText; return <Button variant="ghost" className="knowledge-row" key={d.id} onClick={() => setSelected(d)}><span className="document-icon"><Icon size={23} strokeWidth={1.7} /></span><span className="document-copy"><span className="document-meta">{categoryLabels[d.category] || d.category}<span>·</span>{d.kind === 'official' ? 'VIT source' : d.kind === 'faq' ? 'FAQ' : 'Guide'}</span><strong>{d.title}</strong><span className="document-excerpt">{d.content.replace(/[#\n]/g, ' ').slice(0, 135)}</span></span><ChevronRight size={21} /></Button>; })}</div>{filtered.length>visibleCount && <Button variant="outline" className="load-sources" onClick={()=>setVisibleCount(n=>n+15)}>Show more sources ({filtered.length-visibleCount} remaining)</Button>}{!filtered.length && <div className="empty-state"><Search size={30} /><h2>No matching sources</h2><p>Try a different search or choose another topic.</p><Button variant="outline" onClick={() => { setQuery(''); setCategory('all'); }}>Clear filters</Button></div>}</>}
+    {loading ? <div className="empty-state"><Spinner /><p>Loading campus information…</p></div> : <><div className="section-heading"><h2>{category === 'all' ? 'All campus information' : categoryLabels[category]}</h2><span>{filtered.length} {filtered.length===1?'result':'results'}</span></div><div className="knowledge-list">{filtered.slice(0,visibleCount).map(d => { const Icon = categoryIcons[d.category] || FileText; return <Button variant="ghost" className="knowledge-row" key={d.id} onClick={() => setSelected(d)}><span className="document-icon"><Icon size={23} strokeWidth={1.7} /></span><span className="document-copy"><span className="document-meta">{categoryLabels[d.category] || d.category}<span>·</span>{d.kind === 'official' ? 'VIT source' : d.kind === 'faq' ? 'FAQ' : 'Guide'}</span><strong>{d.title}</strong><span className="document-excerpt">{d.content.replace(/[#\n]/g, ' ').slice(0, 135)}</span></span><ChevronRight size={21} /></Button>; })}</div>{filtered.length>visibleCount && <Button variant="outline" className="load-sources" onClick={()=>setVisibleCount(n=>n+15)}>Show more sources ({filtered.length-visibleCount} remaining)</Button>}{!filtered.length && <div className="empty-state"><Search size={30} /><h2>No matching sources</h2><p>Try a different search or choose another topic.</p><Button variant="outline" onClick={() => { setQuery(''); setCategory('all'); }}>Clear filters</Button></div>}</>}
     {selected && <SourceDialog provenance={selected} title={selected.title} onClose={() => setSelected(null)}><Badge variant="secondary" className="source-badge">{categoryLabels[selected.category]} · {selected.kind === 'official' ? 'VIT source' : selected.kind === 'faq' ? 'FAQ' : 'Guide'}</Badge><Suspense fallback={<p role="status">Loading source…</p>}><SourceContent content={selected.content} title={selected.title}/></Suspense></SourceDialog>}
   </div>;
 }
@@ -304,8 +338,8 @@ function StaffQueue() {
     finally { if (request === requestNumber.current) setLoading(false); }
   }
   useEffect(() => { let active=true;const refresh=()=>{if(active)void load(status);};refresh();window.addEventListener('campus-conversation-updated',refresh);return()=>{active=false;requestNumber.current++;window.removeEventListener('campus-conversation-updated',refresh);}; }, [status]);
-  return <div className="page"><div className="staff-title"><div className="page-heading"><span className="eyebrow">STUDENT SUPPORT</span><h1>Staff queue</h1><p>Review questions sent to student support and track their resolution.</p></div></div><div className="queue-toolbar"><Tabs value={status} onValueChange={setStatus}><TabsList aria-label="Ticket status">{['open','resolved','all'].map(value=><TabsTrigger key={value} value={value}>{value==='open'?'Unresolved':value==='resolved'?'Resolved':'All questions'}</TabsTrigger>)}</TabsList></Tabs><Button variant="outline" disabled={loading} onClick={() => void load(status)}>Refresh{loading && <Spinner />}</Button></div>{error && <p className="error-banner" role="alert">{error}</p>}
-    {loading ? <div className="empty-state"><Spinner /><p>Loading staff queue…</p></div> : tickets.length ? <div className="ticket-list">{tickets.map(t => <Button variant="ghost" className="ticket-row" key={t.id} asChild><NavLink to={'/staff/'+t.conversation_id}><span className="document-icon"><MessageSquare size={23} /></span><div><span className="document-meta">{t.reference}<span>·</span>{new Date(t.created_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })}</span><strong>{t.query}</strong><span className="document-excerpt">{t.reason}</span></div><Badge variant="outline" className={`status-pill ${t.status}`}>{t.status === 'open' ? 'Unresolved' : 'Resolved'}</Badge><ChevronRight size={21} /></NavLink></Button>)}</div> : <div className="empty-state queue-empty"><CheckCircle2 size={38} strokeWidth={1.4} /><h2>{status === 'open' ? 'No unresolved tickets.' : 'No tickets found.'}</h2><p>{status === 'open' ? 'Questions sent to student support will appear here.' : 'Try another filter to view more questions.'}</p></div>}
+  return <div className="page"><div className="staff-title"><div className="page-heading"><h1>Staff queue</h1><p>Review confirmed requests and reply to students.</p></div></div><div className="queue-toolbar"><Tabs value={status} onValueChange={setStatus}><TabsList variant="line" aria-label="Ticket status">{['open','resolved','all'].map(value=><TabsTrigger key={value} value={value}>{value==='open'?'Unresolved':value==='resolved'?'Resolved':'All questions'}</TabsTrigger>)}</TabsList></Tabs><Button variant="outline" disabled={loading} onClick={() => void load(status)}>Refresh{loading && <Spinner />}</Button></div>{error && <p className="error-banner" role="alert">{error}</p>}
+    {loading ? <div className="empty-state"><Spinner /><p>Loading staff queue…</p></div> : tickets.length ? <div className="ticket-list">{tickets.map(t => <Button variant="ghost" className="ticket-row" key={t.id} asChild><NavLink to={'/staff/'+t.conversation_id}><span className="document-icon"><MessageSquare size={23} /></span><div><span className="document-meta">{t.reference}<span>·</span>{new Date(t.created_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })}</span><strong>{t.query}</strong><span className="document-excerpt">{t.reason}</span></div><Badge variant="outline" className={`status-pill ${t.status}`}>{t.status === 'open' ? 'Unresolved' : 'Resolved'}</Badge><ChevronRight size={21} /></NavLink></Button>)}</div> : <div className="empty-state queue-empty"><h2>{status === 'open' ? 'No unresolved tickets.' : 'No tickets found.'}</h2><p>{status === 'open' ? 'Questions sent to student support will appear here.' : 'Try another filter to view more questions.'}</p></div>}
 
   </div>;
 }
