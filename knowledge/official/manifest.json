@@ -1,5 +1,5 @@
 {
-  "scope": "VIT Vellore public website; current pages and dated documents",
+  "scope": "VIT Vellore public website (vit.ac.in); Vellore campus only, other campuses filtered out; current pages and dated documents",
   "documents": [
     {
       "id": "vit-a5491ce470ffa0",
@@ -9,11 +9,11 @@
       "file": "processed/vit-a5491ce470ffa0.md",
       "source_url": "https://vit.ac.in/academics/library",
       "campus": "Vellore",
-      "retrieved_at": "2026-10-24T16:16:36.056754+00:00",
-      "sha256": "d6cb6d59302b347c1e074c2119e3d94f6ae955fb37ff914b6ee421a385651955",
-      "content_characters": 19587,
-      "approved": true,
-      "format": "HTML"
+      "retrieved_at": "2026-10-25T06:01:52.710633+00:00",
+      "format": "HTML",
+      "sha256": "99be441ea64a409492067932d77b1c2a7de34cbeee06076a124409e8f877128e",
+      "content_characters": 19504,
+      "approved": true
     },
     {
       "id": "vit-11ef909f65c02c",
@@ -23,11 +23,11 @@
       "file": "processed/vit-11ef909f65c02c.md",
       "source_url": "https://vit.ac.in/academics/ffcs",
       "campus": "Vellore",
-      "retrieved_at": "2026-10-24T16:16:37.579489+00:00",
-      "sha256": "c7ca78d13d15c690d1ab4b1dc8437806b12c5768adfa6026b5e916a626cdae1c",
+      "retrieved_at": "2026-10-25T06:01:54.505430+00:00",
+      "format": "HTML",
+      "sha256": "f59ca4c7ef6ccf345a895711aa6bf36f11cf0bd36099d1fa95dd6f0f481c007d",
       "content_characters": 1888,
-      "approved": true,
-      "format": "HTML"
+      "approved": true
     },
     {
       "id": "vit-db4f817612a002",
@@ -37,11 +37,11 @@
       "file": "processed/vit-db4f817612a002.md",
       "source_url": "https://vit.ac.in/academics/academic-regulations",
       "campus": "Vellore",
-      "retrieved_at": "2026-10-24T16:16:40.738769+00:00",
+      "retrieved_at": "2026-10-25T06:01:56.127970+00:00",
+      "format": "PDF (text extraction or OCR)",
       "sha256": "11cce1118b4c1fc1bd22849014028798429acf6e1d623a01c39e84a733b62d5b",
-      "content_characters": 119021,
-      "approved": true,
-      "format": "PDF (text extraction or OCR)"
+      "content_characters": 119009,
+      "approved": true
     },
     {
       "id": "vit-e8feaeba2f60ef",
@@ -51,11 +51,11 @@
       "file": "processed/vit-e8feaeba2f60ef.md",
       "source_url": "https://vit.ac.in/sites/default/files/academic/Academic-Regulations.pdf",
       "campus": "Vellore",
-      "retrieved_at": "2026-10-24T16:16:45.550568+00:00",
+      "retrieved_at": "2026-10-25T06:01:58.544742+00:00",
+      "format": "PDF (text extraction or OCR)",
       "sha256": "186567ba4690cfab1355a22bedefd89555899c7ad445d131e577c2e5086d7211",
-      "content_characters": 102497,
-      "approved": true,
-      "format": "PDF (text extraction or OCR)"
+      "content_characters": 102481,
+      "approved": true
     },
     {
       "id": "vit-79d9707124ef09",
@@ -65,11 +65,11 @@
       "file": "processed/vit-79d9707124ef09.md",
       "source_url": "https://vit.ac.in/campuslife/hostels",
       "campus": "Vellore",
-      "retrieved_at": "2026-10-24T16:16:47.504896+00:00",
-      "sha256": "fd63786b6991642126f171e540afc8f3c786012195a18870c6d145703b66695f",
+      "retrieved_at": "2026-10-25T06:02:00.000028+00:00",
+      "format": "HTML",
+      "sha256": "f3b14b856619937edc2cb72d068eb4e143b5adea564faddc57daded209bec8b1",
       "content_characters": 10228,
-      "approved": true,
-      "format": "HTML"
+      "approved": true
     },
     {
       "id": "vit-368491d494cbab",
@@ -79,11 +79,11 @@
       "file": "processed/vit-368491d494cbab.md",
       "source_url": "https://vit.ac.in/wp-content/uploads/2026/05/First-year-2026-27.pdf",
       "campus": "Vellore",
-      "retrieved_at": "2026-10-24T16:29:35.275048+00:00",
+      "retrieved_at": "2026-10-25T06:02:00.849644+00:00",
+      "format": "PDF (text extraction or OCR)",
       "sha256": "1a32c86b93b59c59b5a01a2c837aff859e71e9e51e9c23ec7b22d7c745b44cbb",
-      "content_characters": 3958,
-      "approved": true,
-      "format": "PDF (text extraction or OCR)"
+      "content_characters": 3959,
+      "approved": true
     },
     {
       "id": "vit-67d0ec3c0cdd30",
@@ -93,11 +93,11 @@
       "file": "processed/vit-67d0ec3c0cdd30.md",
       "source_url": "https://vit.ac.in/wp-content/uploads/2026/05/LH-NRI-fees-2026-27.pdf",
       "campus": "Vellore",
-      "retrieved_at": "2026-10-24T16:29:37.859647+00:00",
+      "retrieved_at": "2026-10-25T06:02:01.516665+00:00",
+      "format": "PDF (text extraction or OCR)",
       "sha256": "7cd8949590a71d545a47f1e848af40c7376657ce938ed044c2ae521fc081f573",
-      "content_characters": 1189,
-      "approved": true,
-      "format": "PDF (text extraction or OCR)"
+      "content_characters": 1190,
+      "approved": true
     },
     {
       "id": "vit-64afb55735f79a",
@@ -107,11 +107,11 @@
       "file": "processed/vit-64afb55735f79a.md",
       "source_url": "https://vit.ac.in/wp-content/uploads/2026/06/MH-First-Year-FEE-structure-Indian-NRI-FOREIGN-Category-2026-27.pdf",
       "campus": "Vellore",
-      "retrieved_at": "2026-10-24T16:29:41.007240+00:00",
+      "retrieved_at": "2026-10-25T06:02:02.011359+00:00",
+      "format": "PDF (text extraction or OCR)",
       "sha256": "71b5093c46f284662f9cbd08c95a1aad66fa901e7464395f7e4463844517d485",
-      "content_characters": 4545,
-      "approved": true,
-      "format": "PDF (text extraction or OCR)"
+      "content_characters": 4546,
+      "approved": true
     },
     {
       "id": "vit-c10016992bee8b",
@@ -121,11 +121,11 @@
       "file": "processed/vit-c10016992bee8b.md",
       "source_url": "https://vit.ac.in/campuslife/studentswelfare",
       "campus": "Vellore",
-      "retrieved_at": "2026-10-24T16:16:49.253097+00:00",
-      "sha256": "ffd0d4aed6d56558f6a249b1d5c74c80d3470dc7a42edebff139159d0468683a",
+      "retrieved_at": "2026-10-25T06:02:03.485292+00:00",
+      "format": "HTML",
+      "sha256": "a7b091f639c78e5cb50ad76152e0caceb37c7b939a5a468a69360d4183877b9c",
       "content_characters": 2815,
-      "approved": true,
-      "format": "HTML"
+      "approved": true
     },
     {
       "id": "vit-ebb98b7290ec40",
@@ -135,11 +135,11 @@
       "file": "processed/vit-ebb98b7290ec40.md",
       "source_url": "https://vit.ac.in/student-grievance-redressal-committee",
       "campus": "Vellore",
-      "retrieved_at": "2026-10-24T16:16:50.200425+00:00",
-      "sha256": "80ad374ec3ccf54ce68b8d0064fdb0913510ff8d91404c6ac1c5841129b66cf9",
+      "retrieved_at": "2026-10-25T06:02:05.046843+00:00",
+      "format": "HTML",
+      "sha256": "29d0c5865d784d323b184d48cca8c04d2dde7d265aa95a893e5c6843068c4bbc",
       "content_characters": 827,
-      "approved": true,
-      "format": "HTML"
+      "approved": true
     },
     {
       "id": "vit-84bfc24bcbc5f2",
@@ -149,11 +149,11 @@
       "file": "processed/vit-84bfc24bcbc5f2.md",
       "source_url": "https://vit.ac.in/centre-for-vit-happiness-and-well-being",
       "campus": "Vellore",
-      "retrieved_at": "2026-10-24T16:16:51.819999+00:00",
-      "sha256": "04062ef33160f1e9b10e68e46918bd3ff0a0af72ed398a984c1b238a484bc532",
+      "retrieved_at": "2026-10-25T06:02:06.813542+00:00",
+      "format": "HTML",
+      "sha256": "cd5ee09cffd70770b852e3e814f3900611f7485d9377b8f1ad602d98395b881b",
       "content_characters": 11308,
-      "approved": true,
-      "format": "HTML"
+      "approved": true
     },
     {
       "id": "vit-4036db597ab91c",
@@ -163,11 +163,11 @@
       "file": "processed/vit-4036db597ab91c.md",
       "source_url": "https://vit.ac.in/about/infrastructure",
       "campus": "Vellore",
-      "retrieved_at": "2026-10-24T16:16:54.158712+00:00",
-      "sha256": "e73515109a06076e52bcf1c9cff8da9a094e8383ab3418630172f4bd1e620d09",
+      "retrieved_at": "2026-10-25T06:02:08.487965+00:00",
+      "format": "HTML",
+      "sha256": "753b9bb2bcb89a31102ea8352357dfaca95935be95d7faaff758b25a56e9b830",
       "content_characters": 7502,
-      "approved": true,
-      "format": "HTML"
+      "approved": true
     },
     {
       "id": "vit-6f1f0086da8435",
@@ -177,11 +177,11 @@
       "file": "processed/vit-6f1f0086da8435.md",
       "source_url": "https://vit.ac.in/campuslife/sports",
       "campus": "Vellore",
-      "retrieved_at": "2026-10-24T16:16:55.727129+00:00",
-      "sha256": "00142e2d01c44ac9070b4266840d0cfc1c1203bc63184775f470b7aa095bcb23",
-      "content_characters": 7132,
-      "approved": true,
-      "format": "HTML"
+      "retrieved_at": "2026-10-25T06:02:10.436887+00:00",
+      "format": "HTML",
+      "sha256": "73a0a9a341637b1743b2c031696e553362eb909ae42af1b795ff8e842a85ea48",
+      "content_characters": 7078,
+      "approved": true
     },
     {
       "id": "vit-319b21a90aee03",
@@ -191,11 +191,11 @@
       "file": "processed/vit-319b21a90aee03.md",
       "source_url": "https://vit.ac.in/campuslife/healthservices",
       "campus": "Vellore",
-      "retrieved_at": "2026-10-24T16:16:59.131810+00:00",
-      "sha256": "7ee2cad3b29a9e8dbeaa41395cda51e4729753ca35896548b579e65d4f063fa5",
+      "retrieved_at": "2026-10-25T06:02:12.124924+00:00",
+      "format": "HTML",
+      "sha256": "24a54fbf01655a0f591292305c4b02c71e49110173e048f2120ff8b84a989459",
       "content_characters": 44030,
-      "approved": true,
-      "format": "HTML"
+      "approved": true
     },
     {
       "id": "vit-9c9d66a3a189ac",
@@ -205,11 +205,11 @@
       "file": "processed/vit-9c9d66a3a189ac.md",
       "source_url": "https://vit.ac.in/campuslife/otheramenities",
       "campus": "Vellore",
-      "retrieved_at": "2026-10-24T16:17:02.498455+00:00",
-      "sha256": "4fd52ac91193a91546a30e90f9c6481c07adeecd2f29ff7cb1290a203ba8b2bd",
+      "retrieved_at": "2026-10-25T06:02:15.167526+00:00",
+      "format": "HTML",
+      "sha256": "85e8d89897e2b2234fcef3ac05c1bed1fd3c00ae010dbc7aaa95f7cb02b92d8d",
       "content_characters": 6231,
-      "approved": true,
-      "format": "HTML"
+      "approved": true
     },
     {
       "id": "vit-9b835c3ea1b60f",
@@ -219,11 +219,11 @@
       "file": "processed/vit-9b835c3ea1b60f.md",
       "source_url": "https://vit.ac.in/about/administrative-offices",
       "campus": "Vellore",
-      "retrieved_at": "2026-10-24T16:17:05.548036+00:00",
-      "sha256": "5572af38249bb54d98b867d3eb51a2f5e5c35f6e435a5d7dbc008dd5a18472f0",
-      "content_characters": 22708,
-      "approved": true,
-      "format": "HTML"
+      "retrieved_at": "2026-10-25T06:02:17.928245+00:00",
+      "format": "HTML",
+      "sha256": "56b3359dd9be61cf1de1cc8314e539476b6a5fefb00c28c974cdfc7840452a5e",
+      "content_characters": 22398,
+      "approved": true
     },
     {
       "id": "vit-ae3e1de3281fce",
@@ -233,11 +233,11 @@
       "file": "processed/vit-ae3e1de3281fce.md",
       "source_url": "https://vit.ac.in/contactus",
       "campus": "Vellore",
-      "retrieved_at": "2026-10-24T16:17:06.503527+00:00",
-      "sha256": "69cf1e5ec32dacea3215d4e6b759f2f1d4df40841891b58a2ad7497af954b82a",
-      "content_characters": 49659,
-      "approved": true,
-      "format": "HTML"
+      "retrieved_at": "2026-10-25T06:02:19.577321+00:00",
+      "format": "HTML",
+      "sha256": "ce72f15343e7aec21d815953e188c83c70eef0bbd946cf2c9144bd9d81330178",
+      "content_characters": 49315,
+      "approved": true
     },
     {
       "id": "vit-370a61e1008181",
@@ -247,11 +247,11 @@
       "file": "processed/vit-370a61e1008181.md",
       "source_url": "https://vit.ac.in/ug-downloads",
       "campus": "Vellore",
-      "retrieved_at": "2026-10-24T16:17:07.121598+00:00",
-      "sha256": "f5202f8f4952dfed7f5c9c0567136a509d59c15f709b42899a91eabfc9b63fd1",
+      "retrieved_at": "2026-10-25T06:02:20.326303+00:00",
+      "format": "HTML",
+      "sha256": "4f5c9b007d73899d918182c85b256270ffd2c2def442cca7859a26de3b7c23ed",
       "content_characters": 452,
-      "approved": true,
-      "format": "HTML"
+      "approved": true
     },
     {
       "id": "vit-284189fde10bcc",
@@ -261,11 +261,11 @@
       "file": "processed/vit-284189fde10bcc.md",
       "source_url": "https://vit.ac.in/scholarship",
       "campus": "Vellore",
-      "retrieved_at": "2026-10-24T16:17:07.639748+00:00",
-      "sha256": "7419d181a80ef05f348a3822f79da6ef6babd9618ea85f1dd8b5bc3e1740d6db",
-      "content_characters": 12074,
-      "approved": true,
-      "format": "HTML"
+      "retrieved_at": "2026-10-25T06:02:21.912188+00:00",
+      "format": "HTML",
+      "sha256": "94e93751d6fa420010d8485083b3ce2f0abc1fa5b9db8c2655b2cc6ee0d56f84",
+      "content_characters": 12042,
+      "approved": true
     },
     {
       "id": "vit-3c494770e60391",
@@ -275,11 +275,11 @@
       "file": "processed/vit-3c494770e60391.md",
       "source_url": "https://vit.ac.in/internationalrelations",
       "campus": "Vellore",
-      "retrieved_at": "2026-10-24T16:17:08.264228+00:00",
-      "sha256": "fd61efd4ea41885cad1cad5748866db7ae9cdb9cd522e65d9705459985160b9d",
-      "content_characters": 24188,
-      "approved": true,
-      "format": "HTML"
+      "retrieved_at": "2026-10-25T06:02:23.537203+00:00",
+      "format": "HTML",
+      "sha256": "f00d4aecc08f1e9e11a37afbbb26c2839f04d5942efa906cbed2b3b49b1badfd",
+      "content_characters": 24078,
+      "approved": true
     },
     {
       "id": "vit-1b92fbfd28b4c8",
@@ -289,11 +289,11 @@
       "file": "processed/vit-1b92fbfd28b4c8.md",
       "source_url": "https://vit.ac.in/campuslife/campus-events",
       "campus": "Vellore",
-      "retrieved_at": "2026-10-24T16:17:13.054819+00:00",
-      "sha256": "1350bb4e49106392685566649c93c45a21071ffc37ec66267e2f287595676302",
+      "retrieved_at": "2026-10-25T06:02:28.314252+00:00",
+      "format": "HTML",
+      "sha256": "09f0c6693158549ef8bbf14d86ca7d728fd1c32bb3055f2e19ea706a3bb84ba9",
       "content_characters": 309,
-      "approved": true,
-      "format": "HTML"
+      "approved": true
     },
     {
       "id": "vit-dd6330b11eaf67",
@@ -303,11 +303,11 @@
       "file": "processed/vit-dd6330b11eaf67.md",
       "source_url": "https://vit.ac.in/admissions/faq",
       "campus": "Vellore",
-      "retrieved_at": "2026-10-24T16:17:15.899209+00:00",
-      "sha256": "aec70ca86da90633d2ffe602cf3ee9379fde181ffba3567c0cee707fe38dafe0",
+      "retrieved_at": "2026-10-25T06:02:31.619763+00:00",
+      "format": "HTML",
+      "sha256": "e1ef5358b5694b891dc4a5ba469350b8e5f38e809b3c4888510f1b97748a0136",
       "content_characters": 6840,
-      "approved": true,
-      "format": "HTML"
+      "approved": true
     },
     {
       "id": "vit-19480b6a990ae2",
@@ -317,11 +317,11 @@
       "file": "processed/vit-19480b6a990ae2.md",
       "source_url": "https://vit.ac.in/cdc-overview",
       "campus": "Vellore",
-      "retrieved_at": "2026-10-24T16:18:36.830265+00:00",
-      "sha256": "fa80da31220837b52ec2115dc6ca6d568aa8133f8379825628c2bb68a18f3cf0",
-      "content_characters": 7492,
-      "approved": true,
-      "format": "HTML"
+      "retrieved_at": "2026-10-25T06:02:33.148251+00:00",
+      "format": "HTML",
+      "sha256": "9ffe65960ed07f6ec55a5aec3be29e9a88d7ba49a2a410ea676c54bbadd5b747",
+      "content_characters": 7484,
+      "approved": true
     },
     {
       "id": "vit-25f417f5ed5882",
@@ -331,11 +331,11 @@
       "file": "processed/vit-25f417f5ed5882.md",
       "source_url": "https://vit.ac.in/placement-process",
       "campus": "Vellore",
-      "retrieved_at": "2026-10-24T16:18:38.465918+00:00",
-      "sha256": "0ffcef60368c14e1310a5551fd6fb602958bb4fbe2bdf0102a10f0fba33714dd",
-      "content_characters": 742,
-      "approved": true,
-      "format": "HTML"
+      "retrieved_at": "2026-10-25T06:02:34.763812+00:00",
+      "format": "HTML",
+      "sha256": "7d03d3cd30c490e6059a02858cf97d1c245952376f6fc1dfb5ed9e5aec9c63d5",
+      "content_characters": 537,
+      "approved": true
     },
     {
       "id": "vit-baef16ad873bf0",
@@ -345,11 +345,11 @@
       "file": "processed/vit-baef16ad873bf0.md",
       "source_url": "https://vit.ac.in/service-and-support-differently-abled-learners-sasdal",
       "campus": "Vellore",
-      "retrieved_at": "2026-10-24T16:18:43.113900+00:00",
-      "sha256": "10924d308100dfcd64cb62936228f4f4ef2d259274380cb2fe17f091c3b15483",
-      "content_characters": 1342,
-      "approved": true,
-      "format": "HTML"
+      "retrieved_at": "2026-10-25T06:02:39.714044+00:00",
+      "format": "HTML",
+      "sha256": "2820de9c2fc4badde121e7aaa4df01e83f88c77402e58e994c3176019058eb24",
+      "content_characters": 1332,
+      "approved": true
     },
     {
       "id": "vit-4285c4c1ecef10",
@@ -359,11 +359,11 @@
       "file": "processed/vit-4285c4c1ecef10.md",
       "source_url": "https://vit.ac.in/anti-ragging-committee",
       "campus": "Vellore",
-      "retrieved_at": "2026-10-24T16:18:44.535883+00:00",
-      "sha256": "e83fedea733dd5c43fae2fd1d36a43a0d03329efc94083238fcbc794e7154aee",
+      "retrieved_at": "2026-10-25T06:02:41.356650+00:00",
+      "format": "HTML",
+      "sha256": "200cf104c76410d4c47200825f32ee56509f5aef811dbb0fe219184ed706710a",
       "content_characters": 5481,
-      "approved": true,
-      "format": "HTML"
+      "approved": true
     },
     {
       "id": "vit-442c6de5696524",
@@ -373,11 +373,11 @@
       "file": "processed/vit-442c6de5696524.md",
       "source_url": "https://vit.ac.in/sites/default/files/Student-Code-of-Conduct.pdf",
       "campus": "Vellore",
-      "retrieved_at": "2026-10-24T16:18:46.531498+00:00",
+      "retrieved_at": "2026-10-25T06:02:42.223762+00:00",
+      "format": "PDF (text extraction or OCR)",
       "sha256": "b471977f952e53263ca6c22b52950b68db677bcdfa43cc5f86ae7b45f69dd008",
-      "content_characters": 21873,
-      "approved": true,
-      "format": "PDF (text extraction or OCR)"
+      "content_characters": 21862,
+      "approved": true
     },
     {
       "id": "vit-dd0dddbce9fe72",
@@ -387,11 +387,11 @@
       "file": "processed/vit-dd0dddbce9fe72.md",
       "source_url": "https://vit.ac.in/research/academic",
       "campus": "Vellore",
-      "retrieved_at": "2026-10-24T16:18:48.393150+00:00",
-      "sha256": "483b4f97ab318a0ef2ca45ea5d7b21a07f430bd05e0a5880f43944fcdeb6156b",
-      "content_characters": 2931,
-      "approved": true,
-      "format": "HTML"
+      "retrieved_at": "2026-10-25T06:02:43.607336+00:00",
+      "format": "HTML",
+      "sha256": "0e159fe75ea64e734771483cda031dfc423bd1dc6428860a159136d567db0819",
+      "content_characters": 2726,
+      "approved": true
     },
     {
       "id": "vit-97d6dc179b581e",
@@ -401,11 +401,11 @@
       "file": "processed/vit-97d6dc179b581e.md",
       "source_url": "https://vit.ac.in/research/centers-list",
       "campus": "Vellore",
-      "retrieved_at": "2026-10-24T16:18:50.004030+00:00",
-      "sha256": "953426348787ee66bbc5ce43d5795183145529acad6f83b3eea86a48c4dfc040",
-      "content_characters": 1235,
-      "approved": true,
-      "format": "HTML"
+      "retrieved_at": "2026-10-25T06:02:45.163180+00:00",
+      "format": "HTML",
+      "sha256": "67b0d16ca51172b3d00a735ae4965af378fc347d4807f9841a59d53770008310",
+      "content_characters": 1123,
+      "approved": true
     },
     {
       "id": "vit-49ae6dbba6c045",
@@ -415,11 +415,11 @@
       "file": "processed/vit-49ae6dbba6c045.md",
       "source_url": "https://vit.ac.in/admissions/research",
       "campus": "Vellore",
-      "retrieved_at": "2026-10-24T16:18:51.498436+00:00",
-      "sha256": "dae15008f4b4e3257b6ca1175f08b802b422c318b3fb452f018b7a442224d261",
-      "content_characters": 9624,
-      "approved": true,
-      "format": "HTML"
+      "retrieved_at": "2026-10-25T06:02:46.687955+00:00",
+      "format": "HTML",
+      "sha256": "47ebd126645681fb35caca71fd6cf61d0a74c87b408703f0ff1b713307c0eeb3",
+      "content_characters": 8569,
+      "approved": true
     },
     {
       "id": "vit-457b6dda2bd791",
@@ -429,11 +429,11 @@
       "file": "processed/vit-457b6dda2bd791.md",
       "source_url": "https://vit.ac.in/academics/transcripts",
       "campus": "Vellore",
-      "retrieved_at": "2026-10-24T16:18:53.020156+00:00",
-      "sha256": "ebc91f16a41f42ccd02f70b741546fdc00f96e177168359c48a408ebae8f8244",
+      "retrieved_at": "2026-10-25T06:02:48.361828+00:00",
+      "format": "HTML",
+      "sha256": "ce4486784e36fd64a32e7e4836f5bcfb2d479e014f13ac1980f6d87d780ecb78",
       "content_characters": 853,
-      "approved": true,
-      "format": "HTML"
+      "approved": true
     },
     {
       "id": "vit-b6fe1950ff01dc",
@@ -443,11 +443,11 @@
       "file": "processed/vit-b6fe1950ff01dc.md",
       "source_url": "https://vit.ac.in/transcripts-for-alumni",
       "campus": "Vellore",
-      "retrieved_at": "2026-10-24T16:18:54.817302+00:00",
-      "sha256": "5fd69346a1633e7967362e7ae5a36429602e498a19fcb69a02d58fe910343d99",
+      "retrieved_at": "2026-10-25T06:02:49.862299+00:00",
+      "format": "HTML",
+      "sha256": "cb030f4ca6c1c8fc5e280248e380435808b26dccf677829d0e7b6a004e90e0de",
       "content_characters": 866,
-      "approved": true,
-      "format": "HTML"
+      "approved": true
     },
     {
       "id": "vit-3ae7856947c0b2",
@@ -457,11 +457,11 @@
       "file": "processed/vit-3ae7856947c0b2.md",
       "source_url": "https://vit.ac.in/alumni-office-contact",
       "campus": "Vellore",
-      "retrieved_at": "2026-10-24T16:18:56.411304+00:00",
-      "sha256": "d6900ad743c7c42f2afca751c1acc3c84fb605c95892dbd9988fbb2cecf77c9d",
+      "retrieved_at": "2026-10-25T06:02:51.345902+00:00",
+      "format": "HTML",
+      "sha256": "82969e64d697f87be3fc9c95d17e1bad627070a884a014f24dc11e2c23b75f7a",
       "content_characters": 514,
-      "approved": true,
-      "format": "HTML"
+      "approved": true
     },
     {
       "id": "vit-122939bca23a36",
@@ -471,11 +471,11 @@
       "file": "processed/vit-122939bca23a36.md",
       "source_url": "https://vit.ac.in/admissions/overview",
       "campus": "Vellore",
-      "retrieved_at": "2026-10-24T16:18:58.106155+00:00",
-      "sha256": "0ff57f72e3031dd7f2b7b84c32bb69a3c94c7e7306fc139543b5b05d35f0b6a0",
-      "content_characters": 6779,
-      "approved": true,
-      "format": "HTML"
+      "retrieved_at": "2026-10-25T06:02:52.873425+00:00",
+      "format": "HTML",
+      "sha256": "c2d86d89663714b8d93ccba6c42a208f2c92a1e0a7318a125407a29ef4813696",
+      "content_characters": 6003,
+      "approved": true
     },
     {
       "id": "vit-44db388beb09af",
@@ -485,11 +485,11 @@
       "file": "processed/vit-44db388beb09af.md",
       "source_url": "https://vit.ac.in/admissions/international/overview",
       "campus": "Vellore",
-      "retrieved_at": "2026-10-24T16:18:59.792956+00:00",
-      "sha256": "efe9a894f253096ae0ae3af3395442313094886053d90281f5dccbaf9b633061",
-      "content_characters": 3210,
-      "approved": true,
-      "format": "HTML"
+      "retrieved_at": "2026-10-25T06:02:54.488115+00:00",
+      "format": "HTML",
+      "sha256": "f9c213084d44eaeea59d03101a4f512e1350cc29e07ac60b95f3aa49f5a60881",
+      "content_characters": 2975,
+      "approved": true
     },
     {
       "id": "vit-54eaf1bb122a3a",
@@ -499,11 +499,11 @@
       "file": "processed/vit-54eaf1bb122a3a.md",
       "source_url": "https://vit.ac.in/admissions/international/research",
       "campus": "Vellore",
-      "retrieved_at": "2026-10-24T16:19:01.536436+00:00",
-      "sha256": "b85a6b9be1cc91ee537702f7cc006f77f9fcd5af88fe5a4304dd324a6b38cb50",
-      "content_characters": 6467,
-      "approved": true,
-      "format": "HTML"
+      "retrieved_at": "2026-10-25T06:02:56.372531+00:00",
+      "format": "HTML",
+      "sha256": "8d1450e9a0dec93976a3002dbfefe137f220377bc71f59d41ca20a7d9622c44b",
+      "content_characters": 6380,
+      "approved": true
     },
     {
       "id": "vit-df08e7d4711950",
@@ -513,11 +513,11 @@
       "file": "processed/vit-df08e7d4711950.md",
       "source_url": "https://vit.ac.in/internationalrelations/itp",
       "campus": "Vellore",
-      "retrieved_at": "2026-10-24T16:19:02.131871+00:00",
-      "sha256": "7967d88992a472b2edf4dac1c3350f31dc03ed300ae3d44eeeb3fd9f98974daa",
+      "retrieved_at": "2026-10-25T06:02:58.822293+00:00",
+      "format": "HTML",
+      "sha256": "a2ac0432e1d1e74b54c2e8ef50aeac25e5f6bf263d17ebaae10ffdcb9ac5944e",
       "content_characters": 13890,
-      "approved": true,
-      "format": "HTML"
+      "approved": true
     },
     {
       "id": "vit-afa7a3baaf94c8",
@@ -527,11 +527,669 @@
       "file": "processed/vit-afa7a3baaf94c8.md",
       "source_url": "https://vit.ac.in/international-projects-sap",
       "campus": "Vellore",
-      "retrieved_at": "2026-10-24T16:19:03.707666+00:00",
-      "sha256": "d0461547431ed22ad4b0b8f06fa62ca2435b31e1181ff17c1e88996e86c122c7",
+      "retrieved_at": "2026-10-25T06:03:00.675326+00:00",
+      "format": "HTML",
+      "sha256": "f35d3496e79e668839b51abd4de802787fbfb7df0ece64ef37dd9f194981acf1",
       "content_characters": 5687,
-      "approved": true,
-      "format": "HTML"
+      "approved": true
+    },
+    {
+      "id": "vit-dba98ac86f5a8e",
+      "title": "About Us | VIT",
+      "category": "about",
+      "kind": "official",
+      "file": "processed/vit-dba98ac86f5a8e.md",
+      "source_url": "https://vit.ac.in/about-vit",
+      "campus": "Vellore",
+      "retrieved_at": "2026-10-25T06:03:02.197687+00:00",
+      "format": "HTML",
+      "sha256": "07eec239858686dd23b6b068dc4f4515236a9dff1c928806e4830178553c1a0b",
+      "content_characters": 1974,
+      "approved": true
+    },
+    {
+      "id": "vit-f9ca8f8be8d3f2",
+      "title": "Vision & Mission | VIT",
+      "category": "about",
+      "kind": "official",
+      "file": "processed/vit-f9ca8f8be8d3f2.md",
+      "source_url": "https://vit.ac.in/about/vision-mission",
+      "campus": "Vellore",
+      "retrieved_at": "2026-10-25T06:03:03.963079+00:00",
+      "format": "HTML",
+      "sha256": "202431d7880463cadaac0a1c4f80fb697699af281c62a32e2e6241e538782c78",
+      "content_characters": 2038,
+      "approved": true
+    },
+    {
+      "id": "vit-462ea7f3538b2a",
+      "title": "VIT Milestones | VIT",
+      "category": "about",
+      "kind": "official",
+      "file": "processed/vit-462ea7f3538b2a.md",
+      "source_url": "https://vit.ac.in/vit-milestones",
+      "campus": "Vellore",
+      "retrieved_at": "2026-10-25T06:03:05.670122+00:00",
+      "format": "HTML",
+      "sha256": "23112121883162807e9708a1153ed423e4ff110d74afa2e241fbb2b39d6f3665",
+      "content_characters": 27298,
+      "approved": true
+    },
+    {
+      "id": "vit-1e24edc4e7499a",
+      "title": "Leadership | VIT",
+      "category": "about",
+      "kind": "official",
+      "file": "processed/vit-1e24edc4e7499a.md",
+      "source_url": "https://vit.ac.in/about/leadership",
+      "campus": "Vellore",
+      "retrieved_at": "2026-10-25T06:03:07.501127+00:00",
+      "format": "HTML",
+      "sha256": "db545994f3f8bdb4182cad6d094eaa8a258e087c2a28c446c4a1db0b0f9db46a",
+      "content_characters": 1473,
+      "approved": true
+    },
+    {
+      "id": "vit-7871ec6e874f9b",
+      "title": "Governance | VIT",
+      "category": "about",
+      "kind": "official",
+      "file": "processed/vit-7871ec6e874f9b.md",
+      "source_url": "https://vit.ac.in/governance",
+      "campus": "Vellore",
+      "retrieved_at": "2026-10-25T06:03:09.041044+00:00",
+      "format": "HTML",
+      "sha256": "158d6b1fd14aa0bd18d6617a8a22c21fd1e131ff8364765b56c03ac631a42e35",
+      "content_characters": 4983,
+      "approved": true
+    },
+    {
+      "id": "vit-8bb780cf60646e",
+      "title": "Sustainability | VIT",
+      "category": "about",
+      "kind": "official",
+      "file": "processed/vit-8bb780cf60646e.md",
+      "source_url": "https://vit.ac.in/about/sustainability",
+      "campus": "Vellore",
+      "retrieved_at": "2026-10-25T06:03:10.728344+00:00",
+      "format": "HTML",
+      "sha256": "7517807663f82dc9ede26be9879f87bf15d6a2194327bc57ac6a0c8607ce56e4",
+      "content_characters": 1361,
+      "approved": true
+    },
+    {
+      "id": "vit-4546274362bf45",
+      "title": "TRUE GREEN | VIT",
+      "category": "about",
+      "kind": "official",
+      "file": "processed/vit-4546274362bf45.md",
+      "source_url": "https://vit.ac.in/true-green",
+      "campus": "Vellore",
+      "retrieved_at": "2026-10-25T06:03:12.286516+00:00",
+      "format": "HTML",
+      "sha256": "493e3337bdc51e1bd4a2e22c82ab4027d06cf79f1d00968ef23abe213a5385b8",
+      "content_characters": 1990,
+      "approved": true
+    },
+    {
+      "id": "vit-17985619c67456",
+      "title": "Community Outreach (CSRD & RS) | VIT",
+      "category": "about",
+      "kind": "official",
+      "file": "processed/vit-17985619c67456.md",
+      "source_url": "https://vit.ac.in/about/community-outreach",
+      "campus": "Vellore",
+      "retrieved_at": "2026-10-25T06:03:13.984105+00:00",
+      "format": "HTML",
+      "sha256": "aa05cc1b146e99eb35f339ea413554a6667824161795536d710a3f70abf83652",
+      "content_characters": 3048,
+      "approved": true
+    },
+    {
+      "id": "vit-ed969404dd820d",
+      "title": "Policies on Core Values",
+      "category": "about",
+      "kind": "official",
+      "file": "processed/vit-ed969404dd820d.md",
+      "source_url": "https://vit.ac.in/policies-core-values",
+      "campus": "Vellore",
+      "retrieved_at": "2026-10-25T06:03:16.972202+00:00",
+      "format": "HTML",
+      "sha256": "1085f92914295270e4e79c80ae652e00740655f5987697966db217061c1c010a",
+      "content_characters": 226,
+      "approved": true
+    },
+    {
+      "id": "vit-c8cc12248c205e",
+      "title": "NIRF Top Ranking Institute for Engineering, University - MHRD | VIT",
+      "category": "about",
+      "kind": "official",
+      "file": "processed/vit-c8cc12248c205e.md",
+      "source_url": "https://vit.ac.in/national-institutional-ranking-framework-nirf",
+      "campus": "Vellore",
+      "retrieved_at": "2026-10-25T06:03:18.507785+00:00",
+      "format": "HTML",
+      "sha256": "58579ad1c55a44117aae5d3b8bc137565065345dcf391c633c728a08086f49ba",
+      "content_characters": 340,
+      "approved": true
+    },
+    {
+      "id": "vit-c51dc1feb43acd",
+      "title": "Ranking and Recognition | ARIIA Ranking | VIT",
+      "category": "about",
+      "kind": "official",
+      "file": "processed/vit-c51dc1feb43acd.md",
+      "source_url": "https://vit.ac.in/ranking-and-recognition",
+      "campus": "Vellore",
+      "retrieved_at": "2026-10-25T06:03:20.491452+00:00",
+      "format": "HTML",
+      "sha256": "d1df6d1f6ca4c1535e96c6fd50f3e49d3d363f813a9e85a54c432df2dfae37d4",
+      "content_characters": 8898,
+      "approved": true
+    },
+    {
+      "id": "vit-f7f0dc43867643",
+      "title": "Academics | VIT",
+      "category": "academics",
+      "kind": "official",
+      "file": "processed/vit-f7f0dc43867643.md",
+      "source_url": "https://vit.ac.in/academics/home",
+      "campus": "Vellore",
+      "retrieved_at": "2026-10-25T06:03:22.722943+00:00",
+      "format": "HTML",
+      "sha256": "15cf5413b0ae1bb059eba02a1d55776fce04a46896db83094c7b20dd136b04e1",
+      "content_characters": 2285,
+      "approved": true
+    },
+    {
+      "id": "vit-ae563874c64ccb",
+      "title": "Schools List for all Various UG, PG, Research Programmes | VIT",
+      "category": "academics",
+      "kind": "official",
+      "file": "processed/vit-ae563874c64ccb.md",
+      "source_url": "https://vit.ac.in/schools",
+      "campus": "Vellore",
+      "retrieved_at": "2026-10-25T06:03:24.831868+00:00",
+      "format": "HTML",
+      "sha256": "06f4d7c4f615daec4bb24f177d3c9575a64ed52772435142c1d229893cc3696c",
+      "content_characters": 859,
+      "approved": true
+    },
+    {
+      "id": "vit-0d5a9acb44e4da",
+      "title": "Controller of Examinations - Vellore Institute of Technology",
+      "category": "academics",
+      "kind": "official",
+      "file": "processed/vit-0d5a9acb44e4da.md",
+      "source_url": "https://vit.ac.in/academics/coe",
+      "campus": "Vellore",
+      "retrieved_at": "2026-10-25T06:03:26.781828+00:00",
+      "format": "HTML",
+      "sha256": "1a5573ccd00935245d5fdd5e851f81081cf5649b7260cd92b8a1dbc9ebf16487",
+      "content_characters": 1895,
+      "approved": true
+    },
+    {
+      "id": "vit-43fe19d8d1271e",
+      "title": "COE Email Contacts | VIT",
+      "category": "academics",
+      "kind": "official",
+      "file": "processed/vit-43fe19d8d1271e.md",
+      "source_url": "https://vit.ac.in/coe-email-contacts",
+      "campus": "Vellore",
+      "retrieved_at": "2026-10-25T06:03:28.472629+00:00",
+      "format": "HTML",
+      "sha256": "a8766452fa9555deae9c3c75553e7f8386268d01977127c33bc6651703f344e7",
+      "content_characters": 1179,
+      "approved": true
+    },
+    {
+      "id": "vit-b94d20d7f3f3e5",
+      "title": "IQAC | VIT",
+      "category": "academics",
+      "kind": "official",
+      "file": "processed/vit-b94d20d7f3f3e5.md",
+      "source_url": "https://vit.ac.in/academics/iqac",
+      "campus": "Vellore",
+      "retrieved_at": "2026-10-25T06:03:29.031909+00:00",
+      "format": "HTML",
+      "sha256": "f7960601df2d484313ae81dd7e785f82a03cc56241df537f55c0b13e8e602355",
+      "content_characters": 27021,
+      "approved": true
+    },
+    {
+      "id": "vit-b5e67fe99a3504",
+      "title": "Academics-Feedback | VIT",
+      "category": "academics",
+      "kind": "official",
+      "file": "processed/vit-b5e67fe99a3504.md",
+      "source_url": "https://vit.ac.in/academics-feedback",
+      "campus": "Vellore",
+      "retrieved_at": "2026-10-25T06:03:30.600816+00:00",
+      "format": "HTML",
+      "sha256": "0688d16ebf396d04c39de45644be74d8092aa69b6b6e5fc6c79f51bcd6e6ef37",
+      "content_characters": 3226,
+      "approved": true
+    },
+    {
+      "id": "vit-fc1bea8cc994f2",
+      "title": "Capability Enhancement Schemes - Vellore Institute of Technology",
+      "category": "academics",
+      "kind": "official",
+      "file": "processed/vit-fc1bea8cc994f2.md",
+      "source_url": "https://vit.ac.in/capability-enhancement-schemes",
+      "campus": "Vellore",
+      "retrieved_at": "2026-10-25T06:03:32.235500+00:00",
+      "format": "HTML",
+      "sha256": "a86df4513c4dae73a94ce1248cad2554058273dc697756b9647f4834de6de0bf",
+      "content_characters": 13230,
+      "approved": true
+    },
+    {
+      "id": "vit-deb3a56c2eff8a",
+      "title": "Teaching Learning Centre of Excellence (TLCE) - Vellore Institute of Technology",
+      "category": "academics",
+      "kind": "official",
+      "file": "processed/vit-deb3a56c2eff8a.md",
+      "source_url": "https://vit.ac.in/centers/tlce",
+      "campus": "Vellore",
+      "retrieved_at": "2026-10-25T06:03:33.814605+00:00",
+      "format": "HTML",
+      "sha256": "4a63944c684b4ceafda965b26200a63495a831dbc7727dfa71333b430d00fa1a",
+      "content_characters": 5444,
+      "approved": true
+    },
+    {
+      "id": "vit-bd718d1b2fabf6",
+      "title": "Medium of Instruction Certificate",
+      "category": "academics",
+      "kind": "official",
+      "file": "processed/vit-bd718d1b2fabf6.md",
+      "source_url": "https://vit.ac.in/instruction",
+      "campus": "Vellore",
+      "retrieved_at": "2026-10-25T06:03:35.896792+00:00",
+      "format": "HTML",
+      "sha256": "4d6d6f3bda75127871eceaa1a9a7776db1d1b2d047eece49ca65148c7172727e",
+      "content_characters": 674,
+      "approved": true
+    },
+    {
+      "id": "vit-07fbb24379dd4e",
+      "title": "e-Tracks | VIT",
+      "category": "academics",
+      "kind": "official",
+      "file": "processed/vit-07fbb24379dd4e.md",
+      "source_url": "https://vit.ac.in/e-tracks",
+      "campus": "Vellore",
+      "retrieved_at": "2026-10-25T06:03:37.498853+00:00",
+      "format": "HTML",
+      "sha256": "ff14181ca446a38af9b738350c9d01e73fdea43c4374e2ee528a6c3be6a7cdfc",
+      "content_characters": 221,
+      "approved": true
+    },
+    {
+      "id": "vit-b0a224bcb7d5ad",
+      "title": "Internal Complaints Committee | VIT",
+      "category": "welfare",
+      "kind": "official",
+      "file": "processed/vit-b0a224bcb7d5ad.md",
+      "source_url": "https://vit.ac.in/internal-complaints-committee",
+      "campus": "Vellore",
+      "retrieved_at": "2026-10-25T06:03:38.953486+00:00",
+      "format": "HTML",
+      "sha256": "97b356c47dd1f4b410a174fb40cb1a0e045f3120086a57219e354c172f00bcb4",
+      "content_characters": 1175,
+      "approved": true
+    },
+    {
+      "id": "vit-718ca2b191b1f8",
+      "title": "Equal Opportunity Cell - Vellore Institute of Technology",
+      "category": "welfare",
+      "kind": "official",
+      "file": "processed/vit-718ca2b191b1f8.md",
+      "source_url": "https://vit.ac.in/equal-opportunity-cell",
+      "campus": "Vellore",
+      "retrieved_at": "2026-10-25T06:03:40.604341+00:00",
+      "format": "HTML",
+      "sha256": "8bae02cea8b4888790849b953e7f1ea5badb95decfbdc16adb69cea12dafac75",
+      "content_characters": 246,
+      "approved": true
+    },
+    {
+      "id": "vit-8adf3fb6a65c2a",
+      "title": "Committee for ensuring Equity, Diversity and Inclusivity - Vellore Institute of Technology",
+      "category": "welfare",
+      "kind": "official",
+      "file": "processed/vit-8adf3fb6a65c2a.md",
+      "source_url": "https://vit.ac.in/committee-for-ensuring-equity-diversity-and-inclusivity",
+      "campus": "Vellore",
+      "retrieved_at": "2026-10-25T06:03:43.699254+00:00",
+      "format": "HTML",
+      "sha256": "2aac6e24580345a13e41ea33f7ed56e03a15e00ef8fd457d8fd7f9623d002255",
+      "content_characters": 1164,
+      "approved": true
+    },
+    {
+      "id": "vit-89a188f58c970c",
+      "title": "Mentoring Committee for Higher Studies - Vellore Institute of Technology",
+      "category": "welfare",
+      "kind": "official",
+      "file": "processed/vit-89a188f58c970c.md",
+      "source_url": "https://vit.ac.in/mentoring-committee-for-higher-studies",
+      "campus": "Vellore",
+      "retrieved_at": "2026-10-25T06:03:45.245714+00:00",
+      "format": "HTML",
+      "sha256": "1e87a03461f6e670a7909cd2225ce2808c902f0b9d32f6a76b3e38603459d81c",
+      "content_characters": 801,
+      "approved": true
+    },
+    {
+      "id": "vit-491d5077eeb790",
+      "title": "VIT Campus Life | Students Clubs and Chapters | Fests | VIT",
+      "category": "welfare",
+      "kind": "official",
+      "file": "processed/vit-491d5077eeb790.md",
+      "source_url": "https://vit.ac.in/campuslife/overview",
+      "campus": "Vellore",
+      "retrieved_at": "2026-10-25T06:03:46.775398+00:00",
+      "format": "HTML",
+      "sha256": "d8b6134e4b6891ed6610af5b837b57be50780c9a311aa614ea50d09462e04208",
+      "content_characters": 742,
+      "approved": true
+    },
+    {
+      "id": "vit-86cba85fc8871e",
+      "title": "International Sports and Cultural Fest | Annual technological and design Carnival | VIT",
+      "category": "welfare",
+      "kind": "official",
+      "file": "processed/vit-86cba85fc8871e.md",
+      "source_url": "https://vit.ac.in/campuslife/fests",
+      "campus": "Vellore",
+      "retrieved_at": "2026-10-25T06:03:48.367084+00:00",
+      "format": "HTML",
+      "sha256": "41ff80a2dae251642ca4dff574270d3b1f99f6587a293146fa187accf2cb13d1",
+      "content_characters": 2615,
+      "approved": true
+    },
+    {
+      "id": "vit-349591ebd6a17f",
+      "title": "Mega Fests | Campus Life",
+      "category": "welfare",
+      "kind": "official",
+      "file": "processed/vit-349591ebd6a17f.md",
+      "source_url": "https://vit.ac.in/campus-category/student-council",
+      "campus": "Vellore",
+      "retrieved_at": "2026-10-25T06:03:49.917319+00:00",
+      "format": "HTML",
+      "sha256": "52294fcaf2df1ab14987db9195c0551a3da56d5e1ab3eeb412c352cc2c58c4cd",
+      "content_characters": 30576,
+      "approved": true
+    },
+    {
+      "id": "vit-68ea9725838538",
+      "title": "Hotels in Vellore | VIT",
+      "category": "facilities",
+      "kind": "official",
+      "file": "processed/vit-68ea9725838538.md",
+      "source_url": "https://vit.ac.in/hotels-in-vellore",
+      "campus": "Vellore",
+      "retrieved_at": "2026-10-25T06:03:53.931181+00:00",
+      "format": "HTML",
+      "sha256": "c10469931e09104a641da224293d71624820064944d7cabc736e11e5003aabc3",
+      "content_characters": 1912,
+      "approved": true
+    },
+    {
+      "id": "vit-9ac5c493643b63",
+      "title": "project lab-teams - Vellore Institute of Technology",
+      "category": "facilities",
+      "kind": "official",
+      "file": "processed/vit-9ac5c493643b63.md",
+      "source_url": "https://vit.ac.in/campus/teams/projects-lab",
+      "campus": "Vellore",
+      "retrieved_at": "2026-10-25T06:03:55.620067+00:00",
+      "format": "HTML",
+      "sha256": "ee530ddce5b8a861059c824c06affa05c0258f52ff2fe1a42bcc273ee438c25f",
+      "content_characters": 3994,
+      "approved": true
+    },
+    {
+      "id": "vit-b3d648ff6f025a",
+      "title": "Programmes Offered - Vellore Institute of Technology | VIT",
+      "category": "admissions",
+      "kind": "official",
+      "file": "processed/vit-b3d648ff6f025a.md",
+      "source_url": "https://vit.ac.in/admissions/programmes-offered",
+      "campus": "Vellore",
+      "retrieved_at": "2026-10-25T06:04:00.396866+00:00",
+      "format": "HTML",
+      "sha256": "d13ed68fb1ee0498fa8e957a1894febc136ad0ce5434c7dcde6e35984b193849",
+      "content_characters": 12030,
+      "approved": true
+    },
+    {
+      "id": "vit-91db8a8782b6e5",
+      "title": "VIT UG Courses 2026-27: B.Tech, B.Des, B.Arch, B.Sc, BBA",
+      "category": "admissions",
+      "kind": "official",
+      "file": "processed/vit-91db8a8782b6e5.md",
+      "source_url": "https://vit.ac.in/all-courses/ug",
+      "campus": "Vellore",
+      "retrieved_at": "2026-10-25T06:04:02.213978+00:00",
+      "format": "HTML",
+      "sha256": "a7036ec44dced95572a106e25bba1df147caba48002b2f4002506960aa7c53db",
+      "content_characters": 3261,
+      "approved": true
+    },
+    {
+      "id": "vit-0a0d5e8c2ad570",
+      "title": "VIT PG Admissions | PG Courses After UG | PG Programmes",
+      "category": "admissions",
+      "kind": "official",
+      "file": "processed/vit-0a0d5e8c2ad570.md",
+      "source_url": "https://vit.ac.in/all-courses/pg",
+      "campus": "Vellore",
+      "retrieved_at": "2026-10-25T06:04:03.862223+00:00",
+      "format": "HTML",
+      "sha256": "21c899a851fea079012a07c3fc8ccc8d0e1ff33cfcec113f568147a74ada7ec5",
+      "content_characters": 3828,
+      "approved": true
+    },
+    {
+      "id": "vit-ee16f2dd3c5773",
+      "title": "STARS-SUPPORT THE ADVANCEMENT OF RURAL STUDENTS |",
+      "category": "admissions",
+      "kind": "official",
+      "file": "processed/vit-ee16f2dd3c5773.md",
+      "source_url": "https://vit.ac.in/stars-support-advancement-rural-students",
+      "campus": "Vellore",
+      "retrieved_at": "2026-10-25T06:04:05.298590+00:00",
+      "format": "HTML",
+      "sha256": "c52d2e2eaf10f47ad19ad7015123192199425f7e6eb3480c34f7d3400796ccbe",
+      "content_characters": 23708,
+      "approved": true
+    },
+    {
+      "id": "vit-055580ec9ebbd7",
+      "title": "B.Tech. Programmes | International Admissions | VIT | VIT",
+      "category": "admissions",
+      "kind": "official",
+      "file": "processed/vit-055580ec9ebbd7.md",
+      "source_url": "https://vit.ac.in/admissions/international/btech-eligibilityandprocedure",
+      "campus": "Vellore",
+      "retrieved_at": "2026-10-25T06:04:09.128832+00:00",
+      "format": "HTML",
+      "sha256": "c48539a101ebeada4090db8864a5459894478903b5af1f204e151efc130de624",
+      "content_characters": 15551,
+      "approved": true
+    },
+    {
+      "id": "vit-e80a43dba0345e",
+      "title": "UG Programmes (Non-B.Tech.) | International Admissions | VIT | VIT",
+      "category": "admissions",
+      "kind": "official",
+      "file": "processed/vit-e80a43dba0345e.md",
+      "source_url": "https://vit.ac.in/admissions/international/otherugprogrammes",
+      "campus": "Vellore",
+      "retrieved_at": "2026-10-25T06:04:11.014111+00:00",
+      "format": "HTML",
+      "sha256": "1e868d61944ab2798c60c480b3e6fbab130832bd12d29f37627ee40b38c3d8fb",
+      "content_characters": 13372,
+      "approved": true
+    },
+    {
+      "id": "vit-9274b0a08a3ef7",
+      "title": "PG Programmes | International Admissions | VIT | VIT",
+      "category": "admissions",
+      "kind": "official",
+      "file": "processed/vit-9274b0a08a3ef7.md",
+      "source_url": "https://vit.ac.in/admissions/international/pg",
+      "campus": "Vellore",
+      "retrieved_at": "2026-10-25T06:04:13.443909+00:00",
+      "format": "HTML",
+      "sha256": "ce5e0141907a430b06ab2aa2dce92421be3a11572a347391d42c0d1a7be35848",
+      "content_characters": 13517,
+      "approved": true
+    },
+    {
+      "id": "vit-05040f0007fc3b",
+      "title": "Integrated Programmes | International Admissions | VIT | VIT",
+      "category": "admissions",
+      "kind": "official",
+      "file": "processed/vit-05040f0007fc3b.md",
+      "source_url": "https://vit.ac.in/admissions/international/integrated",
+      "campus": "Vellore",
+      "retrieved_at": "2026-10-25T06:04:15.254087+00:00",
+      "format": "HTML",
+      "sha256": "dbea5df48684e019cfc55361f4ab57c1f99a9352b9c42b0916d0fe50dc908c87",
+      "content_characters": 6820,
+      "approved": true
+    },
+    {
+      "id": "vit-1437f0a3906c2a",
+      "title": "Placement Highlights | Career Development Centre",
+      "category": "careers",
+      "kind": "official",
+      "file": "processed/vit-1437f0a3906c2a.md",
+      "source_url": "https://vit.ac.in/cdc-highlights",
+      "campus": "Vellore",
+      "retrieved_at": "2026-10-25T06:04:16.931532+00:00",
+      "format": "HTML",
+      "sha256": "21f3c79b6b82d6e580bd0c7cc4d7b2911281f1ddb674f9d8acc5fc5450ac37b1",
+      "content_characters": 9753,
+      "approved": true
+    },
+    {
+      "id": "vit-d291de532efbca",
+      "title": "VIT Placement Statistics 2025-26 | CDC Tracker | Highest CTC, Recruiters, Offers",
+      "category": "careers",
+      "kind": "official",
+      "file": "processed/vit-d291de532efbca.md",
+      "source_url": "https://vit.ac.in/cdc-tracker",
+      "campus": "Vellore",
+      "retrieved_at": "2026-10-25T06:04:18.454366+00:00",
+      "format": "HTML",
+      "sha256": "71b980085da9111bddaf70d6d20a70027d77a657454c1d34ae24ea4cf6df177e",
+      "content_characters": 6224,
+      "approved": true
+    },
+    {
+      "id": "vit-eaad1ffc295a29",
+      "title": "Research Organization | Academic Research | Research Centre | VIT",
+      "category": "research",
+      "kind": "official",
+      "file": "processed/vit-eaad1ffc295a29.md",
+      "source_url": "https://vit.ac.in/research",
+      "campus": "Vellore",
+      "retrieved_at": "2026-10-25T06:04:20.375525+00:00",
+      "format": "HTML",
+      "sha256": "12eb12d265f8b32d01a8a320c92ade38a400a8c392a450d373ac8730ca181906",
+      "content_characters": 2976,
+      "approved": true
+    },
+    {
+      "id": "vit-92b87cf422649a",
+      "title": "Sponsored Research and Industrial Consultancy | VIT",
+      "category": "research",
+      "kind": "official",
+      "file": "processed/vit-92b87cf422649a.md",
+      "source_url": "https://vit.ac.in/research/sponsored-research",
+      "campus": "Vellore",
+      "retrieved_at": "2026-10-25T06:04:22.263320+00:00",
+      "format": "HTML",
+      "sha256": "fc65e02d1afaac31df5517209c57edc9c5891577584476617096d08535b5720e",
+      "content_characters": 2808,
+      "approved": true
+    },
+    {
+      "id": "vit-42da517a6e1508",
+      "title": "IPR Cell | VIT",
+      "category": "research",
+      "kind": "official",
+      "file": "processed/vit-42da517a6e1508.md",
+      "source_url": "https://vit.ac.in/iprcell",
+      "campus": "Vellore",
+      "retrieved_at": "2026-10-25T06:04:23.688592+00:00",
+      "format": "HTML",
+      "sha256": "fb9f4adad95b3a00f68e0cc071625cf8248576b9e58894414c55bb85f83da54c",
+      "content_characters": 54629,
+      "approved": true
+    },
+    {
+      "id": "vit-cd4c625eb7cfe4",
+      "title": "Partner Universities | VIT",
+      "category": "international",
+      "kind": "official",
+      "file": "processed/vit-cd4c625eb7cfe4.md",
+      "source_url": "https://vit.ac.in/internationalrelations/partneruniversities",
+      "campus": "Vellore",
+      "retrieved_at": "2026-10-25T06:04:25.616270+00:00",
+      "format": "HTML",
+      "sha256": "8b16ef61b3decb43a5c6b3835c2528a2106fc340369290572a293d7679201f66",
+      "content_characters": 848,
+      "approved": true
+    },
+    {
+      "id": "vit-8fe0eb03952c98",
+      "title": "Inbound Exchange Programs VIT India",
+      "category": "international",
+      "kind": "official",
+      "file": "processed/vit-8fe0eb03952c98.md",
+      "source_url": "https://vit.ac.in/inbound-exchange-programs-vit-india",
+      "campus": "Vellore",
+      "retrieved_at": "2026-10-25T06:04:27.249719+00:00",
+      "format": "HTML",
+      "sha256": "7fe492048e24f0c6c0f8f9d73cd45197a8652b9c672bbaf9827660c860ce0845",
+      "content_characters": 5241,
+      "approved": true
+    },
+    {
+      "id": "vit-46e0d1c1dac78d",
+      "title": "Semester Abroad Programme | International Relations | VIT",
+      "category": "international",
+      "kind": "official",
+      "file": "processed/vit-46e0d1c1dac78d.md",
+      "source_url": "https://vit.ac.in/academics-more/semester-abroad-program-sap",
+      "campus": "Vellore",
+      "retrieved_at": "2026-10-25T06:04:28.832886+00:00",
+      "format": "HTML",
+      "sha256": "c435c367f471b9b493b0720f7315f2c1bbb750439859acb4e9a069410429833f",
+      "content_characters": 8934,
+      "approved": true
+    },
+    {
+      "id": "vit-68900ec76a5cac",
+      "title": "Semester Abroad Programme | International Relations | VIT",
+      "category": "international",
+      "kind": "official",
+      "file": "processed/vit-68900ec76a5cac.md",
+      "source_url": "https://vit.ac.in/academics-more/contact-us",
+      "campus": "Vellore",
+      "retrieved_at": "2026-10-25T06:04:30.498346+00:00",
+      "format": "HTML",
+      "sha256": "5beee6cbbf02fa0e270c1e9938171ce181ee3c9aeb3f71e2a820663558dcfdb7",
+      "content_characters": 995,
+      "approved": true
     },
     {
       "id": "vit-a1ed5f3bba1da8",
@@ -541,11 +1199,11 @@
       "file": "processed/vit-a1ed5f3bba1da8.md",
       "source_url": "https://vit.ac.in/wp-content/uploads/2024/11/library-policy-2024.pdf",
       "campus": "Vellore",
-      "retrieved_at": "2026-10-24T16:17:26.232641+00:00",
+      "retrieved_at": "2026-10-25T06:04:32.898094+00:00",
+      "format": "PDF (text extraction or OCR)",
       "sha256": "ece56d559e7af5797eba7220175b107a21771723fec8c9f5b3b917aa15c84195",
       "content_characters": 26890,
-      "approved": true,
-      "format": "PDF (text extraction or OCR)"
+      "approved": true
     },
     {
       "id": "vit-3d3e1b57364cbb",
@@ -555,11 +1213,11 @@
       "file": "processed/vit-3d3e1b57364cbb.md",
       "source_url": "https://vit.ac.in/wp-content/uploads/2023/06/Codeofconduct.pdf",
       "campus": "Vellore",
-      "retrieved_at": "2026-10-24T16:29:50.889861+00:00",
+      "retrieved_at": "2026-10-25T06:04:33.523435+00:00",
+      "format": "PDF (text extraction or OCR)",
       "sha256": "4bac11ff4eaaa27387b7dc02b43a195bbed7deb4a57ce79a4018dbcd5c8d2afe",
-      "content_characters": 4024,
-      "approved": true,
-      "format": "PDF (text extraction or OCR)"
+      "content_characters": 4020,
+      "approved": true
     },
     {
       "id": "vit-573a750b2f4ce0",
@@ -569,11 +1227,11 @@
       "file": "processed/vit-573a750b2f4ce0.md",
       "source_url": "https://vit.ac.in/wp-content/uploads/2026/05/Hostel-Refund-Policy-26-27.pdf",
       "campus": "Vellore",
-      "retrieved_at": "2026-10-24T16:17:27.532613+00:00",
+      "retrieved_at": "2026-10-25T06:04:34.113105+00:00",
+      "format": "PDF (text extraction or OCR)",
       "sha256": "78111829133f53af022ff06b7f7f276c54cbffbd95e8c7e8f510fbc05918a981",
-      "content_characters": 6034,
-      "approved": true,
-      "format": "PDF (text extraction or OCR)"
+      "content_characters": 6032,
+      "approved": true
     },
     {
       "id": "vit-18ca715d9d75f6",
@@ -583,11 +1241,11 @@
       "file": "processed/vit-18ca715d9d75f6.md",
       "source_url": "https://vit.ac.in/wp-content/uploads/2026/06/Freshers-Hostel-Admission-Information-Vellore-Campus-2026-27.pdf",
       "campus": "Vellore",
-      "retrieved_at": "2026-10-24T16:17:28.962721+00:00",
+      "retrieved_at": "2026-10-25T06:04:34.697622+00:00",
+      "format": "PDF (text extraction or OCR)",
       "sha256": "ea07a5e93cde47d7568f23ffa8a3f3ddbf0c9101e63685292c7f462d5aca2ff9",
       "content_characters": 2404,
-      "approved": true,
-      "format": "PDF (text extraction or OCR)"
+      "approved": true
     },
     {
       "id": "vit-63cbea80352bb7",
@@ -597,11 +1255,11 @@
       "file": "processed/vit-63cbea80352bb7.md",
       "source_url": "https://vit.ac.in/campus-category/clubs",
       "campus": "Vellore",
-      "retrieved_at": "2026-10-24T16:17:30.644706+00:00",
-      "sha256": "31c47326a7d747b7150bf386d0cc292b74ea9916d9db09bf24b41894c7b251f0",
+      "retrieved_at": "2026-10-25T06:04:36.135848+00:00",
+      "format": "HTML",
+      "sha256": "7829ee42761c0500612ee24e2009e73c0ef4cf4bbd847faa70c5d6443e1fecf3",
       "content_characters": 620,
-      "approved": true,
-      "format": "HTML"
+      "approved": true
     },
     {
       "id": "vit-862b707967e9de",
@@ -611,11 +1269,11 @@
       "file": "processed/vit-862b707967e9de.md",
       "source_url": "https://vit.ac.in/campus-category/chapters",
       "campus": "Vellore",
-      "retrieved_at": "2026-10-24T16:17:32.099925+00:00",
-      "sha256": "5e940612b2bdebc56238a13535c37536748cb81b62eee01a3bd6ba71a24cddab",
+      "retrieved_at": "2026-10-25T06:04:37.674193+00:00",
+      "format": "HTML",
+      "sha256": "1793d249b51090897f9d24f42680085f388124aab313bc5ad6028da5eeac8304",
       "content_characters": 467,
-      "approved": true,
-      "format": "HTML"
+      "approved": true
     },
     {
       "id": "vit-59ba1e77ad61a0",
@@ -625,11 +1283,11 @@
       "file": "processed/vit-59ba1e77ad61a0.md",
       "source_url": "https://vit.ac.in/campus-category/grievancecell",
       "campus": "Vellore",
-      "retrieved_at": "2026-10-24T16:17:33.513649+00:00",
-      "sha256": "14519b575afdea397a24ba384345cc266ef155b354b58f1f80de7567e1bb00de",
+      "retrieved_at": "2026-10-25T06:04:39.244867+00:00",
+      "format": "HTML",
+      "sha256": "6e0bb9a39a22988f8b16d75ac09ae9cd05e9fef312a5edc05945ce7ead9dd49f",
       "content_characters": 861,
-      "approved": true,
-      "format": "HTML"
+      "approved": true
     },
     {
       "id": "vit-f4104d53761b69",
@@ -639,11 +1297,11 @@
       "file": "processed/vit-f4104d53761b69.md",
       "source_url": "https://vit.ac.in/sites/default/files/ug/Affidavits-General-Student-Parent-Hostel-2026.pdf",
       "campus": "Vellore",
-      "retrieved_at": "2026-10-24T16:17:36.370912+00:00",
+      "retrieved_at": "2026-10-25T06:04:40.447386+00:00",
+      "format": "PDF (text extraction or OCR)",
       "sha256": "b3c841d6bf30a8d553f028ddb7e78ce0eecbe38b18b21e4a3b063d27fdfc22db",
-      "content_characters": 14477,
-      "approved": true,
-      "format": "PDF (text extraction or OCR)"
+      "content_characters": 14470,
+      "approved": true
     },
     {
       "id": "vit-10112d29ee8fa5",
@@ -653,11 +1311,11 @@
       "file": "processed/vit-10112d29ee8fa5.md",
       "source_url": "https://vit.ac.in/wp-content/uploads/2025/09/Anti-Ragging-Team-2025-2026.pdf",
       "campus": "Vellore",
-      "retrieved_at": "2026-10-24T16:19:05.511137+00:00",
+      "retrieved_at": "2026-10-25T06:04:41.079925+00:00",
+      "format": "PDF (text extraction or OCR)",
       "sha256": "ee8cbd0feb7ee536f97f16ebbe8b6718e04d5444b007f974732aff702c251af6",
       "content_characters": 12819,
-      "approved": true,
-      "format": "PDF (text extraction or OCR)"
+      "approved": true
     },
     {
       "id": "vit-8dcc39ae1efd49",
@@ -667,11 +1325,11 @@
       "file": "processed/vit-8dcc39ae1efd49.md",
       "source_url": "https://vit.ac.in/campus/chapters/indiansocieties",
       "campus": "Vellore",
-      "retrieved_at": "2026-10-24T16:17:37.921844+00:00",
-      "sha256": "1c38211139a98b0df6cd2104b1092f83a51d17d6eb712c923dedfd7cc652d02b",
+      "retrieved_at": "2026-10-25T06:04:42.566583+00:00",
+      "format": "HTML",
+      "sha256": "7e4b8ddf5d869029c78cb7deb4c75562863ed711687d26b6e982796cfe553c74",
       "content_characters": 14962,
-      "approved": true,
-      "format": "HTML"
+      "approved": true
     },
     {
       "id": "vit-22d70577281fab",
@@ -681,11 +1339,11 @@
       "file": "processed/vit-22d70577281fab.md",
       "source_url": "https://vit.ac.in/campus/chapters/international-societies",
       "campus": "Vellore",
-      "retrieved_at": "2026-10-24T16:17:39.580444+00:00",
-      "sha256": "4a346b0f8b679d92cbde0992d821bd9b2f0d691b73b7c7f311338a3245e02a7c",
+      "retrieved_at": "2026-10-25T06:04:44.113429+00:00",
+      "format": "HTML",
+      "sha256": "62fd78128564d9e57c387fe2b8f37ef5ae907c3514fa8c83fc34f8df07901cea",
       "content_characters": 20150,
-      "approved": true,
-      "format": "HTML"
+      "approved": true
     },
     {
       "id": "vit-d473dfd6135f2b",
@@ -695,11 +1353,11 @@
       "file": "processed/vit-d473dfd6135f2b.md",
       "source_url": "https://vit.ac.in/campus/chapters/ieeechapters",
       "campus": "Vellore",
-      "retrieved_at": "2026-10-24T16:17:41.425861+00:00",
-      "sha256": "93d184c91ffec847af539ea3fecb642edb98f50d54a867717c72a49be38076a4",
+      "retrieved_at": "2026-10-25T06:04:45.812568+00:00",
+      "format": "HTML",
+      "sha256": "c87fc63e416437ae6bc1c7edbb9ecba6fb43424afc172d11116b886408c986e1",
       "content_characters": 19431,
-      "approved": true,
-      "format": "HTML"
+      "approved": true
     }
   ],
   "excluded": [
@@ -728,6 +1386,26 @@
       "reason": "No main content"
     },
     {
+      "url": "https://vit.ac.in/green-vit",
+      "reason": "Too little extractable content"
+    },
+    {
+      "url": "https://vit.ac.in/vitol/",
+      "reason": "No main content"
+    },
+    {
+      "url": "https://vit.ac.in/sc-st-cell",
+      "reason": "Too little extractable content"
+    },
+    {
+      "url": "https://vit.ac.in/guest-house",
+      "reason": "External redirect"
+    },
+    {
+      "url": "https://vit.ac.in/applications-open-2026-27",
+      "reason": "Client error '404 Not Found' for url 'https://vit.ac.in/applications-open-2026-27'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP"
+    },
+    {
       "url": "https://vit.ac.in/sites/default/files/Institutional-Policies/Providing-Scholarship-Financial-Students/index.html",
       "reason": "No main content"
     },
@@ -737,6 +1415,10 @@
     },
     {
       "url": "https://vit.ac.in/cdc-contact-us",
+      "reason": "Too little content after boilerplate removal"
+    },
+    {
+      "url": "https://vit.ac.in/campus-category/programme-representatives",
       "reason": "Too little content after boilerplate removal"
     }
   ]

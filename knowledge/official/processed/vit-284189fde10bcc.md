@@ -82,7 +82,7 @@
 | SL. NO. | SCHOLARSHIPS NAME | FEMALE | MALE | TOT.NO. | AMOUNT (INR) |
 | 1 | HB Founadation, Vaniyambadi | 0 | 1 | 1 | 20,000 |
 | 2 | ” VIDYANETHRAM” Om Sakthi Narayani Siddar Peedam Charitable Trust, Tirumalai Kodi, Vellore | 2 | 0 | 2 | 80,000 |
-| 3 | Laxmi Charities Trust, Chennai | 3 | 2 | 5 | 1,10,000 |
+| 3 || 3 | 2 | 5 | 1,10,000 |
 | 4 | IDFC FIRST Bank Scholarship, | 2 | 0 | 2 | 2,00,000 |
 | 5 | Swamy Dayannand Education Foundatation, Noida, UP – 201301 | 1 | 0 | 1 | 10,000 |
 | 6 | University Higher Education Trust (UHET), Vellore | 92 | 82 | 174 | 19,87,000 |

@@ -304,11 +304,7 @@ View Our Library Floor Plans
 
 ### Institutional Membership
 
-* BCL, Chennai
-* American Information Resources Center, Chennai
-
 ### Library Networks Membership
 
 * DELNET, Delhi
 * INFLIBNET, Ahmedabad
-* MALIBNET, Chennai

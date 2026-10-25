@@ -5,7 +5,7 @@
 
 | | | | | | | | | | | | | | |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| VIT Vellore Campus Vellore – 632 014 Tamilnadu, India Tel: 91-416-2243091 / 93 Fax: 91-416-2243092 91-416-2240411 | | | | | | | VIT Chennai Campus Vandalur – Kelambakkam Road Chennai – 600 127 Ph : 044 3993 1555 Fax : 044 3993 2555 Email: admin[dot]chennai[at]vit[dot]ac[dot]in | | | | | | |
+| VIT Vellore Campus Vellore – 632 014 Tamilnadu, India Tel: 91-416-2243091 / 93 Fax: 91-416-2243092 91-416-2240411 | | | | | | || | | | | | |
 | Admissions Office Dr. Sasikumar S Director – UG Admissions Vellore Institute of Technology Vellore – 632 014, Tamil Nadu, India. Telephone: 044-462-77555 Fax: +91-416-224 5544, 224 0411 Email: ugadmission[at]vit[dot]ac[dot]in | | | | | | | Admissions Office Dr. Sasikumar S Director – PG Admissions Vellore Institute of Technology Vellore – 632 014, Tamil Nadu, India. Phone: + 91-416-220 2188 Fax: +91-416-224 5544, 224 9955 Email: pgadmission[at]vit[dot]ac[dot]in | | | | | | |
 | Career Development Centre (CDC) Dr.V.Samuel Rajkumar Director – CDC Vellore Institute of Technology Vellore – 632 014. Tamil Nadu, India Tel: 0416 – 2202846 Fax: 91-416-2243092, 91-416-224 0411 Email: placement[at]vit[dot]ac[dot]in | | | | | | | International Relations Office Dr. Seenivasan R Director – International Relations Vellore Institute of Technology Vellore – 632 014. Tamil Nadu, India Tel: 91-416-224 3118 Fax: 91-416-2243092 Email: director[dot]ir[at]vit[dot]ac[dot]in rseenivasan[at]vit[dot]ac[dot]in | | | | | | |
 
@@ -89,8 +89,6 @@
 | Controller of Examinations | | | | | | | Dr. Sivabalan S | | | | | | | coe[at]vit[dot]ac[dot]in | | | | | | |
 | Deputy Controller of Examinations | | | | | | | Dr. Balasubramanian V | | | | | | | deputycoe[at]vit[dot]ac[dot]in | | | | | | |
 
-## Director
-
 | **Designation** | | | | | | | **Name** | | | | | | | **Email ID** | | | | | | |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | Alumni Affairs | | | | | | | Dr. Karthikeyan S | | | | | | | director[dot]aa[at]vit[dot]ac[dot]in | | | | | | |
@@ -145,8 +143,6 @@
 | Technology Information Forecasting and assessment Council (TIFAC) | | | | | | | Dr. Suprava Chakraborty | | | | | | | dydirector[dot]tifac[at]vit[dot]ac[dot]in | | | | | | |
 | Alumni Affairs | | | | | | | Dr. Vino S | | | | | | | dydirector[dot]aa[at]vit[dot]ac[dot]in | | | | | | |
 
-## Assistant Director
-
 | **Designation** | | | | | | | **Name** | | | | | | | **Email ID** | | | | | | |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | International Relations (IR) | | | | | | | Dr. Gitanjali J | | | | | | | ir12[at]vit[dot]ac[dot]in | | | | | | |
@@ -193,7 +189,7 @@
 
 | | | | | | | | | | | | | | |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| VIT Vellore Campus Vellore – 632 014 Tamilnadu, India Tel: 91-416-2243091 / 93 Fax: 91-416-2243092 91-416-2240411 | | | | | | | VIT Chennai Campus Vandalur – Kelambakkam Road Chennai – 600 127 Ph : 044 3993 1555 Fax : 044 3993 2555 admin.chennai@vit.ac.in | | | | | | |
+| VIT Vellore Campus Vellore – 632 014 Tamilnadu, India Tel: 91-416-2243091 / 93 Fax: 91-416-2243092 91-416-2240411 | | | | | | || | | | | | |
 | Admissions Office Dr. Sasikumar S Director – UG Admissions Vellore Institute of Technology Vellore – 632 014, Tamil Nadu, India. Telephone: 044-462-77555 Fax: +91-416-224 5544, 224 0411 Email: ugadmission@vit.ac.in | | | | | | | Admissions Office Dr. Sasikumar S Director – PG Admissions Vellore Institute of Technology Vellore – 632 014, Tamil Nadu, India. Phone: + 91-416-220 2188 Fax: +91-416-224 5544, 224 9955 Email: pgadmission@vit.ac.in | | | | | | |
 | Career Development Centre (CDC) Dr.V.Samuel Rajkumar Director – CDC Vellore Institute of Technology Vellore – 632 014. Tamil Nadu, India Tel: 0416 – 2202846 Fax: 91-416-2243092, 91-416-224 0411 Email: placement@vit.ac.in | | | | | | | International Relations Office Dr. Seenivasan R Director – International Relations Vellore Institute of Technology Vellore – 632 014. Tamil Nadu, India Tel: 91-416-224 3118 Fax: 91-416-2243092 Email: director.ir@vit.ac.in rseenivasan@vit.ac.in | | | | | | |
 
@@ -267,8 +263,6 @@
 | Academic Research | | | | | | | Dr. Sasikumar P | | | | | | | sasikumar.p@vit.ac.in | | | | | | |
 | School of Hotel & Tourism Management (HOT) | | | | | | | Mr.Ravishankar B | | | | | | | asstdean.hot@vit.ac.in | | | | | | |
 
-## Director
-
 | **Designation** | | | | | | | **Name** | | | | | | | **Email ID** | | | | | | |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | Alumni Affairs | | | | | | | Dr. Karthikeyan S | | | | | | | director.aa@vit.ac.in | | | | | | |
@@ -317,8 +311,6 @@
 | Sponsored Research and Industrial Consultancy (SpoRIC) | | | | | | | Dr. Chitra A | | | | | | | dydirector.sporic@vit.ac.in | | | | | | |
 | Technology Information Forecasting and assessment Council (TIFAC) | | | | | | | Dr. Elangovan D | | | | | | | dydirector.tifac@vit.ac.in | | | | | | |
 | VIT Online learning Institute (VITOL) | | | | | | | Dr. Mohan K | | | | | | | dydirector.vitol@vit.ac.in | | | | | | |
-
-## Assistant Director
 
 | **Designation** | | | | | | | **Name** | | | | | | | **Email ID** | | | | | | |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |

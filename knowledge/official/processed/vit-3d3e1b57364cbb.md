@@ -21,7 +21,6 @@ Misuse of student ID card
 2nd Time : Penalty of Rs.1000/- and Suspension of Shopping and
  Outing for a period of 15 days.
 
-
 3.
 
 Giving false information during enquiry for misconduct
@@ -29,7 +28,6 @@ Giving false information during enquiry for misconduct
 Penalty of Rs.3,000/-
 
 4.
-
 
 Outing and Shopping
 
@@ -55,7 +53,6 @@ one month.
 Possession / Using of Electrical appliances inside the
 Hostel room
 
-
 Penalty of Rs.500/- + Confiscation of electrical appliances.
 
 ## Page 2
@@ -71,7 +68,6 @@ Smoking Campaign) + Counseling
 On Repetition: Fine of Rs.5,000/- + Shopping and Outing cancellation
 for 3 months + Community Service (Participate in Anti-Smoking
 Campaign) + Counseling
-
 
 8.
 
@@ -94,7 +90,6 @@ Hours (9.00 pm to 6.00 am)
 
 On Repetition : Penalty of Rs. 5,000/- to each participant +
 Suspension of Shopping and Outing for a period of 15 days.
-
 
 10.
 

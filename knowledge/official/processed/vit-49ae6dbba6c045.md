@@ -4,8 +4,6 @@
 * Admissions
 * Research Admissions
 
-Beware of fraudulent calls, emails, SMS, WhatsApp, and social media messages claiming direct admission to VIT Group of Institute. Do not fall for such false claims. For authentic information, visit our official website: www.vit.ac.in | Click here to know more.
-
 ## PhD Admissions at VIT: VITREE 2027 (January Session) - Ph.D., Direct Ph.D. and Deep Tech Programmes
 
 ## (Vellore Campus)
@@ -64,11 +62,6 @@ Know More
 Know More
 
 * VIT-Vellore campus only Internal Full Time [IFT] category is offered.
-* VIT-Chennai campus only Internal Full Time [IFT] category is offered.
-* VIT-AP campus only Internal Full Time [IFT] category is offered.
-* VIT-Bhopal campus both Internal Full Time [IFT] and External Part Time [EPT] categories are offered.
-
-## SELECTION PROCEDURE
 
 ## Ph.D.
 
@@ -109,8 +102,6 @@ The shortlisted candidates should appear for a personal interview and the select
 | **Last date for document submission** | **01.02.2027 (Monday)** |
 
 * For Vellore Campus : hybrid mode Interview.
-* For Chennai Campus : Physical mode Interview
-* For VIT-AP and VIT-Bhopal Campus : Online mode of Interview
 
 ## DOCUMENTS TO BE SUBMITTED
 
@@ -129,8 +120,6 @@ The shortlisted candidates should appear for a personal interview and the select
 * Undertaking in the enclosed format - Download Here (Original)
 * CONSENT FORM FOR DATA PROCESSING - Download Here
 * Passport size photo colour recently taken – 2 Nos.
-
-## Contact US
 
 * Office of PG Admissions
 * VIT, Vellore - 632 014
@@ -159,11 +148,7 @@ VITREE is a 2-hour Computer-Based Test with 100 MCQs. For Ph.D.: 70 Technical, 1
 
 ### Which campuses offer doctoral programmes at VIT?
 
-VIT Vellore, VIT Chennai, VIT-AP and VIT-Bhopal. IFT (Internal Full Time) is available at all four. EPT (External Part Time) is available only at VIT-Bhopal, in both Teacher and Industry sub-categories.
-
 ### Can working professionals apply for a PhD at VIT?
-
-Yes. External Part Time (EPT) categories at VIT-Bhopal are open to teachers employed at recognised institutions (EPT-Teachers) and professionals employed in industry or research organisations (EPT-Industry).
 
 ### What is the eligibility for the Direct Ph.D. at VIT?
 

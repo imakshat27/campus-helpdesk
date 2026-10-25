@@ -21,8 +21,6 @@
 * 10+2+3+2 or any equivalent for Ph.D. in Non-Engineering
 * 10+2+5 year Integrated. M.Sc. (Biotech) in Non- Engineering
 
-VIT Vellore, Chennai, AP, and Bhopal campuses offer only Internal Full-Time programmes.
-
 | Ph.D. Programmes | |
 | --- | --- |
 | Ph.D. in Engineering | Master’s degree in Engineering / Technology in the relevant discipline with a minimum of 60% marks (of all the years /semesters) wherever marks are awarded / CGPA 6.5 on a 10 point scale in cases where letter grades are awarded or Equivalent qualifications like M.Sc. (Engineering) / M.S.[By Research] / M.Tech. [By Research]. |
