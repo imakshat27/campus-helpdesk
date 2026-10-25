@@ -1,9 +1,11 @@
 """Conversation authorization, ordering and transaction-local message helpers."""
+from datetime import timezone
 from fastapi import HTTPException
 from sqlalchemy import select
 from .models import Conversation, Message, Ticket, Submission, now
 
-STATES={'ai','waiting_for_staff','staff_active','resolved'}
+def as_utc(value):
+    return value if value.tzinfo is not None else value.replace(tzinfo=timezone.utc)
 
 def conversation_for(db,cid,user,lock=False):
     stmt=select(Conversation).where(Conversation.id==cid)
@@ -25,7 +27,7 @@ def append_message(db,conversation,role,content,sender_id=None,outcome=None,sour
 def summary(db,conversation):
     first=db.scalar(select(Message.content).where(Message.conversation_id==conversation.id,Message.role=='user').order_by(Message.sequence,Message.created_at).limit(1))
     return {'id':conversation.id,'state':conversation.state,'title':(first or 'New conversation')[:100],
-            'created_at':conversation.created_at,'updated_at':conversation.updated_at}
+            'created_at':as_utc(conversation.created_at),'updated_at':as_utc(conversation.updated_at)}
 
 def detail(db,conversation):
     rows=db.scalars(select(Message).where(Message.conversation_id==conversation.id).order_by(Message.sequence,Message.created_at,Message.id)).all()
@@ -33,7 +35,7 @@ def detail(db,conversation):
     return {**summary(db,conversation),'conversation_id':conversation.id,
             'ticket_reference':tickets[0].reference if tickets else None,
             'messages':[{'id':m.id,'role':m.role,'sender_id':m.sender_id,'content':m.content,
-                         'outcome':m.outcome,'sources':m.sources,'created_at':m.created_at,
+                         'outcome':m.outcome,'sources':m.sources,'created_at':as_utc(m.created_at),
                          'sequence':m.sequence,**m.details} for m in rows]}
 
 def retry_result(db,user_id,request_id,cid,content):

@@ -26,6 +26,12 @@ class LoginSession(Base):
     user_id: Mapped[str] = mapped_column(ForeignKey('users.id'), index=True)
     expires_at: Mapped[datetime] = mapped_column(DateTime(timezone=True))
 
+class WebSocketTicket(Base):
+    __tablename__ = 'websocket_tickets'
+    token_hash: Mapped[str] = mapped_column(String(64), primary_key=True)
+    session_hash: Mapped[str] = mapped_column(ForeignKey('login_sessions.token_hash', ondelete='CASCADE'), index=True)
+    expires_at: Mapped[datetime] = mapped_column(DateTime(timezone=True))
+
 class Document(Base):
     __tablename__ = 'documents'
     id: Mapped[str] = mapped_column(String(80), primary_key=True)

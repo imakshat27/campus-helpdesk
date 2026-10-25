@@ -40,8 +40,6 @@ STUDENT_PASSWORD=your-private-student-password
 COOKIE_SECURE=false
 STAFF_USERNAME=your-staff-username
 STAFF_PASSWORD=your-staff-password
-REVIEW_PASSWORD=your-separate-review-password-at-least-16-characters
-SESSION_SECRET=your-random-session-signing-secret-at-least-32-characters
 ```
 
 Use the connection string from your Neon console; ordinary `postgresql://` URLs are also accepted. URL-encode special characters in database passwords. Set `OPENROUTER_MODEL` to a model available to your account with JSON mode support. No paid calls happen during installation, seeding, or unit tests.
@@ -50,6 +48,7 @@ Apply migrations and download/process the public collection (run from `backend/`
 
 ```sh
 uv run alembic upgrade head
+uv run python -m app.provision_accounts
 uv run python -m app.import_official
 uv run python -m app.build_qna
 uv run python -m app.seed
@@ -78,7 +77,7 @@ If services are unavailable, the interface reports a load/configuration error. I
 
 Student and staff sign in through the same username/password form. The two accounts are provisioned from private backend settings using `uv run python -m app.provision_accounts` after migrations. Passwords are hashed with Argon2. HttpOnly cookie sessions last eight hours and are revoked on logout or credential change. All browser HTTP requests use a same-origin `/api` proxy; production uses secure cookies, while local HTTP requires `COOKIE_SECURE=false`.
 
-Student conversations belong to the account and survive signing out. History and messages load from Neon. Confirming a handoff creates one open ticket and pauses AI replies; staff selects Start chat to reply. Students can send additional details while waiting. Resolving closes the composer, and the student can explicitly reopen the conversation into the staff queue. Legacy anonymous conversations are not assigned to the new student account; their confirmed tickets remain available to staff.
+Student conversations belong to the account and survive signing out. History and messages load from Neon. Confirming a handoff creates one open ticket and pauses AI replies; staff selects Start chat to reply. Students can send additional details while waiting. Resolving closes the composer, and the student can explicitly reopen the conversation into the staff queue. Live WebSocket notifications update both workspaces after commits. Reconnect reloads authoritative history, missed messages and queue status; AI answers remain validated complete messages. Keep one backend worker. Legacy anonymous conversations are not assigned to the new student account; their confirmed tickets remain available to staff.
 
 Global and account-level AI limits persist in Neon. Failed provider requests still count, and a new login cannot reset account limits. Use a provider credit cap as well. See [DEPLOYMENT.md](DEPLOYMENT.md) for configuration and limitations.
 
@@ -120,6 +119,8 @@ This calls the configured OpenRouter model and database, consumes API credits, a
 |---|---|---|
 | GET | `/api/health` | Database connectivity and answer configuration status |
 | POST | `/api/auth/session` | `{username, password}` → account identity and HttpOnly session cookie |
+| POST | `/api/auth/ws-ticket` | Issue a hashed, single-use 30-second WebSocket authentication ticket |
+| WS | `/api/events` | Authenticate in the first frame, then receive committed conversation changes |
 | GET | `/api/auth/session` | Return the current account identity |
 | DELETE | `/api/auth/session` | Revoke current login session |
 | GET / POST | `/api/conversations` | List account history / create with client-generated `{id}` |
@@ -156,4 +157,4 @@ Conversation resolution now uses up to 80 stored messages and a bounded context 
 Public coverage does not include private attendance, timetable/room allocations, live seats, personal records, passwords or registration state. Missing facts still ask before raising a staff ticket. An independent staff/source review and current university confirmation remain necessary for critical or changing policy details.
 
 
-Current implementation checks are recorded in `reports/implementation/`. Earlier official-source reports remain evidence for their recorded corpus checks, not verification of the new account/chat behavior.
+Current implementation verification: 109 backend tests, 23 frontend tests, production build, 11 isolated Chromium acceptance checks at five viewport sizes, and Neon account login/read/logout checks. Detailed evidence is in `reports/implementation/live-chat.md`. Earlier official-source reports remain evidence for their recorded corpus checks, not verification of the new account/chat behavior.

@@ -39,6 +39,14 @@ def test_initial_migration_matches_orm_and_downgrades(monkeypatch):
         third=importlib.util.module_from_spec(spec3);spec3.loader.exec_module(third)
         monkeypatch.setattr(third,'op',TestOps())
         third.upgrade()
+        # Freeze realistic legacy data before applying account/chat migrations.
+        import sqlalchemy as sa
+        connection=conn
+        connection.execute(sa.text("INSERT INTO conversations (id,created_at,owner) VALUES ('legacy','2026-10-01 00:00:00','anonymous-owner')"))
+        for mid in ['b','a','c']:
+            connection.execute(sa.text("INSERT INTO messages (id,conversation_id,role,content,sources,created_at) VALUES (:id,'legacy','user','legacy question','[]','2026-10-01 00:00:00')"),{'id':mid})
+        for tid in ['older','newer']:
+            connection.execute(sa.text("INSERT INTO tickets (id,reference,conversation_id,query,reason,status,created_at) VALUES (:id,:reference,'legacy','legacy question','Confirmed','open',:created)"),{'id':tid,'reference':'HD-'+tid,'created':'2026-10-02 00:00:00' if tid=='newer' else '2026-10-01 00:00:00'})
         spec4=importlib.util.spec_from_file_location('account_migration',path.parent/'004_account_sessions.py')
         fourth=importlib.util.module_from_spec(spec4);spec4.loader.exec_module(fourth)
         monkeypatch.setattr(fourth,'op',TestOps())
@@ -47,7 +55,15 @@ def test_initial_migration_matches_orm_and_downgrades(monkeypatch):
         fifth=importlib.util.module_from_spec(spec5);spec5.loader.exec_module(fifth)
         monkeypatch.setattr(fifth,'op',TestOps())
         fifth.upgrade()
+        assert connection.execute(sa.text("SELECT id,sequence FROM messages ORDER BY sequence")).all()==[('a',1),('b',2),('c',3)]
+        assert connection.execute(sa.text("SELECT owner,state,next_sequence FROM conversations WHERE id='legacy'")).one()==('anonymous-owner','waiting_for_staff',4)
+        assert connection.execute(sa.text("SELECT id,status FROM tickets ORDER BY id")).all()==[('newer','open'),('older','resolved')]
+        spec6=importlib.util.spec_from_file_location('events_migration',path.parent/'006_websocket_tickets.py')
+        sixth=importlib.util.module_from_spec(spec6);spec6.loader.exec_module(sixth)
+        monkeypatch.setattr(sixth,'op',TestOps())
+        sixth.upgrade()
         assert compare_metadata(ctx,Base.metadata)==[]
+        sixth.downgrade()
         fifth.downgrade()
         fourth.downgrade()
         third.downgrade()

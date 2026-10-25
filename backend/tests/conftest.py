@@ -6,6 +6,7 @@ from sqlalchemy.pool import StaticPool
 from app.main import app, get_retriever
 from app.db import get_db
 from app.llm import get_generator, get_query_resolver, ResolvedQuery
+from app.events import get_event_engine
 from app.models import Base, Document, User, LoginSession, now
 from app.access import hasher, digest
 from datetime import timedelta
@@ -39,6 +40,7 @@ def client(database,monkeypatch):
         with Session(database) as db:
             yield db
     app.dependency_overrides[get_db]=db_override
+    app.dependency_overrides[get_event_engine]=lambda:database
     app.dependency_overrides[require_access]=lambda:'test-owner'
     app.dependency_overrides[allow_chat]=lambda:'test-owner'
     class Resolver:

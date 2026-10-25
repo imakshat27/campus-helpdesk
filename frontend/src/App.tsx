@@ -17,6 +17,7 @@ import { SidebarProvider, Sidebar, SidebarHeader, SidebarContent, SidebarFooter,
 import { api, conversationChanged } from './api';
 import { clearAccess } from './access';
 import { useAccount } from './components/AccessGate';
+import { useLiveEvents } from './hooks/use-live-events';
 const SourceContent=lazy(()=>import('./components/SourceContent'));
 import type { Knowledge, Source, Ticket, TicketOffer, ConversationSummary, ConversationDetail, ConversationState } from './api';
 
@@ -66,8 +67,8 @@ function ConversationHistory() {
   const [error,setError]=useState('');
   const {setOpenMobile}=useSidebar();
   useEffect(()=>{
-    let active=true;
-    const load=()=>void api<ConversationSummary[]>('/conversations').then(data=>{if(active){setRows(data);setError('');}}).catch(()=>{if(active)setError('History could not be loaded.');});
+    let active=true,version=0;
+    const load=()=>{const current=++version;void api<ConversationSummary[]>('/conversations').then(data=>{if(active && current===version){setRows(data);setError('');}}).catch(()=>{if(active && current===version)setError('History could not be loaded.');});};
     load();window.addEventListener('campus-conversation-updated',load);
     return()=>{active=false;window.removeEventListener('campus-conversation-updated',load);};
   },[]);
@@ -79,6 +80,7 @@ function ConversationHistory() {
 
 export default function App() {
   const account = useAccount();
+  const liveStatus=useLiveEvents(!!account);
   const [logoutError, setLogoutError] = useState('');
   async function signOut() { try { await api('/auth/session', {method: 'DELETE'}); clearAccess(); } catch (e) {setLogoutError(errorText(e));} }
   const [resetKey, setResetKey] = useState(0);
@@ -89,7 +91,7 @@ export default function App() {
   return <SidebarProvider className="helpdesk-shell">
     <a className="skip-link" href="#main">Skip to content</a>
     <CampusSidebar onNew={reset}/>
-    <SidebarInset id="main" className="main-shell"><header className="topbar"><div className="page-location"><SidebarTrigger className="mobile-menu md:hidden" aria-label="Open navigation"/><span>{name}</span></div><Button variant="ghost" onClick={() => void signOut()}>Sign out</Button></header>
+    <SidebarInset id="main" className="main-shell"><header className="topbar"><div className="page-location"><SidebarTrigger className="mobile-menu md:hidden" aria-label="Open navigation"/><span>{name}</span></div><span className="live-status" role="status">{liveStatus}</span><Button variant="ghost" onClick={() => void signOut()}>Sign out</Button></header>
       {logoutError && <p role="alert">{logoutError}</p>}<Routes><Route path="/" element={account?.role === 'staff' ? <Navigate to="/staff" replace /> : <Chat key={resetKey}/>} /><Route path="/conversations/:conversationId" element={account?.role === 'staff' ? <Navigate to="/staff" replace/> : <Chat/>}/><Route path="/staff/:conversationId" element={account?.role === 'staff' ? <Chat staffMode/> : <Navigate to="/" replace/>}/><Route path="/knowledge" element={<KnowledgeBase/>} /><Route path="/staff" element={account?.role === 'staff' ? <StaffQueue/> : <Navigate to="/" replace />} /><Route path="*" element={<div className="page"><h1>Page not found</h1><Button asChild><NavLink to="/">Back to helpdesk</NavLink></Button></div>} /></Routes>
     </SidebarInset>
   </SidebarProvider>;
@@ -250,10 +252,10 @@ function Chat({staffMode=false}:{staffMode?:boolean}) {
       {error && <Alert variant="destructive" className="error-banner"><HelpCircle size={21} /><AlertDescription>{error}</AlertDescription>{conversationId && <Button variant="outline" onClick={conversationChanged}>Retry</Button>}<Button variant="ghost" size="icon" aria-label="Dismiss error" onClick={() => setError('')}><X size={19} /></Button></Alert>}
       <form className="composer" onSubmit={e => { e.preventDefault(); void send(draft); }}>
         <Label htmlFor="question" className={showingConversation ? "sr-only" : "composer-label"}>{staffMode ? 'Message student' : state==='ai' ? 'Ask a campus question' : 'Message student support'}</Label>
-        <Textarea id="question" ref={inputRef} rows={2} maxLength={2000} placeholder={state!=='ai' ? 'Message student support…' : showingConversation ? 'Ask a follow-up…' : 'What would you like to know about VIT Vellore?'} value={draft} disabled={disabled} onChange={e => setDraft(e.target.value)} onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey && !e.nativeEvent.isComposing) { e.preventDefault(); void send(draft); } }} />
-        <div className="composer-bottom"><span><BookOpen size={18} aria-hidden="true"/>Answers include sources</span><Button className="send-button" type="submit" disabled={disabled || !draft.trim()} aria-label={state==='ai' ? 'Send question' : 'Send message'}>{pending ? <Spinner /> : <><span>{state==='ai' ? 'Send question' : 'Send message'}</span><ArrowUp size={19} aria-hidden="true"/></>}</Button></div>
+        <Textarea id="question" ref={inputRef} rows={2} maxLength={2000} placeholder={staffMode ? 'Message student…' : state!=='ai' ? 'Message student support…' : showingConversation ? 'Ask a follow-up…' : 'What would you like to know about VIT Vellore?'} value={draft} disabled={disabled} onChange={e => setDraft(e.target.value)} onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey && !e.nativeEvent.isComposing) { e.preventDefault(); void send(draft); } }} />
+        <div className="composer-bottom"><span><BookOpen size={18} aria-hidden="true"/>{state==='ai' ? 'Answers include sources' : 'Messages saved to this conversation'}</span><Button className="send-button" type="submit" disabled={disabled || !draft.trim()} aria-label={state==='ai' ? 'Send question' : 'Send message'}>{pending ? <Spinner /> : <><span>{state==='ai' ? 'Send question' : 'Send message'}</span><ArrowUp size={19} aria-hidden="true"/></>}</Button></div>
       </form>
-      <div className="composer-caption"><span>Public sources · Check dates for policies</span><span className="enter-hint">Enter to send · Shift+Enter for a new line</span></div>
+      <div className="composer-caption"><span>{state==='ai' ? 'Public sources · Check dates for policies' : 'Staff replies are labelled separately from AI answers'}</span><span className="enter-hint">Enter to send · Shift+Enter for a new line</span></div>
     </div>
     {!staffMode && !showingConversation && <section className="quick-start" aria-labelledby="topics-heading"><div className="quick-start-heading"><span id="topics-heading">Try a question</span><Button asChild variant="link"><NavLink to="/knowledge">Browse sources<ArrowRight size={17}/></NavLink></Button></div>
       <div className="suggestions">{suggestions.map(({icon:Icon,label,question,hint})=><Card key={label} className="topic-card"><Button variant="ghost" className="suggestion" onClick={()=>{setDraft(question);inputRef.current?.focus();}}><Icon size={21}/><span className="suggestion-copy"><strong>{label}</strong><span>{hint}</span></span><ChevronRight size={18}/></Button></Card>)}</div>
@@ -301,8 +303,8 @@ function StaffQueue() {
     catch (e) { if (request === requestNumber.current) setError(errorText(e)); }
     finally { if (request === requestNumber.current) setLoading(false); }
   }
-  useEffect(() => { void load(status); }, [status]);
-  return <div className="page"><div className="staff-title"><div className="page-heading"><span className="eyebrow">STUDENT SUPPORT</span><h1>Staff queue</h1><p>Review questions sent to student support and track their resolution.</p></div></div><div className="queue-toolbar"><Tabs value={status} onValueChange={value=>{setStatus(value);void load(value);}}><TabsList aria-label="Ticket status">{['open','resolved','all'].map(value=><TabsTrigger key={value} value={value}>{value==='open'?'Unresolved':value==='resolved'?'Resolved':'All questions'}</TabsTrigger>)}</TabsList></Tabs><Button variant="outline" disabled={loading} onClick={() => void load(status)}>Refresh{loading && <Spinner />}</Button></div>{error && <p className="error-banner" role="alert">{error}</p>}
+  useEffect(() => { let active=true;const refresh=()=>{if(active)void load(status);};refresh();window.addEventListener('campus-conversation-updated',refresh);return()=>{active=false;requestNumber.current++;window.removeEventListener('campus-conversation-updated',refresh);}; }, [status]);
+  return <div className="page"><div className="staff-title"><div className="page-heading"><span className="eyebrow">STUDENT SUPPORT</span><h1>Staff queue</h1><p>Review questions sent to student support and track their resolution.</p></div></div><div className="queue-toolbar"><Tabs value={status} onValueChange={setStatus}><TabsList aria-label="Ticket status">{['open','resolved','all'].map(value=><TabsTrigger key={value} value={value}>{value==='open'?'Unresolved':value==='resolved'?'Resolved':'All questions'}</TabsTrigger>)}</TabsList></Tabs><Button variant="outline" disabled={loading} onClick={() => void load(status)}>Refresh{loading && <Spinner />}</Button></div>{error && <p className="error-banner" role="alert">{error}</p>}
     {loading ? <div className="empty-state"><Spinner /><p>Loading staff queue…</p></div> : tickets.length ? <div className="ticket-list">{tickets.map(t => <Button variant="ghost" className="ticket-row" key={t.id} asChild><NavLink to={'/staff/'+t.conversation_id}><span className="document-icon"><MessageSquare size={23} /></span><div><span className="document-meta">{t.reference}<span>·</span>{new Date(t.created_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })}</span><strong>{t.query}</strong><span className="document-excerpt">{t.reason}</span></div><Badge variant="outline" className={`status-pill ${t.status}`}>{t.status === 'open' ? 'Unresolved' : 'Resolved'}</Badge><ChevronRight size={21} /></NavLink></Button>)}</div> : <div className="empty-state queue-empty"><CheckCircle2 size={38} strokeWidth={1.4} /><h2>{status === 'open' ? 'No unresolved tickets.' : 'No tickets found.'}</h2><p>{status === 'open' ? 'Questions sent to student support will appear here.' : 'Try another filter to view more questions.'}</p></div>}
 
   </div>;

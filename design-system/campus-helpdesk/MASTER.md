@@ -44,3 +44,9 @@ Check 375, 768, 1024 and 1440px, plus 1280×720. No horizontal overflow; minimum
 ## Official knowledge and source UX
 
 The active collection is now downloaded public VIT Vellore material. Replace demo hints with academics, library, hostel and welfare examples. Display the source URL and retrieval date, retaining publication years in policy text. Never substitute sample facts during a network failure. Source detail renders headings, lists and tables with readable text; original PDF/page links let students verify critical details. Group answer citations by document while retaining all cited passages. Knowledge filters derive from the actual categories; show 15 results at a time and let users request more. Preserve unsent drafts through navigation and clear them only for a new conversation. Older fictional conversation cache uses a different storage key.
+
+## Account login and live support
+
+One shared username/password form serves the two fixed accounts. Role-specific navigation hides staff access from students and takes staff directly to the queue. Conversation history belongs to the signed-in student and loads from the backend. Local drafts are scoped to account and conversation.
+
+Show AI, waiting-for-staff, staff-active and resolved states in plain text. A confirmed handoff pauses AI; a staff member must select Start chat before replying. Label AI and staff authors separately, with timestamps. Resolved chats show an explicit Reopen action and disable sending. Connection status describes actual WebSocket state; disconnection preserves drafts and offers reconnection, without inventing staff presence. Human chat captions describe saved messages rather than promising AI citations.

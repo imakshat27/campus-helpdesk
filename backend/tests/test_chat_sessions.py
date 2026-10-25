@@ -68,6 +68,7 @@ def test_idempotent_messages_and_request_id_conflicts(client,database):
     first=send(client,cid,'hello',key).json()
     second=send(client,cid,'hello',key).json()
     assert first==second and len(second['messages'])==2
+    assert first['created_at'].endswith('+00:00') and first['messages'][0]['created_at'].endswith('+00:00')
     assert send(client,cid,'different content',key).status_code==409
     other=create(client)
     assert send(client,other,'hello',key).status_code==409
@@ -99,3 +100,16 @@ def test_legacy_records_remain_staff_only(client,database):
     assert client.get('/api/conversations/'+cid).status_code==404
     assert client.get('/api/conversations/'+cid,headers=STAFF).status_code==200
     assert all(c['id']!=cid for c in client.get('/api/conversations').json())
+
+def test_repeated_status_updates_do_not_reset_active_chat(client,database):
+    cid=create(client);handoff(client,cid)
+    client.post(f'/api/conversations/{cid}/accept',headers=STAFF)
+    tid=client.get('/api/staff/tickets',headers=STAFF).json()[0]['id']
+    assert client.patch('/api/staff/tickets/'+tid,headers=STAFF,json={'status':'open'}).status_code==200
+    assert client.get('/api/conversations/'+cid).json()['state']=='staff_active'
+    with Session(database) as db:
+        db.add(Ticket(conversation_id=cid,reference='HD-OLDER-RESOLVED',query='Older question',reason='Historical',status='resolved'))
+        db.commit()
+        old=db.scalar(select(Ticket).where(Ticket.reference=='HD-OLDER-RESOLVED')).id
+    assert client.patch('/api/staff/tickets/'+old,headers=STAFF,json={'status':'resolved'}).status_code==200
+    assert client.get('/api/conversations/'+cid).json()['state']=='staff_active'

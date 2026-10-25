@@ -19,10 +19,10 @@ def provision(db, config):
         if user is None:
             db.add(User(username=username, role=role, password_hash=hasher.hash(password)))
         else:
-            from argon2.exceptions import VerificationError
+            from argon2.exceptions import VerificationError, InvalidHashError
             try:
                 unchanged = hasher.verify(user.password_hash, password)
-            except VerificationError:
+            except (VerificationError, InvalidHashError):
                 unchanged = False
             if not unchanged or user.username != username:
                 db.execute(delete(LoginSession).where(LoginSession.user_id == user.id))

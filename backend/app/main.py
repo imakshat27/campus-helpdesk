@@ -9,7 +9,8 @@ from .config import settings
 from .db import get_db
 from .models import Document, Chunk, Conversation, Message, Ticket, User, now
 from .schemas import ChatRequest, ChatResponse, Generation, TicketUpdate, TicketOffer, EscalationRequest, Source, ConversationCreate, MessageRequest
-from .chat_store import conversation_for, append_message, summary, detail, retry_result, remember
+from .events import router as events_router, commit_conversation
+from .chat_store import conversation_for, append_message, summary, detail, retry_result, remember, as_utc
 from .retrieval import retrieve
 from .llm import get_generator, get_query_resolver, validate_generation
 from .clarification import clarification_for,asks_for_price,contains_price
@@ -17,6 +18,7 @@ from .conversation import ticket_decision, conversational_reply
 from .access import require_access, allow_chat, AccessLogin, login, logout, require_user, staff, public_user, reserve_ai
 
 app=FastAPI(title='Campus Helpdesk API', version='1.0.0')
+app.include_router(events_router)
 app.add_middleware(CORSMiddleware, allow_origins=settings().cors_origins,allow_credentials=True,allow_methods=['GET','POST','PATCH','DELETE'],allow_headers=['Authorization','Content-Type'])
 @app.middleware('http')
 async def protect_origin(request: Request, call_next):
@@ -25,9 +27,13 @@ async def protect_origin(request: Request, call_next):
         if origin not in settings().cors_origins:
             return JSONResponse(status_code=403, content={'detail': 'Request origin is not allowed.'})
     response = await call_next(request)
-    if request.url.path.startswith('/api/auth') or request.url.path.startswith('/api/conversations'):
+    if request.url.path.startswith('/api/'):
         response.headers['Cache-Control'] = 'no-store'
     return response
+
+@app.exception_handler(IntegrityError)
+def save_conflict(request: Request, exc: IntegrityError):
+    return JSONResponse(status_code=409,content={'detail':'This conversation changed while saving. Retry your message with the same request ID.'})
 
 @app.exception_handler(SQLAlchemyError)
 def database_error(request: Request, exc: SQLAlchemyError):
@@ -201,7 +207,7 @@ def chat(body: ChatRequest,owner: str=Depends(allow_chat),db: Session=Depends(ge
     else:
         reply=generate_reply(body,conversation,db,generator,search,resolver)
     remember(db,owner,body.client_request_id,conversation.id,query,reply.model_dump())
-    db.commit()
+    commit_conversation(db,conversation)
     return reply
 
 @app.post('/api/conversations/{conversation_id}/messages')
@@ -219,14 +225,14 @@ def send_message(conversation_id: str,body: MessageRequest,user=Depends(require_
             if conversation.state!='staff_active':raise HTTPException(409,'Start this staff chat before replying.')
             row=append_message(db,conversation,'staff',content,sender_id=user.id)
             remember(db,user.id,body.client_request_id,conversation_id,content,{'message_id':row.id})
-            db.commit()
+            commit_conversation(db,conversation)
     return detail(db,db.get(Conversation,conversation_id))
 
 @app.post('/api/conversations/{conversation_id}/accept')
 def accept_conversation(conversation_id: str,user=Depends(staff),db: Session=Depends(get_db)):
     conversation=conversation_for(db,conversation_id,user,lock=True)
     if conversation.state not in {'waiting_for_staff','staff_active'}:raise HTTPException(409,'This conversation is not waiting for staff.')
-    conversation.state='staff_active';conversation.updated_at=now();db.commit()
+    conversation.state='staff_active';conversation.updated_at=now();commit_conversation(db,conversation)
     return detail(db,conversation)
 
 @app.post('/api/conversations/{conversation_id}/reopen')
@@ -236,7 +242,7 @@ def reopen_conversation(conversation_id: str,owner: str=Depends(require_access),
     ticket=db.scalar(select(Ticket).where(Ticket.conversation_id==conversation_id).order_by(Ticket.created_at.desc()).limit(1))
     if not ticket:raise HTTPException(409,'No staff handoff exists for this conversation.')
     if conversation.state=='resolved':
-        ticket.status='open';conversation.state='waiting_for_staff';conversation.updated_at=now();db.commit()
+        ticket.status='open';conversation.state='waiting_for_staff';conversation.updated_at=now();commit_conversation(db,conversation)
     return detail(db,conversation)
 
 @app.post('/api/conversations/{conversation_id}/escalate')
@@ -254,7 +260,7 @@ def escalate(conversation_id: str,body: EscalationRequest,owner: str=Depends(req
         append_message(db,conversation,'user','Yes, raise a ticket for: '+target.content,sender_id=owner)
         db.flush()
         append_message(db,conversation,'assistant',confirmation,outcome='escalated',details={'ticket_reference':ticket.reference,'user_message_id':target.id})
-    db.commit()
+    commit_conversation(db,conversation)
     return {'ticket_reference':ticket.reference,'message_id':target.id}
 
 @app.get('/api/staff/tickets',dependencies=[Depends(staff)])
@@ -273,7 +279,7 @@ def tickets(status: str=Query('open',pattern='^(open|resolved|all)$'),db: Sessio
         messages=db.execute(select(ranked).where(ranked.c.position<=80).order_by(ranked.c.conversation_id,ranked.c.position.desc())).mappings()
         for message in messages:
             context[message['conversation_id']].append({'role':message['role'],'content':message['content']})
-    return [{'id':t.id,'reference':t.reference,'conversation_id':t.conversation_id,'query':t.query,'reason':t.reason,'status':t.status,'created_at':t.created_at,'messages':context[t.conversation_id]} for t in rows]
+    return [{'id':t.id,'reference':t.reference,'conversation_id':t.conversation_id,'query':t.query,'reason':t.reason,'status':t.status,'created_at':as_utc(t.created_at),'messages':context[t.conversation_id]} for t in rows]
 
 @app.patch('/api/staff/tickets/{ticket_id}',dependencies=[Depends(staff)])
 def update_ticket(ticket_id: str,body: TicketUpdate,db: Session=Depends(get_db)):
@@ -281,10 +287,13 @@ def update_ticket(ticket_id: str,body: TicketUpdate,db: Session=Depends(get_db))
     if not ticket:
         raise HTTPException(404,'Ticket not found.')
     conversation=db.scalar(select(Conversation).where(Conversation.id==ticket.conversation_id).with_for_update())
+    db.refresh(ticket)  # The conversation lock may have waited for another status change.
+    if ticket.status==body.status:
+        return {'id':ticket.id,'status':ticket.status}
     if body.status=='open' and db.scalar(select(Ticket.id).where(Ticket.conversation_id==ticket.conversation_id,Ticket.status=='open',Ticket.id!=ticket.id)):
         raise HTTPException(409,'This conversation already has an open ticket.')
     ticket.status=body.status
     conversation.state='resolved' if body.status=='resolved' else 'waiting_for_staff'
     conversation.updated_at=now()
-    db.commit()
+    commit_conversation(db,conversation)
     return {'id':ticket.id,'status':ticket.status}

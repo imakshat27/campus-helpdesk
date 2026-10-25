@@ -21,17 +21,29 @@ def upgrade():
         batch.create_foreign_key('fk_ticket_message','messages',['message_id'],['id'])
     connection=op.get_bind()
     # Portable, deterministic backfill; never claim legacy ownership.
-    conversations=connection.execute(sa.text('SELECT id, created_at FROM conversations')).mappings().all()
-    for conversation in conversations:
-        messages=connection.execute(sa.text('SELECT id FROM messages WHERE conversation_id=:cid ORDER BY created_at, id'),{'cid':conversation['id']}).scalars().all()
-        for sequence,mid in enumerate(messages,1):
-            connection.execute(sa.text('UPDATE messages SET sequence=:seq WHERE id=:id'),{'seq':sequence,'id':mid})
-        tickets=connection.execute(sa.text("SELECT id FROM tickets WHERE conversation_id=:cid AND status='open' ORDER BY created_at DESC, id DESC"),{'cid':conversation['id']}).scalars().all()
-        # Preserve duplicate historical tickets as resolved, leaving one active.
-        for tid in tickets[1:]:
-            connection.execute(sa.text("UPDATE tickets SET status='resolved' WHERE id=:id"),{'id':tid})
-        state='waiting_for_staff' if tickets else 'ai'
-        connection.execute(sa.text('UPDATE conversations SET updated_at=created_at, next_sequence=:seq, state=:state WHERE id=:id'),{'seq':len(messages)+1,'state':state,'id':conversation['id']})
+    connection.execute(sa.text("""
+        WITH numbered AS (
+          SELECT id, ROW_NUMBER() OVER (PARTITION BY conversation_id ORDER BY created_at, id) AS seq
+          FROM messages
+        )
+        UPDATE messages SET sequence=(SELECT seq FROM numbered WHERE numbered.id=messages.id)
+    """))
+    # Retain duplicate historical tickets as resolved; only the newest stays open.
+    connection.execute(sa.text("""
+        WITH ranked AS (
+          SELECT id, ROW_NUMBER() OVER (PARTITION BY conversation_id ORDER BY created_at DESC,id DESC) AS position
+          FROM tickets WHERE status='open'
+        )
+        UPDATE tickets SET status='resolved' WHERE id IN (SELECT id FROM ranked WHERE position>1)
+    """))
+    connection.execute(sa.text("""
+        UPDATE conversations SET updated_at=created_at,
+          next_sequence=COALESCE((SELECT MAX(sequence)+1 FROM messages WHERE conversation_id=conversations.id),1),
+          state=CASE
+            WHEN EXISTS (SELECT 1 FROM tickets WHERE conversation_id=conversations.id AND status='open') THEN 'waiting_for_staff'
+            WHEN EXISTS (SELECT 1 FROM tickets WHERE conversation_id=conversations.id) THEN 'resolved'
+            ELSE 'ai' END
+    """))
     with op.batch_alter_table('conversations') as batch:
         batch.alter_column('updated_at',existing_type=sa.DateTime(timezone=True),nullable=False)
     op.create_index('uq_open_ticket_conversation','tickets',['conversation_id'],unique=True,postgresql_where=sa.text("status = 'open'"),sqlite_where=sa.text("status = 'open'"))

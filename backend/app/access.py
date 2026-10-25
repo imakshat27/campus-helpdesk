@@ -31,7 +31,9 @@ def unexpired(value):
     return value > now()
 
 def session_user(token: str | None, db: Session):
-    session = db.get(LoginSession, digest(token)) if token else None
+    if not token:
+        raise HTTPException(401, 'Sign in to use the helpdesk.')
+    session = db.get(LoginSession, digest(token))
     if not session or not unexpired(session.expires_at):
         raise HTTPException(401, 'Your session has expired. Please sign in again.')
     user = db.get(User, session.user_id)
@@ -90,11 +92,17 @@ def login(body: AccessLogin, request: Request, response: Response, db: Session):
         valid = False
     if not valid or not user:
         raise HTTPException(401, 'Incorrect username or password.')
+    previous = request.cookies.get(COOKIE)
+    if previous:
+        db.execute(delete(LoginSession).where(LoginSession.token_hash == digest(previous)))
     token = secrets.token_urlsafe(48)
     db.execute(delete(LoginSession).where(LoginSession.expires_at <= now()))
     db.add(LoginSession(token_hash=digest(token), user_id=user.id,
                         expires_at=now() + timedelta(seconds=settings().session_max_age)))
     db.commit()
+    if previous:
+        from .events import hub
+        hub.revoked(digest(previous))
     response.set_cookie(COOKIE, token, max_age=settings().session_max_age,
                         httponly=True, secure=settings().cookie_secure, samesite='lax', path='/api')
     response.headers['Cache-Control'] = 'no-store'
@@ -105,6 +113,8 @@ def logout(request: Request, response: Response, db: Session):
     if token:
         db.execute(delete(LoginSession).where(LoginSession.token_hash == digest(token)))
         db.commit()
+        from .events import hub
+        hub.revoked(digest(token))
     response.delete_cookie(COOKIE, path='/api', secure=settings().cookie_secure, httponly=True, samesite='lax')
     return {'authenticated': False}
 

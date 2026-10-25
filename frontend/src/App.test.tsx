@@ -4,6 +4,7 @@ import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
 import App from './App';
 import { AccountContext } from './components/AccessGate';
+vi.mock('./hooks/use-live-events',()=>({useLiveEvents:()=> 'Live updates connected'}));
 const mockFetch=vi.fn();
 beforeEach(()=>{vi.stubGlobal('fetch',mockFetch);sessionStorage.clear();});
 afterEach(()=>{cleanup();vi.unstubAllGlobals();vi.restoreAllMocks();mockFetch.mockReset();});
