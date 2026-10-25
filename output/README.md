@@ -1,15 +1,16 @@
-# Presentation and report
+# Presentation-day deliverables
 
-Prepared 25 October 2026 for the presentation on 26 October 2026.
+Prepared for **25 October 2026**.
 
-- `presentation/campus-helpdesk-presentation-revised.pptx`: current presentation, 11 editable slides with presenter notes. Natural flow: problem, idea, approach, implementation, demonstration, current scope, proposed accounts and live staff chat, conclusion. Suggested duration: 7 to 8 minutes including the short demo. Development test counts are omitted.
-- `presentation/campus-helpdesk-presentation.pptx`: earlier presentation retained for reference.
-- `pdf/campus-helpdesk-project-report.pdf`: detailed project report with implementation, evidence, demonstration instructions and proposed future work.
+- `presentation/campus-helpdesk-presentation-25-oct.pptx`: current 11-slide presentation with presenter notes, a navy/cream/teal theme and a natural problem-to-solution flow. Includes a short account/history/live-staff demonstration. Development test counts are omitted.
+- `pdf/campus-helpdesk-project-report-25-oct.pdf`: current nine-page report with a matching cover, clearer section hierarchy, tables, implementation details, demo runbook, evaluation evidence and future scope.
 
-The default demo declines the ticket offer and does not save a request. The optional staff extension creates a real demo ticket only after explicit confirmation. Recorded results are labelled separately from the planned live demo. No fresh paid model evaluation ran for artifact preparation.
+The project owner confirmed on 25 October that two-account login, saved conversations across logins and live staff chat are **complete and verified**. The current files reflect that status. The local checkout and older reports precede the teammate's completed build, so the report and presenter notes distinguish team confirmation from a new independent test run.
 
-Sources: project code, official-corpus reports, source manifest and deployment notes. Current isolated backend/frontend suites and production build were rerun. The latest fix still requires hosted end-to-end verification.
+Future scope covers broader rollout, scheduled official-source refresh and approved university integration. These are separate from the delivered account and live-chat features.
 
-The revised deck also incorporates the user-provided **Two-account login and persistent live chat** plan. Exactly two fixed accounts, history across logins, and live staff takeover are explicitly proposed work, not current functionality. The PDF is the original report and has not been revised to incorporate this later plan. The current shared review-session gate is separate from the proposed account system.
+The demo uses separate student and staff browser sessions. Explicit handoff confirmation creates or reuses a real demo request. Verify visible replies and persistence, then resolve the demonstration chat. No new live model evaluation or demo ticket ran to prepare this revision.
 
-Authoring sources are in `scripts/presentation/`. The PowerPoint builder uses the Artifact Tool presentation API; the report builder uses ReportLab. The screenshot is an actual capture of the deployed home screen on 25 October 2026. No source credentials belong in these artifacts.
+Authoring sources are in `scripts/presentation/`. The PowerPoint uses Artifact Tool, and the report uses ReportLab. The screenshot is an earlier actual capture of the question screen, not evidence of the new account or staff-chat screens. No credentials belong in submission artifacts.
+
+Earlier `.pptx` and `.pdf` files remain for version history. Use the two files with `25-oct` in their names for the current presentation.
