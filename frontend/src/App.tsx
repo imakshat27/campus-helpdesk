@@ -49,13 +49,13 @@ function CampusSidebar({ onNew }: { onNew: () => void }) {
   return <Sidebar className="campus-sidebar" role="navigation" aria-label="Main navigation">
     <SidebarHeader className="campus-sidebar-header">
       <Button className="sidebar-close md:hidden" variant="ghost" size="icon" aria-label="Close navigation" onClick={closeMenu}><X /></Button>
-      <NavLink to={account?.role==='staff'?'/staff':'/'} className="brand" onClick={closeMenu}><span>Campus Helpdesk<span className="brand-sub">VIT Vellore</span></span></NavLink>
+      <NavLink to={account?.role==='staff'?'/staff':'/'} className="brand" onClick={closeMenu}><span className="brand-mark" aria-hidden="true">CH</span><span>Campus Helpdesk<span className="brand-sub">VIT Vellore</span></span></NavLink>
       {account?.role !== 'staff' && <Button asChild variant="secondary" className="new-chat"><NavLink to="/" onClick={() => { onNew(); closeMenu(); }}><Plus size={20} />New conversation</NavLink></Button>}
     </SidebarHeader>
     <SidebarContent><SidebarGroup><SidebarMenu className="campus-nav">
       {links.map(({to,label,icon:Icon}) => <SidebarMenuItem key={to}><SidebarMenuButton asChild isActive={to==='/' ? location.pathname==='/' : location.pathname.startsWith(to)}><NavLink to={to} onClick={closeMenu}><Icon size={21}/><span>{label}</span></NavLink></SidebarMenuButton></SidebarMenuItem>)}
     </SidebarMenu></SidebarGroup>{account?.role !== 'staff' && <ConversationHistory/>}</SidebarContent>
-    <SidebarFooter className="campus-sidebar-footer"><div className="campus-identity"><strong>{account?.username}</strong><span>{account?.role==='staff'?'Staff account':'Student account'}</span></div></SidebarFooter>
+    <SidebarFooter className="campus-sidebar-footer"><span className="avatar" aria-hidden="true">{(account?.username||'?').slice(0,1).toUpperCase()}</span><div className="campus-identity"><strong>{account?.username}</strong><span>{account?.role==='staff'?'Staff account':'Student account'}</span></div></SidebarFooter>
   </Sidebar>;
 }
 
@@ -263,11 +263,13 @@ function Chat({staffMode=false}:{staffMode?:boolean}) {
     </div>}
     {loading && <p role="status">Loading conversation…</p>}
     {!showingConversation ? <section className="welcome" aria-labelledby="welcome-title">
+      <p className="welcome-eyebrow">VIT Vellore</p>
       <h1 id="welcome-title">Ask the helpdesk</h1>
       <p className="welcome-description">Questions about academics, campus services or student support.</p>
     </section> : <section ref={transcriptRef} onScroll={trackScroll} className="conversation" aria-label="Conversation">
 
       {messages.map((m, i) => <article key={m.id} className={`message ${m.role}`}>
+        {m.role !== 'user' && <span className="message-avatar" aria-hidden="true">{m.role === 'staff' ? 'S' : 'AI'}</span>}
         <div className="message-body">
           <div className="message-name">{m.role === 'assistant' ? 'Campus Helpdesk · AI' : m.role === 'staff' ? 'Student support · Staff' : staffMode ? 'Student' : 'You'}{m.createdAt && <time dateTime={m.createdAt}>{new Date(m.createdAt).toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'})}</time>}</div>
           <p>{m.text}</p>
@@ -276,7 +278,7 @@ function Chat({staffMode=false}:{staffMode?:boolean}) {
           {!staffMode && state==='ai' && m.offer && i === messages.length - 1 && !m.ticket && ticketActions({ messageId: m.offer.message_id, question: m.offer.query, index: i }, () => void send('No thanks'))}
         </div>
       </article>)}
-      {pending && <><article className="message user"><div className="message-body"><div className="message-name">You</div><p>{pendingQuestion}</p></div></article><div className="working" role="status"><Spinner /><span>{state==='ai' ? 'Searching campus sources…' : 'Saving your message…'}</span></div></>}
+      {pending && <><article className="message user pending-message"><div className="message-body"><div className="message-name">You</div><p>{pendingQuestion}</p></div></article><div className="working" role="status"><Spinner /><span>{state==='ai' ? 'Searching campus sources…' : 'Saving your message…'}</span></div></>}
       {!staffMode && state==='ai' && !pending && last?.outcome === 'answered' && last.messageId && !last.ticket && !confirmationTarget && <Button ref={staffAction} variant="ghost" className="staff-handoff" onClick={() => setConfirmationTarget({ messageId: last.messageId!, question: messages[messages.length - 2].text, index: messages.length - 1 })}><Headphones size={19} />Ask staff about this answer<ArrowRight size={18} /></Button>}
       {confirmationTarget && <section className="manual-ticket-prompt" aria-label="Confirm support ticket"><h2 ref={confirmationHeading} tabIndex={-1}>Raise a ticket for this question?</h2><p>{confirmationTarget.question}</p>{ticketActions(confirmationTarget, () => setConfirmationTarget(null))}</section>}
     </section>}
@@ -292,7 +294,7 @@ function Chat({staffMode=false}:{staffMode?:boolean}) {
       <div className="composer-caption"><span className="enter-hint">Enter to send · Shift+Enter for a new line</span></div>
     </div>
     {!staffMode && !showingConversation && <section className="quick-start" aria-labelledby="topics-heading"><div className="quick-start-heading"><h2 id="topics-heading">Suggested questions</h2><NavLink to="/knowledge">Browse sources</NavLink></div>
-      <div className="suggestions">{suggestions.map(({label,question})=><Button key={label} variant="ghost" className="suggestion" onClick={()=>{setDraft(question);inputRef.current?.focus({preventScroll:true});}}><span className="suggestion-copy"><strong>{label}</strong><span>{question}</span></span></Button>)}</div>
+      <div className="suggestions">{suggestions.map(({label,question})=><Button key={label} variant="ghost" className="suggestion" onClick={()=>{setDraft(question);inputRef.current?.focus({preventScroll:true});}}><span className="suggestion-copy"><strong>{label}</strong><span>{question}</span></span><ArrowRight size={18} className="suggestion-arrow" aria-hidden="true"/></Button>)}</div>
     </section>}
     {source && <SourceDialog provenance={source} title={source.title} onClose={() => setSource(null)}><Badge variant="secondary" className="source-badge">Supporting passage</Badge>{source.heading !== source.title && <h3>{source.heading}</h3>}<p className="source-text">{source.content}</p></SourceDialog>}
   </div>;
@@ -319,7 +321,7 @@ function KnowledgeBase() {
 
 
     {error && <p className="error-banner" role="alert">{error}</p>}
-    {loading ? <div className="empty-state"><Spinner /><p>Loading campus information…</p></div> : <><div className="section-heading"><h2>{category === 'all' ? 'All campus information' : categoryLabels[category]}</h2><span>{filtered.length} {filtered.length===1?'result':'results'}</span></div><div className="knowledge-list">{filtered.slice(0,visibleCount).map(d => { const Icon = categoryIcons[d.category] || FileText; return <Button variant="ghost" className="knowledge-row" key={d.id} onClick={() => setSelected(d)}><span className="document-icon"><Icon size={23} strokeWidth={1.7} /></span><span className="document-copy"><span className="document-meta">{categoryLabels[d.category] || d.category}<span>·</span>{d.kind === 'official' ? 'VIT source' : d.kind === 'faq' ? 'FAQ' : 'Guide'}</span><strong>{d.title}</strong><span className="document-excerpt">{d.content.replace(/[#\n]/g, ' ').slice(0, 135)}</span></span><ChevronRight size={21} /></Button>; })}</div>{filtered.length>visibleCount && <Button variant="outline" className="load-sources" onClick={()=>setVisibleCount(n=>n+15)}>Show more sources ({filtered.length-visibleCount} remaining)</Button>}{!filtered.length && <div className="empty-state"><Search size={30} /><h2>No matching sources</h2><p>Try a different search or choose another topic.</p><Button variant="outline" onClick={() => { setQuery(''); setCategory('all'); }}>Clear filters</Button></div>}</>}
+    {loading ? <div className="empty-state"><Spinner /><p>Loading campus information…</p></div> : <><div className="section-heading"><h2>{category === 'all' ? 'All campus information' : categoryLabels[category]}</h2><span>{filtered.length} {filtered.length===1?'result':'results'}</span></div><div className="knowledge-list">{filtered.slice(0,visibleCount).map(d => { const Icon = categoryIcons[d.category] || FileText; return <Button variant="ghost" className="knowledge-row" key={d.id} onClick={() => setSelected(d)}><span className="document-icon"><Icon size={23} strokeWidth={1.7} /></span><span className="document-copy"><span className="document-meta"><span className="chip">{categoryLabels[d.category] || d.category}</span>{d.kind === 'official' ? 'VIT source' : d.kind === 'faq' ? 'FAQ' : 'Guide'}</span><strong>{d.title}</strong><span className="document-excerpt">{d.content.replace(/[#\n]/g, ' ').slice(0, 135)}</span></span><ChevronRight size={21} /></Button>; })}</div>{filtered.length>visibleCount && <Button variant="outline" className="load-sources" onClick={()=>setVisibleCount(n=>n+15)}>Show more sources ({filtered.length-visibleCount} remaining)</Button>}{!filtered.length && <div className="empty-state"><Search size={30} /><h2>No matching sources</h2><p>Try a different search or choose another topic.</p><Button variant="outline" onClick={() => { setQuery(''); setCategory('all'); }}>Clear filters</Button></div>}</>}
     {selected && <SourceDialog provenance={selected} title={selected.title} onClose={() => setSelected(null)}><Badge variant="secondary" className="source-badge">{categoryLabels[selected.category]} · {selected.kind === 'official' ? 'VIT source' : selected.kind === 'faq' ? 'FAQ' : 'Guide'}</Badge><Suspense fallback={<p role="status">Loading source…</p>}><SourceContent content={selected.content} title={selected.title}/></Suspense></SourceDialog>}
   </div>;
 }

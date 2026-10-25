@@ -37,7 +37,7 @@ export default function AccessGate({ children }: { children: ReactNode }) {
   }
   if (account) return <AccountContext.Provider value={account}>{children}</AccountContext.Provider>;
   return <main className="staff-login-page access-page">
-    <div className="login-heading"><div className="login-brand">Campus Helpdesk<span>VIT Vellore</span></div><h1>Sign in</h1><p>Use your student or staff account.</p></div>
+    <div className="login-heading"><div className="login-brand"><span className="brand-mark" aria-hidden="true">CH</span><div>Campus Helpdesk<span>VIT Vellore</span></div></div><h1>Sign in</h1><p>Use your student or staff account.</p></div>
     <Card className="login-card">
       {checking ? <p role="status">Checking your session…</p> : <form onSubmit={submit}>
         <Label htmlFor="username">Username</Label>
