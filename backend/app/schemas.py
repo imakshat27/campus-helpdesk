@@ -5,6 +5,7 @@ from pydantic import BaseModel, Field, ConfigDict, field_validator
 class ChatRequest(BaseModel):
     message: str = Field(min_length=1, max_length=2000)
     conversation_id: UUID | None = None
+    client_request_id: UUID | None = None
 
 class Source(BaseModel):
     id: str
@@ -48,3 +49,10 @@ class Generation(BaseModel):
 
 class TicketUpdate(BaseModel):
     status: Literal['open', 'resolved']
+
+class ConversationCreate(BaseModel):
+    id: UUID
+
+class MessageRequest(BaseModel):
+    message: str = Field(min_length=1, max_length=2000)
+    client_request_id: UUID

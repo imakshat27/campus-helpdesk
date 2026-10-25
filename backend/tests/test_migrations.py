@@ -43,7 +43,12 @@ def test_initial_migration_matches_orm_and_downgrades(monkeypatch):
         fourth=importlib.util.module_from_spec(spec4);spec4.loader.exec_module(fourth)
         monkeypatch.setattr(fourth,'op',TestOps())
         fourth.upgrade()
+        spec5=importlib.util.spec_from_file_location('chat_migration',path.parent/'005_persistent_chat.py')
+        fifth=importlib.util.module_from_spec(spec5);spec5.loader.exec_module(fifth)
+        monkeypatch.setattr(fifth,'op',TestOps())
+        fifth.upgrade()
         assert compare_metadata(ctx,Base.metadata)==[]
+        fifth.downgrade()
         fourth.downgrade()
         third.downgrade()
         second.downgrade()

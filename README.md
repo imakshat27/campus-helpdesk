@@ -35,6 +35,9 @@ Edit `backend/.env`:
 DATABASE_URL=postgresql+psycopg://USER:PASSWORD@YOUR-NEON-HOST/DB?sslmode=require
 OPENROUTER_API_KEY=your-key
 OPENROUTER_MODEL=your-chosen-model-slug
+STUDENT_USERNAME=your-student-username
+STUDENT_PASSWORD=your-private-student-password
+COOKIE_SECURE=false
 STAFF_USERNAME=your-staff-username
 STAFF_PASSWORD=your-staff-password
 REVIEW_PASSWORD=your-separate-review-password-at-least-16-characters
@@ -73,9 +76,11 @@ If services are unavailable, the interface reports a load/configuration error. I
 6. Unsupported questions ask whether the student wants a support ticket. No ticket is created at this point. Clicking “Yes, raise a ticket” or affirming the pending offer in chat creates it; “No thanks” declines. Explicit handoff from a supported answer also asks for confirmation. The request identifies the exact question to send, so a later message cannot change the ticket target. Saved references appear only after commit succeeds.
 7. Greetings and thanks receive simple conversational replies without knowledge retrieval or ticket creation. Staff authenticate to read confirmed tickets and conversation context, and can mark tickets resolved or reopen them.
 
-Private review access now requires a separate shared password and an expiring signed session. Chat and conversation endpoints enforce authentication on the backend; conversations are restricted to the session that created them. Global and per-session request budgets persist in Neon and reserve capacity before paid work, including on failed requests. Default global allowance is 100 chat requests per UTC day. These are request caps, not monetary caps; configure an OpenRouter key credit limit too. See [DEPLOYMENT.md](DEPLOYMENT.md) for all settings, session revocation and limitations.
+Student and staff sign in through the same username/password form. The two accounts are provisioned from private backend settings using `uv run python -m app.provision_accounts` after migrations. Passwords are hashed with Argon2. HttpOnly cookie sessions last eight hours and are revoked on logout or credential change. All browser HTTP requests use a same-origin `/api` proxy; production uses secure cookies, while local HTTP requires `COOKIE_SECURE=false`.
 
-Conversations persist in the database; the current browser tab keeps its signed session, conversation ID and displayed messages in session storage. New conversation clears that local view. No individual student account system is included; do not use this prototype for sensitive student records. Staff credentials stay in memory in the UI and are sent only to the backend. Use HTTPS when moving beyond localhost.
+Student conversations belong to the account and survive signing out. History and messages load from Neon. Confirming a handoff creates one open ticket and pauses AI replies; staff selects Start chat to reply. Students can send additional details while waiting. Resolving closes the composer, and the student can explicitly reopen the conversation into the staff queue. Legacy anonymous conversations are not assigned to the new student account; their confirmed tickets remain available to staff.
+
+Global and account-level AI limits persist in Neon. Failed provider requests still count, and a new login cannot reset account limits. Use a provider credit cap as well. See [DEPLOYMENT.md](DEPLOYMENT.md) for configuration and limitations.
 
 ## Validation
 
@@ -114,8 +119,13 @@ This calls the configured OpenRouter model and database, consumes API credits, a
 | Method | Endpoint | Purpose |
 |---|---|---|
 | GET | `/api/health` | Database connectivity and answer configuration status |
-| POST | `/api/auth/session` | Review password → expiring signed session; login attempts are limited |
-| GET | `/api/auth/session` | Validate the current Bearer session |
+| POST | `/api/auth/session` | `{username, password}` → account identity and HttpOnly session cookie |
+| GET | `/api/auth/session` | Return the current account identity |
+| DELETE | `/api/auth/session` | Revoke current login session |
+| GET / POST | `/api/conversations` | List account history / create with client-generated `{id}` |
+| POST | `/api/conversations/{id}/messages` | `{message, client_request_id}` → authoritative conversation; retry-safe |
+| POST | `/api/conversations/{id}/accept` | Staff accepts a confirmed handoff |
+| POST | `/api/conversations/{id}/reopen` | Student reopens a resolved conversation |
 | POST | `/api/chat` | `{message, conversation_id?}` → outcome, answer, sources, question ID, optional ticket offer/reference |
 | GET | `/api/conversations/{id}` | Stored conversation messages |
 | GET | `/api/knowledge?q=&category=` | Approved sources |
@@ -124,7 +134,7 @@ This calls the configured OpenRouter model and database, consumes API credits, a
 | GET | `/api/staff/tickets?status=open` | Protected queue (`open`, `resolved`, or `all`) |
 | PATCH | `/api/staff/tickets/{id}` | Protected status change: `{status: "resolved"}` |
 
-Chat, conversation retrieval and escalation require `Authorization: Bearer <session>`.
+Private endpoints require the account session cookie; mutations also require an allowlisted `Origin`. Bearer tokens and staff Basic authentication are no longer supported.
 The live regression scripts authenticate from local backend settings automatically.
 Allow time between runs to respect the configured request limits; do not bypass
 the production limits for evaluation.
@@ -133,7 +143,7 @@ the production limits for evaluation.
 
 Warm paper surfaces, evergreen actions, Inter, readable text, responsive navigation, accessible shadcn/Radix dialogs, clear focus, and restrained motion. Original-source links and retrieval dates accompany official source inspection. No gradients or glass effects. Design notes: `design-system/campus-helpdesk/MASTER.md`.
 
-Vercel frontend and Render backend deployment configuration is included; see [DEPLOYMENT.md](DEPLOYMENT.md) for account setup, environment configuration, validation and deployment status. Tickets are routed to the app's staff queue. The prototype does not send emails, support staff replies/student notifications, or provide institutional SSO. Institutional use would need proper staff identity/session management, request limits, and a privacy/retention policy appropriate to the institution.
+Vercel frontend and Render backend deployment configuration is included; see [DEPLOYMENT.md](DEPLOYMENT.md) for account setup, environment configuration, validation and deployment status. Tickets are routed to the app's staff queue. This version has exactly two fixed accounts and supports staff replies. It has no email delivery, account registration, password-reset flow, attachments, or institutional SSO. Institutional deployment still requires an appropriate privacy/retention policy.
 
 ## Official dataset and refresh
 
@@ -146,4 +156,4 @@ Conversation resolution now uses up to 80 stored messages and a bounded context 
 Public coverage does not include private attendance, timetable/room allocations, live seats, personal records, passwords or registration state. Missing facts still ask before raising a staff ticket. An independent staff/source review and current university confirmation remain necessary for critical or changing policy details.
 
 
-Current verification: 71 isolated backend tests, 15 frontend tests, production build, 30 source-family retrieval checks, 12 live outcome/source checks and eight live context/consent turns. See `reports/official-dataset.md` for limits and earlier failed runs. Browser review of the new UI changes is pending because local browser use was disabled in Work settings during this revision.
+Current implementation checks are recorded in `reports/implementation/`. Earlier official-source reports remain evidence for their recorded corpus checks, not verification of the new account/chat behavior.

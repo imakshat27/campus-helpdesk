@@ -8,7 +8,7 @@ import { Button } from './ui/button';
 import { api } from '../api';
 import { clearAccess } from '../access';
 import type { Account } from '../access';
-const AccountContext = createContext<Account | null>(null);
+export const AccountContext = createContext<Account | null>(null);
 export const useAccount = () => useContext(AccountContext);
 
 export default function AccessGate({ children }: { children: ReactNode }) {

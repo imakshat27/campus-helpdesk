@@ -13,6 +13,7 @@ from datetime import timedelta
 
 @pytest.fixture
 def secured(client,monkeypatch):
+    client.headers.pop('Cookie',None)
     app.dependency_overrides.pop(require_access)
     app.dependency_overrides.pop(allow_chat)
     return client

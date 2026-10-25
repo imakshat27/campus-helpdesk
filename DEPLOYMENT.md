@@ -62,3 +62,17 @@ source-backed answers, and browser cookies through the Vercel proxy. Record
 hosted results separately from local test results. A health check alone does
 not verify browser integration. Live model/consent regression requires explicit
 test confirmation because it saves a demo ticket.
+
+## Saved conversations and staff handoff
+
+Migration 005 backfills deterministic message order and conversation states,
+adds sender identities and retry records, and enforces one open ticket per
+conversation. Historical duplicate open tickets are preserved as resolved
+records; the newest remains active. Historical anonymous owners are retained.
+New student history is attached to the student account, not its login sessions.
+
+New conversation creation accepts a client-generated UUID. Message submission
+requires a client request UUID; retrying the same request returns the original
+result without saving another message. Reusing that UUID for different content
+or another conversation is rejected. Staff cannot reply until accepting a
+confirmed handoff. Resolving/reopening updates ticket and conversation together.
