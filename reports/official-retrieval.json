@@ -35,6 +35,12 @@
         "url": "https://vit.ac.in/sites/default/files/academic/Academic-Regulations.pdf"
       },
       {
+        "id": "vit-1437f0a3906c2a:14",
+        "title": "Placement Highlights | Career Development Centre",
+        "heading": "CDC Visiting hours: (For only those queries which are not in FAQ)",
+        "url": "https://vit.ac.in/cdc-highlights"
+      },
+      {
         "id": "vit-a5491ce470ffa0:8",
         "title": "Library | VIT",
         "heading": "Features",
@@ -45,12 +51,6 @@
         "title": "Library | VIT",
         "heading": "Open access system is followed in the Library",
         "url": "https://vit.ac.in/academics/library"
-      },
-      {
-        "id": "vit-db4f817612a002:12",
-        "title": "academic regulations",
-        "heading": "Page 7",
-        "url": "https://vit.ac.in/academics/academic-regulations"
       }
     ]
   },
@@ -231,9 +231,9 @@
         "url": "https://vit.ac.in/academics/library"
       },
       {
-        "id": "vit-a5491ce470ffa0:33",
+        "id": "vit-a5491ce470ffa0:2",
         "title": "Library | VIT",
-        "heading": "Services",
+        "heading": "PERIYAR EVR CENTRAL LIBRARY",
         "url": "https://vit.ac.in/academics/library"
       }
     ]
@@ -280,10 +280,16 @@
         "url": "https://vit.ac.in/academics/academic-regulations"
       },
       {
-        "id": "vit-442c6de5696524:18",
-        "title": "Student Code of Conduct",
-        "heading": "Page 7",
-        "url": "https://vit.ac.in/sites/default/files/Student-Code-of-Conduct.pdf"
+        "id": "vit-0d5a9acb44e4da:0",
+        "title": "Controller of Examinations - Vellore Institute of Technology",
+        "heading": "Controller of Examinations",
+        "url": "https://vit.ac.in/academics/coe"
+      },
+      {
+        "id": "vit-0d5a9acb44e4da:1",
+        "title": "Controller of Examinations - Vellore Institute of Technology",
+        "heading": "Controller of Examinations",
+        "url": "https://vit.ac.in/academics/coe"
       }
     ]
   },
@@ -419,6 +425,12 @@
         "title": "academic regulations",
         "heading": "Page 5",
         "url": "https://vit.ac.in/academics/academic-regulations"
+      },
+      {
+        "id": "vit-122939bca23a36:2",
+        "title": "VIT Admissions 2026-27: B.Tech, MBA, M.Tech, Research",
+        "heading": "International / NRI",
+        "url": "https://vit.ac.in/admissions/overview"
       }
     ]
   },
@@ -513,10 +525,10 @@
         "url": "https://vit.ac.in/sites/default/files/ug/Affidavits-General-Student-Parent-Hostel-2026.pdf"
       },
       {
-        "id": "vit-368491d494cbab:0",
-        "title": "First year 2026 27",
-        "heading": "Page 1",
-        "url": "https://vit.ac.in/wp-content/uploads/2026/05/First-year-2026-27.pdf"
+        "id": "vit-a5491ce470ffa0:11",
+        "title": "Library | VIT",
+        "heading": "Open access system is followed in the Library",
+        "url": "https://vit.ac.in/academics/library"
       }
     ]
   },
@@ -758,27 +770,33 @@
         "url": "https://vit.ac.in/campuslife/studentswelfare"
       },
       {
-        "id": "vit-9b835c3ea1b60f:52",
-        "title": "Administrative offices | VIT",
-        "heading": "Office Of Student's Welfare",
-        "url": "https://vit.ac.in/about/administrative-offices"
-      },
-      {
         "id": "vit-c10016992bee8b:7",
         "title": "Students Welfare Activities - Clubs, Chapters, Student Council | VIT",
         "heading": "Newsletter",
         "url": "https://vit.ac.in/campuslife/studentswelfare"
       },
       {
-        "id": "vit-9b835c3ea1b60f:53",
+        "id": "vit-9b835c3ea1b60f:31",
         "title": "Administrative offices | VIT",
-        "heading": "Contact",
+        "heading": "Office Of Student's Welfare",
         "url": "https://vit.ac.in/about/administrative-offices"
       },
       {
-        "id": "vit-9b835c3ea1b60f:20",
+        "id": "vit-9b835c3ea1b60f:12",
         "title": "Administrative offices | VIT",
-        "heading": "Contact",
+        "heading": "Office Of Student's Welfare",
+        "url": "https://vit.ac.in/about/administrative-offices"
+      },
+      {
+        "id": "vit-baef16ad873bf0:1",
+        "title": "Disability Support - Vellore Institute of Technology",
+        "heading": "SERVICE AND SUPPORT FOR DIFFERENTLY ABLED LEARNERS (SASDAL)",
+        "url": "https://vit.ac.in/service-and-support-differently-abled-learners-sasdal"
+      },
+      {
+        "id": "vit-9b835c3ea1b60f:16",
+        "title": "Administrative offices | VIT",
+        "heading": "Student Outreach Department",
         "url": "https://vit.ac.in/about/administrative-offices"
       },
       {
@@ -786,12 +804,6 @@
         "title": "Freshers Hostel Admission Information Vellore Campus 2026 27",
         "heading": "Page 1",
         "url": "https://vit.ac.in/wp-content/uploads/2026/06/Freshers-Hostel-Admission-Information-Vellore-Campus-2026-27.pdf"
-      },
-      {
-        "id": "vit-284189fde10bcc:9",
-        "title": "Scholarship - Vellore Institute of Technology",
-        "heading": "STATISTICS ON CASH AWARDS / SCHOLARSHIPS & EXPENDITURE (2024-2025)",
-        "url": "https://vit.ac.in/scholarship"
       }
     ]
   },
@@ -807,6 +819,12 @@
         "url": "https://vit.ac.in/centre-for-vit-happiness-and-well-being"
       },
       {
+        "id": "vit-9b835c3ea1b60f:23",
+        "title": "Administrative offices | VIT",
+        "heading": "Counselling Division",
+        "url": "https://vit.ac.in/about/administrative-offices"
+      },
+      {
         "id": "vit-84bfc24bcbc5f2:14",
         "title": "Counselling Division",
         "heading": "Appointments & Campus Accessibility",
@@ -819,21 +837,9 @@
         "url": "https://vit.ac.in/centre-for-vit-happiness-and-well-being"
       },
       {
-        "id": "vit-9b835c3ea1b60f:38",
+        "id": "vit-9b835c3ea1b60f:4",
         "title": "Administrative offices | VIT",
         "heading": "Counselling Division",
-        "url": "https://vit.ac.in/about/administrative-offices"
-      },
-      {
-        "id": "vit-9b835c3ea1b60f:39",
-        "title": "Administrative offices | VIT",
-        "heading": "Contact",
-        "url": "https://vit.ac.in/about/administrative-offices"
-      },
-      {
-        "id": "vit-9b835c3ea1b60f:6",
-        "title": "Administrative offices | VIT",
-        "heading": "Contact",
         "url": "https://vit.ac.in/about/administrative-offices"
       },
       {
@@ -841,6 +847,12 @@
         "title": "Students Welfare Activities - Clubs, Chapters, Student Council | VIT",
         "heading": "Students' Welfare",
         "url": "https://vit.ac.in/campuslife/studentswelfare"
+      },
+      {
+        "id": "vit-9b835c3ea1b60f:22",
+        "title": "Administrative offices | VIT",
+        "heading": "PG Admissions",
+        "url": "https://vit.ac.in/about/administrative-offices"
       }
     ]
   },
@@ -850,15 +862,15 @@
     "pass": true,
     "sources": [
       {
-        "id": "vit-baef16ad873bf0:1",
+        "id": "vit-baef16ad873bf0:2",
         "title": "Disability Support - Vellore Institute of Technology",
         "heading": "SERVICE AND SUPPORT FOR DIFFERENTLY ABLED LEARNERS (SASDAL)",
         "url": "https://vit.ac.in/service-and-support-differently-abled-learners-sasdal"
       },
       {
-        "id": "vit-baef16ad873bf0:2",
+        "id": "vit-baef16ad873bf0:1",
         "title": "Disability Support - Vellore Institute of Technology",
-        "heading": "Contact",
+        "heading": "SERVICE AND SUPPORT FOR DIFFERENTLY ABLED LEARNERS (SASDAL)",
         "url": "https://vit.ac.in/service-and-support-differently-abled-learners-sasdal"
       },
       {
@@ -886,13 +898,13 @@
         "url": "https://vit.ac.in/centre-for-vit-happiness-and-well-being"
       },
       {
-        "id": "vit-ae3e1de3281fce:0",
-        "title": "Contact Us | VIT",
-        "heading": "VELLORE CAMPUS",
-        "url": "https://vit.ac.in/contactus"
+        "id": "vit-42da517a6e1508:55",
+        "title": "IPR Cell | VIT",
+        "heading": "Explore VIT patented technologies available for commercialization",
+        "url": "https://vit.ac.in/iprcell"
       },
       {
-        "id": "vit-ae3e1de3281fce:39",
+        "id": "vit-ae3e1de3281fce:0",
         "title": "Contact Us | VIT",
         "heading": "VELLORE CAMPUS",
         "url": "https://vit.ac.in/contactus"
@@ -929,6 +941,12 @@
         "url": "https://vit.ac.in/anti-ragging-committee"
       },
       {
+        "id": "vit-055580ec9ebbd7:26",
+        "title": "B.Tech. Programmes | International Admissions | VIT | VIT",
+        "heading": "MEASURES FOR PREVENTION OF RAGGING AT THE INSTITUTION LEVEL:",
+        "url": "https://vit.ac.in/admissions/international/btech-eligibilityandprocedure"
+      },
+      {
         "id": "vit-10112d29ee8fa5:6",
         "title": "Anti Ragging Team 2025 2026",
         "heading": "Page 2",
@@ -945,12 +963,6 @@
         "title": "Affidavits General Student Parent Hostel 2026",
         "heading": "Page 3",
         "url": "https://vit.ac.in/sites/default/files/ug/Affidavits-General-Student-Parent-Hostel-2026.pdf"
-      },
-      {
-        "id": "vit-442c6de5696524:19",
-        "title": "Student Code of Conduct",
-        "heading": "Page 7",
-        "url": "https://vit.ac.in/sites/default/files/Student-Code-of-Conduct.pdf"
       }
     ]
   },
@@ -996,16 +1008,16 @@
         "url": "https://vit.ac.in/sites/default/files/academic/Academic-Regulations.pdf"
       },
       {
-        "id": "vit-9b835c3ea1b60f:25",
+        "id": "vit-9b835c3ea1b60f:34",
         "title": "Administrative offices | VIT",
         "heading": "Institutional Policies",
         "url": "https://vit.ac.in/about/administrative-offices"
       },
       {
-        "id": "vit-284189fde10bcc:13",
-        "title": "Scholarship - Vellore Institute of Technology",
-        "heading": "STATISTICS ON CASH AWARDS / SCHOLARSHIPS & EXPENDITURE (2024-2025)",
-        "url": "https://vit.ac.in/scholarship"
+        "id": "vit-055580ec9ebbd7:25",
+        "title": "B.Tech. Programmes | International Admissions | VIT | VIT",
+        "heading": "INSTRUCTIONS",
+        "url": "https://vit.ac.in/admissions/international/btech-eligibilityandprocedure"
       }
     ]
   },
@@ -1041,13 +1053,13 @@
       {
         "id": "vit-ae3e1de3281fce:59",
         "title": "Contact Us | VIT",
-        "heading": "Director",
+        "heading": "Assistant Dean",
         "url": "https://vit.ac.in/contactus"
       },
       {
         "id": "vit-ae3e1de3281fce:21",
         "title": "Contact Us | VIT",
-        "heading": "Director",
+        "heading": "Controller of Examinations",
         "url": "https://vit.ac.in/contactus"
       }
     ]
@@ -1094,7 +1106,7 @@
         "url": "https://vit.ac.in/campuslife/sports"
       },
       {
-        "id": "vit-6f1f0086da8435:55",
+        "id": "vit-6f1f0086da8435:54",
         "title": "Sports Activities | Campus Life | VIT",
         "heading": "1",
         "url": "https://vit.ac.in/campuslife/sports"
@@ -1125,40 +1137,40 @@
         "url": "https://vit.ac.in/academics/transcripts"
       },
       {
-        "id": "vit-9b835c3ea1b60f:62",
-        "title": "Administrative offices | VIT",
-        "heading": "Student's Records Sections",
-        "url": "https://vit.ac.in/about/administrative-offices"
+        "id": "vit-bd718d1b2fabf6:1",
+        "title": "Medium of Instruction Certificate",
+        "heading": "Medium of instruction certificate",
+        "url": "https://vit.ac.in/instruction"
       },
       {
-        "id": "vit-db4f817612a002:25",
-        "title": "academic regulations",
-        "heading": "Page 10",
-        "url": "https://vit.ac.in/academics/academic-regulations"
-      },
-      {
-        "id": "vit-e8feaeba2f60ef:107",
-        "title": "Academic Regulations",
-        "heading": "Page 32",
-        "url": "https://vit.ac.in/sites/default/files/academic/Academic-Regulations.pdf"
-      },
-      {
-        "id": "vit-e8feaeba2f60ef:28",
-        "title": "Academic Regulations",
-        "heading": "Page 10",
-        "url": "https://vit.ac.in/sites/default/files/academic/Academic-Regulations.pdf"
-      },
-      {
-        "id": "vit-54eaf1bb122a3a:11",
+        "id": "vit-54eaf1bb122a3a:10",
         "title": "Research Programmes | International Admissions | VIT | VIT",
         "heading": "DOCUMENTS TO BE UPLOADED:",
         "url": "https://vit.ac.in/admissions/international/research"
       },
       {
-        "id": "vit-370a61e1008181:0",
-        "title": "UG-Downloads |",
-        "heading": "UG Downloads",
-        "url": "https://vit.ac.in/ug-downloads"
+        "id": "vit-e80a43dba0345e:20",
+        "title": "UG Programmes (Non-B.Tech.) | International Admissions | VIT | VIT",
+        "heading": "Step 1 - Scrutinizing the documents received from the candidate.",
+        "url": "https://vit.ac.in/admissions/international/otherugprogrammes"
+      },
+      {
+        "id": "vit-e80a43dba0345e:19",
+        "title": "UG Programmes (Non-B.Tech.) | International Admissions | VIT | VIT",
+        "heading": "Stage 7: Download Application",
+        "url": "https://vit.ac.in/admissions/international/otherugprogrammes"
+      },
+      {
+        "id": "vit-e80a43dba0345e:18",
+        "title": "UG Programmes (Non-B.Tech.) | International Admissions | VIT | VIT",
+        "heading": "Stage 6: Documents Upload",
+        "url": "https://vit.ac.in/admissions/international/otherugprogrammes"
+      },
+      {
+        "id": "vit-055580ec9ebbd7:15",
+        "title": "B.Tech. Programmes | International Admissions | VIT | VIT",
+        "heading": "Stage 3: Filling Online application form",
+        "url": "https://vit.ac.in/admissions/international/btech-eligibilityandprocedure"
       }
     ]
   },
@@ -1192,6 +1204,12 @@
         "url": "https://vit.ac.in/transcripts-for-alumni"
       },
       {
+        "id": "vit-bd718d1b2fabf6:1",
+        "title": "Medium of Instruction Certificate",
+        "heading": "Medium of instruction certificate",
+        "url": "https://vit.ac.in/instruction"
+      },
+      {
         "id": "vit-ae3e1de3281fce:5",
         "title": "Contact Us | VIT",
         "heading": "Dean",
@@ -1202,12 +1220,6 @@
         "title": "Contact Us | VIT",
         "heading": "Dean",
         "url": "https://vit.ac.in/contactus"
-      },
-      {
-        "id": "vit-9b835c3ea1b60f:27",
-        "title": "Administrative offices | VIT",
-        "heading": "Student Outreach Department",
-        "url": "https://vit.ac.in/about/administrative-offices"
       },
       {
         "id": "vit-ae3e1de3281fce:74",
@@ -1223,10 +1235,28 @@
     "pass": true,
     "sources": [
       {
+        "id": "vit-1437f0a3906c2a:1",
+        "title": "Placement Highlights | Career Development Centre",
+        "heading": "Placement Highlights",
+        "url": "https://vit.ac.in/cdc-highlights"
+      },
+      {
         "id": "vit-19480b6a990ae2:0",
         "title": "Overview of CDC | Career Development Centre",
         "heading": "CDC Overview",
         "url": "https://vit.ac.in/cdc-overview"
+      },
+      {
+        "id": "vit-1437f0a3906c2a:0",
+        "title": "Placement Highlights | Career Development Centre",
+        "heading": "Placement Highlights",
+        "url": "https://vit.ac.in/cdc-highlights"
+      },
+      {
+        "id": "vit-1437f0a3906c2a:4",
+        "title": "Placement Highlights | Career Development Centre",
+        "heading": "Industry Certifications",
+        "url": "https://vit.ac.in/cdc-highlights"
       },
       {
         "id": "vit-19480b6a990ae2:1",
@@ -1247,28 +1277,10 @@
         "url": "https://vit.ac.in/placement-process"
       },
       {
-        "id": "vit-ae3e1de3281fce:29",
-        "title": "Contact Us | VIT",
-        "heading": "Deputy Director",
-        "url": "https://vit.ac.in/contactus"
-      },
-      {
-        "id": "vit-ae3e1de3281fce:67",
-        "title": "Contact Us | VIT",
-        "heading": "Assistant Director",
-        "url": "https://vit.ac.in/contactus"
-      },
-      {
-        "id": "vit-ae3e1de3281fce:31",
-        "title": "Contact Us | VIT",
-        "heading": "Assistant Director",
-        "url": "https://vit.ac.in/contactus"
-      },
-      {
-        "id": "vit-8dcc39ae1efd49:10",
-        "title": "Indian Societies - Vellore Institute of Technology",
-        "heading": "IICHE",
-        "url": "https://vit.ac.in/campus/chapters/indiansocieties"
+        "id": "vit-fc1bea8cc994f2:4",
+        "title": "Capability Enhancement Schemes - Vellore Institute of Technology",
+        "heading": "Career Counselling",
+        "url": "https://vit.ac.in/capability-enhancement-schemes"
       }
     ]
   },
@@ -1278,10 +1290,22 @@
     "pass": true,
     "sources": [
       {
-        "id": "vit-122939bca23a36:5",
+        "id": "vit-b3d648ff6f025a:32",
+        "title": "Programmes Offered - Vellore Institute of Technology | VIT",
+        "heading": "Ph.D",
+        "url": "https://vit.ac.in/admissions/programmes-offered"
+      },
+      {
+        "id": "vit-122939bca23a36:3",
         "title": "VIT Admissions 2026-27: B.Tech, MBA, M.Tech, Research",
         "heading": "International / NRI",
         "url": "https://vit.ac.in/admissions/overview"
+      },
+      {
+        "id": "vit-e80a43dba0345e:22",
+        "title": "UG Programmes (Non-B.Tech.) | International Admissions | VIT | VIT",
+        "heading": "Step 3 \u2013 Payment of Advance Fees",
+        "url": "https://vit.ac.in/admissions/international/otherugprogrammes"
       },
       {
         "id": "vit-284189fde10bcc:12",
@@ -1290,13 +1314,19 @@
         "url": "https://vit.ac.in/scholarship"
       },
       {
+        "id": "vit-91db8a8782b6e5:9",
+        "title": "VIT UG Courses 2026-27: B.Tech, B.Des, B.Arch, B.Sc, BBA",
+        "heading": "Duration - (4 Years)",
+        "url": "https://vit.ac.in/all-courses/ug"
+      },
+      {
         "id": "vit-284189fde10bcc:1",
         "title": "Scholarship - Vellore Institute of Technology",
         "heading": "STATISTICS ON CASH AWARDS / SCHOLARSHIPS & EXPENDITURE (2024-2025)",
         "url": "https://vit.ac.in/scholarship"
       },
       {
-        "id": "vit-54eaf1bb122a3a:9",
+        "id": "vit-54eaf1bb122a3a:8",
         "title": "Research Programmes | International Admissions | VIT | VIT",
         "heading": "Academic Fee & Hostel Fee -",
         "url": "https://vit.ac.in/admissions/international/research"
@@ -1306,24 +1336,6 @@
         "title": "Scholarship - Vellore Institute of Technology",
         "heading": "STATISTICS ON CASH AWARDS / SCHOLARSHIPS & EXPENDITURE (2024-2025)",
         "url": "https://vit.ac.in/scholarship"
-      },
-      {
-        "id": "vit-3c494770e60391:25",
-        "title": "International Relations | VIT",
-        "heading": "VIT MoU with George Washington University",
-        "url": "https://vit.ac.in/internationalrelations"
-      },
-      {
-        "id": "vit-3c494770e60391:5",
-        "title": "International Relations | VIT",
-        "heading": "Lehigh University, Pennsylvania, United States, and Vellore Institute of Technology have strengthened their collaboration by introducing new graduate program opportunities.",
-        "url": "https://vit.ac.in/internationalrelations"
-      },
-      {
-        "id": "vit-49ae6dbba6c045:15",
-        "title": "PhD Admissions 2027 | Ph.D, Direct PhD, Deep Tech Programmes",
-        "heading": "Contact US",
-        "url": "https://vit.ac.in/admissions/research"
       }
     ]
   },
@@ -1345,7 +1357,7 @@
         "url": "https://vit.ac.in/internationalrelations"
       },
       {
-        "id": "vit-3c494770e60391:29",
+        "id": "vit-3c494770e60391:28",
         "title": "International Relations | VIT",
         "heading": "Services Offered",
         "url": "https://vit.ac.in/internationalrelations"
@@ -1388,19 +1400,7 @@
     "pass": true,
     "sources": [
       {
-        "id": "vit-49ae6dbba6c045:15",
-        "title": "PhD Admissions 2027 | Ph.D, Direct PhD, Deep Tech Programmes",
-        "heading": "Contact US",
-        "url": "https://vit.ac.in/admissions/research"
-      },
-      {
-        "id": "vit-49ae6dbba6c045:12",
-        "title": "PhD Admissions 2027 | Ph.D, Direct PhD, Deep Tech Programmes",
-        "heading": "Contact US",
-        "url": "https://vit.ac.in/admissions/research"
-      },
-      {
-        "id": "vit-54eaf1bb122a3a:7",
+        "id": "vit-54eaf1bb122a3a:6",
         "title": "Research Programmes | International Admissions | VIT | VIT",
         "heading": "For Non-Engineering Stream:",
         "url": "https://vit.ac.in/admissions/international/research"
@@ -1412,28 +1412,40 @@
         "url": "https://vit.ac.in/admissions/research"
       },
       {
+        "id": "vit-49ae6dbba6c045:2",
+        "title": "PhD Admissions 2027 | Ph.D, Direct PhD, Deep Tech Programmes",
+        "heading": "Research Proposal Template",
+        "url": "https://vit.ac.in/admissions/research"
+      },
+      {
         "id": "vit-54eaf1bb122a3a:0",
         "title": "Research Programmes | International Admissions | VIT | VIT",
         "heading": "Research Admissions",
         "url": "https://vit.ac.in/admissions/international/research"
       },
       {
-        "id": "vit-54eaf1bb122a3a:8",
+        "id": "vit-54eaf1bb122a3a:7",
         "title": "Research Programmes | International Admissions | VIT | VIT",
         "heading": "For Non-Engineering Stream:",
         "url": "https://vit.ac.in/admissions/international/research"
+      },
+      {
+        "id": "vit-49ae6dbba6c045:14",
+        "title": "PhD Admissions 2027 | Ph.D, Direct PhD, Deep Tech Programmes",
+        "heading": "The following documents are required to be submitted at the time of reporting:",
+        "url": "https://vit.ac.in/admissions/research"
+      },
+      {
+        "id": "vit-b3d648ff6f025a:32",
+        "title": "Programmes Offered - Vellore Institute of Technology | VIT",
+        "heading": "Ph.D",
+        "url": "https://vit.ac.in/admissions/programmes-offered"
       },
       {
         "id": "vit-44db388beb09af:5",
         "title": "International Foreign Students Admissions | Overseas Admission | VIT",
         "heading": "Campus Life",
         "url": "https://vit.ac.in/admissions/international/overview"
-      },
-      {
-        "id": "vit-dd0dddbce9fe72:0",
-        "title": "Academic Research | VIT",
-        "heading": "Academic Research",
-        "url": "https://vit.ac.in/research/academic"
       }
     ]
   },

@@ -185,7 +185,6 @@ Though weekend intra semester and summer semesters are conducted to help student
 backlog, it is not binding on the University to offer these semesters or courses during these
 semesters.
 
-
 FFCS Academic Regulations - Version 4.0
 
 ## Page 7
@@ -420,7 +419,6 @@ internship course in a subsequent semester for evaluation by the School. Based o
 the activity log, the industrial internship report and per formance of the student during the related
 viva voce, marks may be awarded which shall lead to a performance grade.
 
-
 FFCS Academic Regulations - Version 4.0
 
 ## Page 13
@@ -465,7 +463,6 @@ FFCS Academic Regulations - Version 4.0
 ## Page 14
 
 11
-
 
 Projects can be connecting to domain specific issues under the guidance of a faculty. They can also
 opt for an alternative method of doing an internship. The students can undertake the domain specific
@@ -674,7 +671,6 @@ offer as many courses as possible during fall, winter, weekend intra and summer 
 Students have to pay a Re-registration fee, as specified by the University from time to time, for the
 following cases: 1) registration of a course for which ‘N’ or ‘F’ or ‘W’ is given, or 2) registering a DE/OE
 (either same course or a substitution course) which was not cleared in the previous semester(s).
-
 
 FFCS Academic Regulations - Version 4.0
 
@@ -891,7 +887,6 @@ Credit
 2 1 0 3 0 0 2 1 2 1 2 4 0 0 0 3
 As it is As it is Ratio 3:1 As it is
 
-
 The Assessment pattern for law programmes (LLB and LLM) includes 6 assessments of 10 marks each
 6x10 = 60, 60% weightage and FAT 100 marks, 40% weightage
 Moot court or clinic can be used as an assessment component in a few courses which can be
@@ -1085,7 +1080,6 @@ FFCS Academic Regulations - Version 4.0
 
 25
 
-
 Table-6: Absolute Grading – Letter Grade and its range
 
 Letter Grade Marks range (max. of 100)
@@ -1096,7 +1090,6 @@ C >= 60 but < 70
 D >= 55 but < 60
 E >= 50 but < 55
 F < 50
-
 
 9.6 Evaluation for Laboratory only Courses
 A few skill based courses may hav e only laboratory component without a theory and/ or tutorial
@@ -1129,7 +1122,6 @@ FFCS Academic Regulations - Version 4.0
 26
 
 successfully. They also have the option of re-registering the whole course for Grade improvement.
-
 
 9.8 Viewing Internal Assessment Marks
 
@@ -1241,7 +1233,6 @@ the course again and clear it. The student will be awarded ‘N’ grade in the 
 write. Student permitted for Re -FAT will be awarded grade as per the class relative ‘grading band’,
 without re-calculating the class average and standard deviation again.
 
-
 FFCS Academic Regulations - Version 4.0
 
 ## Page 32
@@ -1286,7 +1277,6 @@ FFCS Academic Regulations - Version 4.0
 ## Page 33
 
 30
-
 
 Marks will be given in all subjects registered in that semester, for the corresponding examination. If
 a student indulges in malpractice in the FAT, all the regular courses in which the student was eligible
@@ -1523,7 +1513,6 @@ FFCS Academic Regulations - Version 4.0
 
 36
 
-
 Table-7: Period of study during which SAP can be availed
 S. No Name of the Programme Period of Study
 1 All Bachelor of Technology Programmes
@@ -1570,7 +1559,6 @@ Course Title / Content Verification for Credit Transfer and award of Grade
 the number of credits to be considered under each category (Programme Elective / Discipline Elective
 and University Elective / Open Elective) and the Grade to be awarded.
 
-
 FFCS Academic Regulations - Version 4.0
 
 ## Page 40
@@ -1588,7 +1576,6 @@ Option – II: Completing the Internship / Project elsewhere through Semester Ab
 claiming for Credit Transfer. School Committee (Course Coordinator / HoD / Dean) is responsible to
 verify the quality of the work completed by the student through Semester Abroad Program and
 recommend the Grade to be awarded.
-
 
 # Grades scored for the Courses, Masters Thesis / Capstone Project completed through Semester
 Abroad Program will be considered for calculating the CGPA for the student.
@@ -1635,7 +1622,6 @@ will be benefitted by one or more of the following means.
 conference/ workshop
 ● issued a Certificate of Merit
 ● given a Cash award or scholarship for the subsequent semesters
-
 
 19. Time Limit for Programme Completion
 For various programmes, the ‘minimum period of study’ (n) a student is expected to study to
@@ -1698,7 +1684,6 @@ FFCS Academic Regulations - Version 4.0
 Annexure – 1
 Minimum duration of the Programme
 
-
 Programme Minimum period of Study
 B.Tech., B.Des., B.Sc. (Hons) Agriculture 4 years
 M.Tech., M.Des., M.Arch. 2 years
@@ -1706,6 +1691,5 @@ M.Tech. (5 year Integrated), B.Arch. 5 Years
 M.Sc., MCA, MBA, Master of Social Work 2 years
 M.Sc. (5 year Integrated) 5 years
 BCA, B.Sc., B.Com., BBA 3 years
-
 
 FFCS Academic Regulations - Version 4.0

@@ -12,8 +12,6 @@ Research Centers
 
 * Academic Research
 
-VITREE -2027 (Ph.D. / Direct Ph.D./ Ph.D. (Deep Tech.) / Ph.D. (Industry) Programme) January Session - Apply Now
-
 Research Guide Directory (Schools / Centers - July Session, Vellore Campus)
 
 VIT is a premier institute not only for its excellent academic background but also for its strong inclination towards research and development of innovative technologies.
@@ -37,8 +35,6 @@ Amidst the numerous programs offered at VIT, some cater to the research domain a
 * School of Social Sciences & Languages (SSL)
 * VIT Business School (VITBS)
 * VIT School of Design (V-SIGN)
-* VIT Law School (VITSOL) - Chennai Campus
-* VFIT Fashion Technology (VFIT) - Chennai Campus
 * School of Architecture (V-SPARC)
 * VIT School of Agricultural Innovations And Advanced Learning. (VAIAL)
 * School of Hotel & Tourism Management (HOT)

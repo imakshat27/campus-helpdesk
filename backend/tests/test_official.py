@@ -1,4 +1,6 @@
-from app.import_official import extract_html
+import json
+import re
+from app.import_official import extract_html,vellore_only,ROOT
 from app.seed import sections
 from app.llm import bounded_history
 
@@ -39,3 +41,17 @@ def test_official_ingestion_deactivates_fictional_sources(database):
         approved=db.scalars(select(Document).where(Document.approved.is_(True))).all()
         assert all(d.source_url and d.campus=='Vellore' for d in approved)
         assert len(approved)==count
+
+
+def test_vellore_filter_drops_other_campus_lines_sections_and_table_cells():
+ text='## Sports in Chennai campus\n\nTennis court\n\n## Sports at Vellore\n\nCricket\n\n* VIT-Vellore only IFT.\n* VIT-AP only IFT.\n\n| a | b |\n| --- | --- |\n| VIT Vellore Campus | VIT Bhopal Campus |\n| VIT Chennai | Amaravati |'
+ result=vellore_only(text)
+ assert 'Tennis' not in result and 'VIT-AP' not in result and 'Bhopal' not in result and 'Amaravati' not in result
+ assert 'Cricket' in result and 'VIT-Vellore only IFT' in result and 'VIT Vellore Campus' in result and '| --- | --- |' in result
+
+def test_imported_corpus_is_vellore_only():
+ manifest=json.loads((ROOT/'manifest.json').read_text())
+ other=re.compile(r'\\b(chennai|bhopal|amaravati|andhra|vit[\\s-]?ap)\\b',re.I)
+ assert manifest['documents'] and all(d['campus']=='Vellore' for d in manifest['documents'])
+ assert all(d['source_url'].startswith('https://vit.ac.in/') for d in manifest['documents'])
+ assert not [d['title'] for d in manifest['documents'] if other.search((ROOT/d['file']).read_text())]

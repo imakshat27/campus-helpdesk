@@ -19,7 +19,7 @@ import { useLiveEvents } from './hooks/use-live-events';
 const SourceContent=lazy(()=>import('./components/SourceContent'));
 import type { Knowledge, Source, Ticket, TicketOffer, ConversationSummary, ConversationDetail, ConversationState } from './api';
 
-const categoryLabels: Record<string, string> = { classrooms: 'Classrooms', labs: 'Labs', events: 'Events', procedures: 'Student services', library: 'Library', it: 'IT support', academics: 'Academics', hostels: 'Hostels', welfare: 'Student welfare', facilities: 'Facilities', accessibility: 'Accessibility', safety: 'Safety', careers: 'Careers', admissions: 'Admissions', admission_info: 'Admissions', research: 'Research', alumni: 'Alumni', global: 'International', international: 'International' };
+const categoryLabels: Record<string, string> = { about: 'About VIT', classrooms: 'Classrooms', labs: 'Labs', events: 'Events', procedures: 'Student services', library: 'Library', it: 'IT support', academics: 'Academics', hostels: 'Hostels', welfare: 'Student welfare', facilities: 'Facilities', accessibility: 'Accessibility', safety: 'Safety', careers: 'Careers', admissions: 'Admissions', admission_info: 'Admissions', research: 'Research', alumni: 'Alumni', global: 'International', international: 'International' };
 const suggestions = [
   { label: 'Library borrowing', question: 'What are the library borrowing rules for undergraduate students?' },
   { label: 'Academic rules', question: 'How does the Fully Flexible Credit System work?' },

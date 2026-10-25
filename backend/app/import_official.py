@@ -24,7 +24,35 @@ SEEDS={
 'research':['/research/academic','/research/centers-list','/admissions/research'],
 'alumni':['/academics/transcripts','/transcripts-for-alumni','/alumni-office-contact'],
 'admissions_more':['/admissions/overview','/admissions/international/overview','/admissions/international/research'],
-'global':['/internationalrelations/itp','/international-projects-sap']}
+'global':['/internationalrelations/itp','/international-projects-sap'],
+'about':['/about-vit','/about/vision-mission','/vit-milestones','/about/leadership','/governance','/about/sustainability','/true-green','/about/community-outreach','/green-vit','/policies-core-values','/national-institutional-ranking-framework-nirf','/ranking-and-recognition'],
+'academics_more':['/academics/home','/schools','/academics/coe','/coe-email-contacts','/academics/iqac','/academics-feedback','/capability-enhancement-schemes','/centers/tlce','/vitol/','/instruction','/e-tracks'],
+'welfare_more':['/internal-complaints-committee','/equal-opportunity-cell','/sc-st-cell','/committee-for-ensuring-equity-diversity-and-inclusivity','/mentoring-committee-for-higher-studies','/campuslife/overview','/campuslife/fests','/campus-category/student-council','/campus-category/programme-representatives'],
+'facilities_more':['/guest-house','/hotels-in-vellore','/campus/teams/projects-lab'],
+'admissions_programmes':['/admissions/programmes-offered','/all-courses/ug','/all-courses/pg','/stars-support-advancement-rural-students','/applications-open-2026-27','/admissions/international/btech-eligibilityandprocedure','/admissions/international/otherugprogrammes','/admissions/international/pg','/admissions/international/integrated'],
+'careers_more':['/cdc-highlights','/cdc-tracker','/cdc-office','/cdc-contact-us'],
+'research_more':['/research','/research/sponsored-research','/iprcell'],
+'global_more':['/internationalrelations/partneruniversities','/inbound-exchange-programs-vit-india','/academics-more/semester-abroad-program-sap','/academics-more/contact-us']}
+CATEGORY_ALIASES={'admissions_more':'admissions','admissions_programmes':'admissions','global':'international','global_more':'international','academics_more':'academics','welfare_more':'welfare','facilities_more':'facilities','careers_more':'careers','research_more':'research'}
+# The helpdesk covers VIT Vellore only; other campuses have their own sites and policies.
+OTHER_CAMPUS=re.compile(r'\b(chennai|bhopal|amaravati|andhra|vit[\s-]?ap)\b',re.I)
+def vellore_only(text):
+ out=[];skip=None
+ for line in text.split('\n'):
+  heading=re.match(r'(#+)\s',line)
+  if heading:
+   level=len(heading.group(1))
+   if skip is not None and level<=skip:skip=None
+   if skip is None and OTHER_CAMPUS.search(line) and not re.search('vellore',line,re.I):skip=level;continue
+  if skip is not None:continue
+  if OTHER_CAMPUS.search(line):
+   if line.lstrip().startswith('|'):
+    cells=['' if OTHER_CAMPUS.search(cell) else cell for cell in line.split('|')]
+    if not any(cell.strip(' -') for cell in cells):continue
+    line='|'.join(cells)
+   else:continue
+  out.append(line)
+ return '\n'.join(out)
 PDF_TERMS=('academic-regulation','library-policy','code-of-conduct','codeofconduct','hostel','disabil','anti-ragging','student-handbook','student-guideline')
 LINK_TERMS=('disability','grievance','counselling','healthservices','sports','clubs','chapters','ffcs','scholarship','hostels')
 def clean(text):return '\n'.join(re.sub(r'[ \t]+',' ',line).rstrip() for line in text.replace('\xa0',' ').splitlines()).strip()
@@ -44,12 +72,12 @@ def run(refresh=False):
  pending=[('https://vit.ac.in'+path,cat) for cat,paths in SEEDS.items() for path in paths];docs=[];failures=[];seen=set();robots=RobotFileParser()
  with httpx.Client(timeout=35,follow_redirects=True,headers={'User-Agent':'CampusHelpdeskResearch/1.0 (student project; public sources)'}) as client:
   robots.parse(client.get('https://vit.ac.in/robots.txt').text.splitlines())
-  while pending and len(seen)<85:
+  while pending and len(seen)<170:
    url,category=pending.pop(0);url=urldefrag(url)[0]
-   category={'admissions_more':'admissions','global':'international'}.get(category,category)
+   category=CATEGORY_ALIASES.get(category,category)
    if url in seen:continue
    seen.add(url)
-   if urlparse(url).hostname not in ('vit.ac.in','www.vit.ac.in') or not robots.can_fetch('*',url):
+   if urlparse(url).hostname not in ('vit.ac.in','www.vit.ac.in') or not robots.can_fetch('*',url) or re.search(r'chennai|bhopal|vitap|vit-ap|amaravati',urlparse(url).path,re.I):
     failures.append({'url':url,'reason':'Outside allowed public scope'});continue
    ident='vit-'+hashlib.sha256(url.encode()).hexdigest()[:14];cache=ROOT/'raw'/ident
    try:
@@ -84,6 +112,7 @@ def run(refresh=False):
         if 'hostel' in path and re.search(r'202[0-5]|2[0-5]-2[1-6]',path):continue
         pending.append((link,category))
        elif any(t in path for t in LINK_TERMS) and not path.endswith(('.pdf','.jpg','.png','.docx','.zip')):pending.append((link,category))
+    blocks=[b for b in re.split(r'\n\s*\n',vellore_only('\n\n'.join(blocks))) if b.strip()]
     if sum(map(len,blocks))<200:raise ValueError('Too little extractable content')
     content='\n\n'.join(blocks);(ROOT/'processed'/f'{ident}.md').write_text(content)
     docs.append({'id':ident,'title':clean(title)[:190],'category':category,'kind':'official','file':f'processed/{ident}.md','source_url':url,'campus':'Vellore','retrieved_at':datetime.fromtimestamp(cache.stat().st_mtime,timezone.utc).isoformat(),'format':'PDF (text extraction or OCR)' if data.startswith(b'%PDF') else 'HTML','sha256':hashlib.sha256(data).hexdigest(),'content_characters':len(content),'approved':True})
@@ -103,7 +132,7 @@ def run(refresh=False):
  for d in docs:
   if d['content_characters']<200:failures.append({'url':d['source_url'],'reason':'Too little content after boilerplate removal'})
  docs=[d for d in docs if d['content_characters']>=200]
- (ROOT/'manifest.json').write_text(json.dumps({'scope':'VIT Vellore public website; current pages and dated documents','documents':docs,'excluded':failures},indent=2)+'\n')
+ (ROOT/'manifest.json').write_text(json.dumps({'scope':'VIT Vellore public website (vit.ac.in); Vellore campus only, other campuses filtered out; current pages and dated documents','documents':docs,'excluded':failures},indent=2)+'\n')
  print('Imported',len(docs),'sources;',len(failures),'excluded',flush=True)
 if __name__=='__main__':
  p=argparse.ArgumentParser();p.add_argument('--refresh',action='store_true');run(p.parse_args().refresh)

@@ -37,8 +37,6 @@ Research - NRI / Foreign 2026 Application - Apply Now
 
 VIT was established with the aim of providing quality higher education on par with international standards. It persistently seeks and adopts innovative methods to improve the quality of higher education on a consistent basis. The campus has a cosmopolitan atmosphere with students from all corners of the globe. Experienced and learned faculty members are strongly encouraged to nurture the students. The global standards set at VIT in the field of learning and research spurs VIT in its relentless pursuit of excellence. In fact, it has become a way of life for us. The highly motivated youngsters on the campus are a constant source of pride. Our Memoranda of Understanding with various international universities are our major strength. They provide for an exchange of students and faculty and encourage joint research projects for the mutual benefit of these universities.
 
-To cater to the growing demand for quality education, VIT with its two existing campuses at Vellore and Chennai, has opened two more campuses. The new campuses are located at Amaravati in Andhra Pradesh and at Bhopal in Madhya Pradesh.
-
 ## Campus Life
 
 VIT prides itself in its ability to provide an education that is not only coveted by many within india but abroad as well. Proof of this is seen in the increasing number of international students pursuing their higher education at VIT University. VIT also has over 500+ MoUs with foreign universities.

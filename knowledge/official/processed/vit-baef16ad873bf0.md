@@ -18,8 +18,6 @@ The details pertaining to physically disabled students are collected at the time
 * A scribe facility is provided for differently-abled learners based on the requirements.
 * Stress caused by different reasons is counselled and supported by therapies.
 
-## Contact
-
 **Dr. Sujatha R, Professor Grade 1, SCORE**
 
 **Mobile No.: 9943559395**
