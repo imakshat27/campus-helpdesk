@@ -9,7 +9,7 @@ from app.models import Message, Ticket, Conversation, Document
 from app.schemas import Generation
 from app.config import settings
 
-AUTH=('test-staff','test-password')
+AUTH={'Cookie':'campus_session=test-staff-token'}
 
 def test_grounded_answer_and_persistence(grounded,database):
     r=grounded.post('/api/chat',json={'message':'When does the robotics lab close?'})
@@ -35,12 +35,12 @@ def test_unsupported_asks_before_creating_ticket(client,database):
     confirmed=client.post(url,json={'message_id':result['user_message_id'],'confirmed':True}).json()
     with Session(database) as db:
         assert db.scalar(select(Ticket)).reference==confirmed['ticket_reference']
-    queue=client.get('/api/staff/tickets',auth=AUTH).json()
+    queue=client.get('/api/staff/tickets',headers=AUTH).json()
     assert queue[0]['messages'][0]['role']=='user'
     assert queue[0]['query']=='What is my exam score?'
-    assert client.patch('/api/staff/tickets/'+queue[0]['id'],auth=AUTH,json={'status':'resolved'}).status_code==200
-    assert client.get('/api/staff/tickets',auth=AUTH).json()==[]
-    assert len(client.get('/api/staff/tickets?status=resolved',auth=AUTH).json())==1
+    assert client.patch('/api/staff/tickets/'+queue[0]['id'],headers=AUTH,json={'status':'resolved'}).status_code==200
+    assert client.get('/api/staff/tickets',headers=AUTH).json()==[]
+    assert len(client.get('/api/staff/tickets?status=resolved',headers=AUTH).json())==1
 
 def test_clarification_and_followup(grounded,database,source):
     class Generator:
@@ -106,13 +106,14 @@ def test_failed_commit_does_not_confirm_handoff(client,database,monkeypatch):
 def test_staff_auth_and_invalid_updates(client):
     assert client.get('/api/staff/tickets').status_code==401
     assert client.get('/api/staff/tickets',auth=('wrong','wrong')).status_code==401
-    assert client.get('/api/staff/tickets',auth=AUTH).status_code==200
-    assert client.patch('/api/staff/tickets/missing',auth=AUTH,json={'status':'invalid'}).status_code==422
-    assert client.patch('/api/staff/tickets/missing',auth=AUTH,json={'status':'resolved'}).status_code==404
+    assert client.get('/api/staff/tickets',headers=AUTH).status_code==200
+    assert client.patch('/api/staff/tickets/missing',headers=AUTH,json={'status':'invalid'}).status_code==422
+    assert client.patch('/api/staff/tickets/missing',headers=AUTH,json={'status':'resolved'}).status_code==404
 
 def test_unconfigured_staff_has_no_default_access(client,monkeypatch):
+    # Environment credentials are only used by provisioning, never as an auth fallback.
     monkeypatch.setattr(settings(),'staff_password','')
-    assert client.get('/api/staff/tickets',auth=AUTH).status_code==503
+    assert client.get('/api/staff/tickets',auth=('test-staff','test-password')).status_code==401
 
 def test_search_and_unapproved_documents(client,database):
     assert len(client.get('/api/knowledge').json())==29
@@ -129,7 +130,7 @@ def test_manual_handoff_is_idempotent(grounded):
     body={'message_id':result['user_message_id'],'confirmed':True}
     one=grounded.post(url,json=body).json(); two=grounded.post(url,json=body).json()
     assert one==two
-    assert len(grounded.get('/api/staff/tickets',auth=AUTH).json())==1
+    assert len(grounded.get('/api/staff/tickets',headers=AUTH).json())==1
 
 def test_input_validation(client):
     for message in ['', '   ', 'a'*2001]:
@@ -348,10 +349,11 @@ def test_staff_queue_batches_context_in_two_queries(client,database):
         if statement.lstrip().upper().startswith('SELECT'):statements.append(statement)
     event.listen(database,'before_cursor_execute',count)
     try:
-        result=client.get('/api/staff/tickets',auth=AUTH)
+        result=client.get('/api/staff/tickets',headers=AUTH)
         assert result.status_code==200 and len(result.json())==4
         assert all(len(ticket['messages'])==1 for ticket in result.json())
-        assert len(statements)==2
+        assert len([sql for sql in statements if 'FROM tickets' in sql or 'FROM messages' in sql])==2
+        assert len(statements)==4  # Session + user lookup, then two batched queue queries.
     finally:event.remove(database,'before_cursor_execute',count)
 
 

@@ -8,8 +8,9 @@ class Settings(BaseSettings):
     openrouter_model: str = ''
     staff_username: str = ''
     staff_password: str = ''
-    review_password: str = ''
-    session_secret: str = ''
+    student_username: str = ''
+    student_password: str = ''
+    cookie_secure: bool = True
     chat_enabled: bool = True
     session_max_age: int = 28800
     chat_requests_per_minute: int = 10

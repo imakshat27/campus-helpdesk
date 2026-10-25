@@ -6,7 +6,9 @@ from sqlalchemy.pool import StaticPool
 from app.main import app, get_retriever
 from app.db import get_db
 from app.llm import get_generator, get_query_resolver, ResolvedQuery
-from app.models import Base, Document
+from app.models import Base, Document, User, LoginSession, now
+from app.access import hasher, digest
+from datetime import timedelta
 from app.schemas import Generation, Source
 from app.seed import sample_documents
 from app.config import settings
@@ -19,6 +21,10 @@ def database():
     with Session(engine) as db:
         for d in sample_documents():
             db.add(Document(**{k:v for k,v in d.items() if k!='question'}))
+        db.add(User(id='test-staff', username='test-staff', role='staff', password_hash=hasher.hash('test-staff-password-long')))
+        db.add(User(id='test-owner', username='test-student', role='student', password_hash=hasher.hash('test-student-password-long')))
+        db.flush()
+        db.add(LoginSession(token_hash=digest('test-staff-token'), user_id='test-staff', expires_at=now()+timedelta(hours=8)))
         db.commit()
     yield engine
     engine.dispose()
@@ -26,7 +32,8 @@ def database():
 @pytest.fixture
 def client(database,monkeypatch):
     monkeypatch.setattr(settings(),'staff_username','test-staff')
-    monkeypatch.setattr(settings(),'staff_password','test-password')
+    monkeypatch.setattr(settings(),'staff_password','test-staff-password-long')
+    monkeypatch.setattr(settings(),'cookie_secure',False)
     def db_override():
         with Session(database) as db:
             yield db
@@ -38,7 +45,7 @@ def client(database,monkeypatch):
             context=' '.join(m['content'] for m in history if m['role']=='user')
             return ResolvedQuery(query=(context+' '+query).strip(),uses_context=bool(history))
     app.dependency_overrides[get_query_resolver]=lambda:Resolver()
-    with TestClient(app,raise_server_exceptions=False) as client:
+    with TestClient(app,raise_server_exceptions=False,headers={'Origin':'http://localhost:5173'}) as client:
         yield client
     app.dependency_overrides.clear()
 

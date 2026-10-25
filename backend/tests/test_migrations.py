@@ -39,7 +39,12 @@ def test_initial_migration_matches_orm_and_downgrades(monkeypatch):
         third=importlib.util.module_from_spec(spec3);spec3.loader.exec_module(third)
         monkeypatch.setattr(third,'op',TestOps())
         third.upgrade()
+        spec4=importlib.util.spec_from_file_location('account_migration',path.parent/'004_account_sessions.py')
+        fourth=importlib.util.module_from_spec(spec4);spec4.loader.exec_module(fourth)
+        monkeypatch.setattr(fourth,'op',TestOps())
+        fourth.upgrade()
         assert compare_metadata(ctx,Base.metadata)==[]
+        fourth.downgrade()
         third.downgrade()
         second.downgrade()
         module.downgrade()

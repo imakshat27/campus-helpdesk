@@ -57,13 +57,8 @@ it('does not substitute fictional sample sources when the official API fails',as
  expect(mockFetch).toHaveBeenCalledTimes(1);
  expect(screen.queryByText(/bundled sample/)).not.toBeInTheDocument();
 });
-it('requires staff sign-in and never displays an invented queue',async()=>{
-  mockFetch.mockResolvedValue(response({detail:'Incorrect username or password.'},false));
-  show('/staff');const user=userEvent.setup();
-  await user.type(screen.getByLabelText('Username'),'staff');await user.type(screen.getByLabelText('Password'),'wrong');await user.click(screen.getByRole('button',{name:'Sign in'}));
-  expect(await screen.findByRole('alert')).toHaveTextContent('Incorrect username');
-  expect(screen.queryByText('You’re all caught up.')).not.toBeInTheDocument();
-  await waitFor(()=>expect(mockFetch).toHaveBeenCalledTimes(1));
+it('redirects students away from the staff workspace',async()=>{
+ show('/staff');expect(await screen.findByLabelText('Ask a campus question')).toBeVisible();expect(screen.queryByText('Staff queue')).not.toBeInTheDocument();
 });
 it('restores the conversation across navigation and clears it on new conversation',async()=>{
   mockFetch.mockResolvedValueOnce(response({conversation_id:'saved-conversation',user_message_id:'saved-user',outcome:'answered',message:'A saved campus answer.',sources:[]})).mockResolvedValue(response([]));

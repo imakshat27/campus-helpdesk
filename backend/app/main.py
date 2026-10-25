@@ -1,9 +1,7 @@
-import secrets
 from uuid import uuid4
-from fastapi import FastAPI, Depends, HTTPException, Query, Request
+from fastapi import FastAPI, Depends, HTTPException, Query, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
-from fastapi.security import HTTPBasic, HTTPBasicCredentials
 from sqlalchemy import select, text, func
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Session,load_only
@@ -15,37 +13,39 @@ from .retrieval import retrieve
 from .llm import get_generator, get_query_resolver, validate_generation
 from .clarification import clarification_for,asks_for_price,contains_price
 from .conversation import ticket_decision, conversational_reply
-from .access import require_access, allow_chat, AccessLogin, login
+from .access import require_access, allow_chat, AccessLogin, login, logout, require_user, staff, public_user, reserve_ai
 
 app=FastAPI(title='Campus Helpdesk API', version='1.0.0')
-app.add_middleware(CORSMiddleware, allow_origins=settings().cors_origins,allow_credentials=False,allow_methods=['GET','POST','PATCH'],allow_headers=['Authorization','Content-Type'])
-security=HTTPBasic(auto_error=False)
+app.add_middleware(CORSMiddleware, allow_origins=settings().cors_origins,allow_credentials=True,allow_methods=['GET','POST','PATCH','DELETE'],allow_headers=['Authorization','Content-Type'])
+@app.middleware('http')
+async def protect_origin(request: Request, call_next):
+    if request.method in {'POST', 'PATCH', 'DELETE', 'PUT'}:
+        origin = request.headers.get('origin')
+        if origin not in settings().cors_origins:
+            return JSONResponse(status_code=403, content={'detail': 'Request origin is not allowed.'})
+    response = await call_next(request)
+    if request.url.path.startswith('/api/auth') or request.url.path.startswith('/api/conversations'):
+        response.headers['Cache-Control'] = 'no-store'
+    return response
 
 @app.exception_handler(SQLAlchemyError)
 def database_error(request: Request, exc: SQLAlchemyError):
     return JSONResponse(status_code=503,content={'detail':'The database is unavailable. Nothing has been confirmed as saved. Please try again.'})
 
-def staff(credentials: HTTPBasicCredentials | None=Depends(security)):
-    s=settings()
-    if not s.staff_username or not s.staff_password:
-        raise HTTPException(503,'Staff access is not configured.')
-    if credentials is None:
-        raise HTTPException(401,'Sign in to view the staff queue.',headers={'WWW-Authenticate':'Basic'})
-    user_ok=secrets.compare_digest(credentials.username.encode(),s.staff_username.encode())
-    password_ok=secrets.compare_digest(credentials.password.encode(),s.staff_password.encode())
-    if not (user_ok and password_ok):
-        raise HTTPException(401,'Incorrect username or password.',headers={'WWW-Authenticate':'Basic'})
-
 def get_retriever():
     return retrieve
 
 @app.post('/api/auth/session')
-def access_login(body: AccessLogin,request: Request,db: Session=Depends(get_db)):
-    return login(body,request,db)
+def access_login(body: AccessLogin,request: Request,response: Response,db: Session=Depends(get_db)):
+    return login(body,request,response,db)
 
 @app.get('/api/auth/session')
-def access_session(owner: str=Depends(require_access)):
-    return {'authenticated':True}
+def access_session(user=Depends(require_user)):
+    return public_user(user)
+
+@app.delete('/api/auth/session')
+def access_logout(request: Request, response: Response, db: Session=Depends(get_db)):
+    return logout(request, response, db)
 
 @app.get('/api/health')
 def health(db: Session=Depends(get_db)):
@@ -116,6 +116,7 @@ def conversation_detail(conversation_id: str,owner: str=Depends(require_access),
 
 @app.post('/api/chat',response_model=ChatResponse)
 def chat(body: ChatRequest,owner: str=Depends(allow_chat),db: Session=Depends(get_db),generator=Depends(get_generator),search=Depends(get_retriever),resolver=Depends(get_query_resolver)):
+    reserve_ai(db, owner)
     query=body.message.strip()
     if not query:
         raise HTTPException(422,'Enter a question first.')

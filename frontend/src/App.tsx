@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, lazy, Suspense } from 'react';
-import type { FormEvent, ReactNode } from 'react';
-import { NavLink, Route, Routes, useLocation } from 'react-router-dom';
+import type { ReactNode } from 'react';
+import { NavLink, Route, Routes, useLocation, Navigate } from 'react-router-dom';
 import { ArrowRight, ArrowUp, BookOpen, Check, CheckCircle2, ChevronRight, FileText, GraduationCap, Headphones, HelpCircle, Inbox, LibraryBig, LoaderCircle, MapPin, MessageSquare, Plus, Search, ShieldCheck, SquareArrowOutUpRight, Ticket as TicketIcon, UserRound, Wifi, Wrench, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -16,6 +16,7 @@ import { Dialog as UiDialog, DialogContent, DialogHeader, DialogTitle, DialogDes
 import { SidebarProvider, Sidebar, SidebarHeader, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupLabel, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarInset, SidebarTrigger, useSidebar } from '@/components/ui/sidebar';
 import { api } from './api';
 import { clearAccess } from './access';
+import { useAccount } from './components/AccessGate';
 const SourceContent=lazy(()=>import('./components/SourceContent'));
 import type { ChatReply, Knowledge, Source, Ticket, TicketOffer } from './api';
 
@@ -44,13 +45,14 @@ function SourceDialog({ title, children, onClose, provenance }: { title: string;
 function CampusSidebar({ onNew }: { onNew: () => void }) {
   const location = useLocation();
   const { setOpenMobile } = useSidebar();
-  const links = [{ to: '/', label: 'Ask a question', icon: MessageSquare }, { to: '/knowledge', label: 'Knowledge base', icon: BookOpen }, { to: '/staff', label: 'Staff queue', icon: Inbox }];
+  const account = useAccount();
+  const links = [{ to: '/', label: 'Ask a question', icon: MessageSquare }, { to: '/knowledge', label: 'Knowledge base', icon: BookOpen }, { to: '/staff', label: 'Staff queue', icon: Inbox }].filter(link => account?.role === 'staff' ? link.to !== '/' : link.to !== '/staff');
   function closeMenu() { setOpenMobile(false); }
   return <Sidebar className="campus-sidebar" role="navigation" aria-label="Main navigation">
     <SidebarHeader className="campus-sidebar-header">
       <Button className="sidebar-close md:hidden" variant="ghost" size="icon" aria-label="Close navigation" onClick={closeMenu}><X /></Button>
       <NavLink to="/" className="brand" onClick={closeMenu}><span className="brand-mark"><GraduationCap size={27} strokeWidth={1.7} /></span><span>Campus<span className="brand-sub">Helpdesk</span></span></NavLink>
-      <Button asChild variant="secondary" className="new-chat"><NavLink to="/" onClick={() => { onNew(); closeMenu(); }}><Plus size={20} />New conversation</NavLink></Button>
+      {account?.role !== 'staff' && <Button asChild variant="secondary" className="new-chat"><NavLink to="/" onClick={() => { onNew(); closeMenu(); }}><Plus size={20} />New conversation</NavLink></Button>}
     </SidebarHeader>
     <SidebarContent><SidebarGroup><SidebarGroupLabel className="campus-nav-label">Helpdesk</SidebarGroupLabel><SidebarMenu className="campus-nav">
       {links.map(({to,label,icon:Icon}) => <SidebarMenuItem key={to}><SidebarMenuButton asChild isActive={to==='/' ? location.pathname==='/' : location.pathname.startsWith(to)}><NavLink to={to} onClick={closeMenu}><Icon size={21}/><span>{label}</span></NavLink></SidebarMenuButton></SidebarMenuItem>)}
@@ -60,6 +62,9 @@ function CampusSidebar({ onNew }: { onNew: () => void }) {
 }
 
 export default function App() {
+  const account = useAccount();
+  const [logoutError, setLogoutError] = useState('');
+  async function signOut() { try { await api('/auth/session', {method: 'DELETE'}); clearAccess(); } catch (e) {setLogoutError(errorText(e));} }
   const [resetKey, setResetKey] = useState(0);
   const location = useLocation();
   useEffect(() => { window.scrollTo({ top: 0, behavior: 'instant' }); }, [location.pathname]);
@@ -68,8 +73,8 @@ export default function App() {
   return <SidebarProvider className="helpdesk-shell">
     <a className="skip-link" href="#main">Skip to content</a>
     <CampusSidebar onNew={reset}/>
-    <SidebarInset id="main" className="main-shell"><header className="topbar"><div className="page-location"><SidebarTrigger className="mobile-menu md:hidden" aria-label="Open navigation"/><span>{name}</span></div><Button variant="ghost" onClick={clearAccess}>Sign out</Button></header>
-      <Routes><Route path="/" element={<Chat key={resetKey}/>} /><Route path="/knowledge" element={<KnowledgeBase/>} /><Route path="/staff" element={<StaffQueue/>} /><Route path="*" element={<div className="page"><h1>Page not found</h1><Button asChild><NavLink to="/">Back to helpdesk</NavLink></Button></div>} /></Routes>
+    <SidebarInset id="main" className="main-shell"><header className="topbar"><div className="page-location"><SidebarTrigger className="mobile-menu md:hidden" aria-label="Open navigation"/><span>{name}</span></div><Button variant="ghost" onClick={() => void signOut()}>Sign out</Button></header>
+      {logoutError && <p role="alert">{logoutError}</p>}<Routes><Route path="/" element={account?.role === 'staff' ? <Navigate to="/staff" replace /> : <Chat key={resetKey}/>} /><Route path="/knowledge" element={<KnowledgeBase/>} /><Route path="/staff" element={account?.role === 'staff' ? <StaffQueue/> : <Navigate to="/" replace />} /><Route path="*" element={<div className="page"><h1>Page not found</h1><Button asChild><NavLink to="/">Back to helpdesk</NavLink></Button></div>} /></Routes>
     </SidebarInset>
   </SidebarProvider>;
 }
@@ -209,9 +214,6 @@ function KnowledgeBase() {
 }
 
 function StaffQueue() {
-  const [credentials, setCredentials] = useState('');
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
   const [tickets, setTickets] = useState<Ticket[]>([]);
   const [status, setStatus] = useState('open');
   const [error, setError] = useState('');
@@ -219,22 +221,21 @@ function StaffQueue() {
   const [selected, setSelected] = useState<Ticket | null>(null);
   const [updating, setUpdating] = useState(false);
   const requestNumber = useRef(0);
-  async function load(auth: string, filter: string) {
+  async function load(filter: string) {
     const request = ++requestNumber.current;
     setLoading(true); setError('');
-    try { const data = await api<Ticket[]>(`/staff/tickets?status=${filter}`, { headers: { Authorization: `Basic ${auth}` } }); if (request === requestNumber.current) { setTickets(data); setCredentials(auth); } }
+    try { const data = await api<Ticket[]>(`/staff/tickets?status=${filter}`); if (request === requestNumber.current) { setTickets(data); } }
     catch (e) { if (request === requestNumber.current) setError(errorText(e)); }
     finally { if (request === requestNumber.current) setLoading(false); }
   }
-  function login(e: FormEvent) { e.preventDefault(); const bytes = new TextEncoder().encode(`${username}:${password}`); void load(btoa(Array.from(bytes, b => String.fromCharCode(b)).join('')), status); }
+  useEffect(() => { void load(status); }, [status]);
   async function resolve(ticket: Ticket) {
     setUpdating(true); setError('');
-    try { await api(`/staff/tickets/${ticket.id}`, { method: 'PATCH', headers: { Authorization: `Basic ${credentials}` }, body: JSON.stringify({ status: ticket.status === 'open' ? 'resolved' : 'open' }) }); setSelected(null); await load(credentials, status); }
+    try { await api(`/staff/tickets/${ticket.id}`, { method: 'PATCH', body: JSON.stringify({ status: ticket.status === 'open' ? 'resolved' : 'open' }) }); setSelected(null); await load(status); }
     catch (e) { setError(errorText(e)); }
     finally { setUpdating(false); }
   }
-  if (!credentials) return <div className="staff-login-page"><div className="login-heading"><span className="welcome-symbol"><ShieldCheck size={31} strokeWidth={1.5} /></span><span className="eyebrow">STUDENT SUPPORT</span><h1>Staff access</h1><p>Sign in to review questions that need a human answer.</p></div><Card className="login-card"><form onSubmit={login}><h2>Staff sign in</h2><Label htmlFor="username">Username</Label><Input id="username" autoComplete="username" value={username} onChange={e => setUsername(e.target.value)} required /><Label htmlFor="password">Password</Label><Input id="password" type="password" autoComplete="current-password" value={password} onChange={e => setPassword(e.target.value)} required />{error && <p className="form-error" role="alert">{error}</p>}<Button type="submit" disabled={loading}>{loading ? <Spinner /> : <>Sign in<ArrowRight size={19} /></>}</Button><p className="login-note"><ShieldCheck size={18} />For student support staff only.</p></form></Card></div>;
-  return <div className="page"><div className="staff-title"><div className="page-heading"><span className="eyebrow">STUDENT SUPPORT</span><h1>Staff queue</h1><p>Review questions sent to student support and track their resolution.</p></div><Button variant="outline" onClick={() => { requestNumber.current++; setLoading(false); setCredentials(''); setPassword(''); setTickets([]); setSelected(null); }}>Sign out</Button></div><div className="queue-toolbar"><Tabs value={status} onValueChange={value=>{setStatus(value);void load(credentials,value);}}><TabsList aria-label="Ticket status">{['open','resolved','all'].map(value=><TabsTrigger key={value} value={value}>{value==='open'?'Unresolved':value==='resolved'?'Resolved':'All questions'}</TabsTrigger>)}</TabsList></Tabs><Button variant="outline" disabled={loading} onClick={() => void load(credentials, status)}>Refresh{loading && <Spinner />}</Button></div>{error && <p className="error-banner" role="alert">{error}</p>}
+  return <div className="page"><div className="staff-title"><div className="page-heading"><span className="eyebrow">STUDENT SUPPORT</span><h1>Staff queue</h1><p>Review questions sent to student support and track their resolution.</p></div></div><div className="queue-toolbar"><Tabs value={status} onValueChange={value=>{setStatus(value);void load(value);}}><TabsList aria-label="Ticket status">{['open','resolved','all'].map(value=><TabsTrigger key={value} value={value}>{value==='open'?'Unresolved':value==='resolved'?'Resolved':'All questions'}</TabsTrigger>)}</TabsList></Tabs><Button variant="outline" disabled={loading} onClick={() => void load(status)}>Refresh{loading && <Spinner />}</Button></div>{error && <p className="error-banner" role="alert">{error}</p>}
     {loading ? <div className="empty-state"><Spinner /><p>Loading staff queue…</p></div> : tickets.length ? <div className="ticket-list">{tickets.map(t => <Button variant="ghost" className="ticket-row" key={t.id} onClick={() => setSelected(t)}><span className="document-icon"><MessageSquare size={23} /></span><div><span className="document-meta">{t.reference}<span>·</span>{new Date(t.created_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })}</span><strong>{t.query}</strong><span className="document-excerpt">{t.reason}</span></div><Badge variant="outline" className={`status-pill ${t.status}`}>{t.status === 'open' ? 'Unresolved' : 'Resolved'}</Badge><ChevronRight size={21} /></Button>)}</div> : <div className="empty-state queue-empty"><CheckCircle2 size={38} strokeWidth={1.4} /><h2>{status === 'open' ? 'No unresolved tickets.' : 'No tickets found.'}</h2><p>{status === 'open' ? 'Questions sent to student support will appear here.' : 'Try another filter to view more questions.'}</p></div>}
     {selected && <SourceDialog title={selected.reference} onClose={() => { if (!updating) setSelected(null); }}><Badge variant="outline" className={`status-pill ${selected.status}`}>{selected.status === 'open' ? 'Unresolved' : 'Resolved'}</Badge><h3>{selected.query}</h3><div className="ticket-context">{selected.messages.map((m, i) => <div key={i}><strong>{m.role === 'user' ? 'Student' : 'Helpdesk'}</strong><p>{m.content}</p></div>)}</div>{error && <p role="alert" className="form-error">{error}</p>}<Button variant="default" disabled={updating} onClick={() => void resolve(selected)}>{updating ? <Spinner /> : <Check size={19} />}{selected.status === 'open' ? 'Mark resolved' : 'Reopen question'}</Button></SourceDialog>}
   </div>;

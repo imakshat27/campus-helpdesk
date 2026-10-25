@@ -3,12 +3,13 @@ import json
 from pathlib import Path
 import httpx
 from .config import settings
-from .review_client import authenticate
+from .review_client import authenticate, staff_headers
 
 def run():
  rows=[];s=settings()
  with httpx.Client(base_url='http://127.0.0.1:8000',timeout=150) as c:
   authenticate(c)
+  staff_auth=staff_headers(c)
   def ask(q,cid=None):
    response=c.post('/api/chat',json={'message':q,'conversation_id':cid});response.raise_for_status();a=response.json()
    rows.append({'query':q,'outcome':a['outcome'],'answer':a['message'],'sources':[{'id':x['id'],'title':x['title'],'url':x.get('source_url')} for x in a['sources']],'ticket':a['ticket_reference']})
@@ -22,7 +23,7 @@ def run():
   returned=ask('Back to the hostel booking, how do I pay for my room and mess?',first['conversation_id'])
   assert returned['outcome']=='answered' and any('hostel' in x['source_url'].lower() for x in returned['sources'])
   def queue():
-   r=c.get('/api/staff/tickets?status=all',auth=(s.staff_username,s.staff_password));r.raise_for_status();return r.json()
+   r=c.get('/api/staff/tickets?status=all',headers=staff_auth);r.raise_for_status();return r.json()
   count=len(queue())
   missing=ask('What is my personal bank balance?')
   assert missing['outcome']=='needs_staff_confirmation' and not missing['ticket_reference'] and len(queue())==count

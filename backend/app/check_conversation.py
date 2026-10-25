@@ -3,7 +3,7 @@ import json
 from pathlib import Path
 import httpx
 from .config import settings
-from .review_client import authenticate
+from .review_client import authenticate, staff_headers
 ROOT=Path(__file__).resolve().parents[2]
 
 def run():
@@ -27,9 +27,9 @@ def run():
         assert timing['outcome']=='answered' and ('three' in timing['message'].lower() or '3' in timing['message']),timing
         change=ask('What time does the library close on Sunday?',first['conversation_id'])
         assert change['outcome']=='answered' and '5:00' in change['message'],change
-        auth=(s.staff_username,s.staff_password)
+        auth=staff_headers(c)
         def queue():
-            r=c.get('/api/staff/tickets?status=all',auth=auth);r.raise_for_status();return r.json()
+            r=c.get('/api/staff/tickets?status=all',headers=auth);r.raise_for_status();return r.json()
         count_before=len(queue())
         missing=ask('What is my personal bank account balance?')
         assert missing['outcome']=='needs_staff_confirmation' and not missing['ticket_reference']

@@ -2,7 +2,7 @@
 import json
 from pathlib import Path
 import httpx
-from .review_client import authenticate
+from .review_client import authenticate, staff_headers
 from .config import settings
 CASES=[
 ('What choices does FFCS give students?','answered','ffcs'),
@@ -22,8 +22,9 @@ def run():
  rows=[];s=settings()
  with httpx.Client(base_url='http://127.0.0.1:8000',timeout=150) as client:
   authenticate(client)
+  staff_auth=staff_headers(client)
   def count():
-   r=client.get('/api/staff/tickets?status=all',auth=(s.staff_username,s.staff_password));r.raise_for_status();return len(r.json())
+   r=client.get('/api/staff/tickets?status=all',headers=staff_auth);r.raise_for_status();return len(r.json())
   before=count()
   for query,outcome,family in CASES:
    r=client.post('/api/chat',json={'message':query});body=r.json();sources=body.get('sources',[])

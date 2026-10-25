@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 import type { FormEvent, ReactNode } from 'react';
 import { ArrowRight, LoaderCircle, ShieldCheck } from 'lucide-react';
 import { Card } from './ui/card';
@@ -6,19 +6,23 @@ import { Input } from './ui/input';
 import { Label } from './ui/label';
 import { Button } from './ui/button';
 import { api } from '../api';
-import { accessToken, clearAccess, saveAccess } from '../access';
+import { clearAccess } from '../access';
+import type { Account } from '../access';
+const AccountContext = createContext<Account | null>(null);
+export const useAccount = () => useContext(AccountContext);
 
 export default function AccessGate({ children }: { children: ReactNode }) {
-  const [ready, setReady] = useState(false);
-  const [checking, setChecking] = useState(!!accessToken());
+  const [account, setAccount] = useState<Account | null>(null);
+  const [username, setUsername] = useState('');
+  const [checking, setChecking] = useState(true);
   const [password, setPassword] = useState('');
   const [pending, setPending] = useState(false);
   const [error, setError] = useState('');
   useEffect(() => {
     let active = true;
-    function expired() { setReady(false); setError('Please sign in to continue. Your draft is kept in this tab.'); }
+    function expired() { setAccount(null); setError('Please sign in to continue. Your draft is kept in this tab.'); }
     window.addEventListener('campus-access-expired', expired);
-    if (accessToken()) void api('/auth/session').then(() => { if (active) setReady(true); }).catch(e => { if (active) { clearAccess(); setError(e instanceof Error ? e.message : 'Please sign in again.'); } }).finally(() => { if (active) setChecking(false); });
+    void api<Account>('/auth/session').then(user => { if (active) setAccount(user); }).catch(e => { if (active) { clearAccess(); setError(e instanceof Error ? e.message : 'Please sign in again.'); } }).finally(() => { if (active) setChecking(false); });
     return () => { active = false; window.removeEventListener('campus-access-expired', expired); };
   }, []);
   async function submit(event: FormEvent) {
@@ -26,21 +30,23 @@ export default function AccessGate({ children }: { children: ReactNode }) {
     if (pending) return;
     setPending(true); setError('');
     try {
-      const result = await api<{ access_token: string }>('/auth/session', { method: 'POST', body: JSON.stringify({ password }) });
-      saveAccess(result.access_token); setPassword(''); setReady(true);
+      const result = await api<Account>('/auth/session', { method: 'POST', body: JSON.stringify({ username, password }) });
+      setPassword(''); setAccount(result);
     } catch (e) { setError(e instanceof Error ? e.message : 'Sign in could not be completed.'); }
     finally { setPending(false); }
   }
-  if (ready) return children;
+  if (account) return <AccountContext.Provider value={account}>{children}</AccountContext.Provider>;
   return <main className="staff-login-page access-page">
-    <div className="login-heading"><span className="welcome-symbol"><ShieldCheck size={31} strokeWidth={1.5} aria-hidden="true" /></span><span className="eyebrow">VIT · STUDENT HELPDESK</span><h1>Private review access</h1><p>Enter the access password shared by the project owner.</p></div>
+    <div className="login-heading"><span className="welcome-symbol"><ShieldCheck size={31} strokeWidth={1.5} aria-hidden="true" /></span><span className="eyebrow">VIT · STUDENT HELPDESK</span><h1>Sign in to Campus Helpdesk</h1><p>Use your student or staff account to continue.</p></div>
     <Card className="login-card">
       {checking ? <p role="status">Checking your session…</p> : <form onSubmit={submit}>
-        <Label htmlFor="access-password">Access password</Label>
+        <Label htmlFor="username">Username</Label>
+        <Input id="username" autoComplete="username" value={username} onChange={e => setUsername(e.target.value)} required maxLength={100} />
+        <Label htmlFor="access-password">Password</Label>
         <Input id="access-password" type="password" autoComplete="current-password" value={password} onChange={e => setPassword(e.target.value)} required maxLength={1024} aria-describedby={error ? 'access-error' : undefined} />
         {error && <p id="access-error" className="form-error" role="alert">{error}</p>}
-        <Button type="submit" disabled={pending}>{pending ? <><LoaderCircle size={20} className="spinner" aria-hidden="true" />Signing in…</> : <>Continue<ArrowRight size={19} aria-hidden="true" /></>}</Button>
-        <p className="login-note">Access lasts up to 8 hours in this tab.</p>
+        <Button type="submit" disabled={pending}>{pending ? <><LoaderCircle size={20} className="spinner" aria-hidden="true" />Signing in…</> : <>Sign in<ArrowRight size={19} aria-hidden="true" /></>}</Button>
+        <p className="login-note">Your sign-in lasts up to 8 hours.</p>
       </form>}
     </Card>
   </main>;
