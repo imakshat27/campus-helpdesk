@@ -241,6 +241,31 @@ p { line-height:1.6; }
 .source-document ol { list-style:decimal; }
 .source-document a { color:var(--primary); text-decoration:underline; }
 
+/* Loading skeletons mirror the layout they replace; motion is a slow pulse only. */
+[data-slot=skeleton] { background:#e9ece9; }
+.skeleton-list { display:flex; flex-direction:column; gap:10px; }
+.skeleton-row { display:flex; align-items:center; gap:16px; padding:18px 20px; border:1px solid var(--border); border-radius:12px; background:white; }
+.skeleton-icon { width:44px; height:44px; flex-shrink:0; border-radius:10px; }
+.skeleton-copy { flex:1; min-width:0; display:flex; flex-direction:column; gap:10px; }
+.skeleton-line { height:14px; width:100%; border-radius:6px; }
+.skeleton-line.short { width:28%; }
+.skeleton-line.medium { width:62%; }
+.skeleton-field { height:48px; width:100%; border-radius:10px; margin:8px 0 20px; }
+.skeleton-button { height:48px; width:100%; border-radius:10px; margin-top:4px; }
+.login-card .skeleton-line { margin-bottom:0; height:16px; }
+.conversation-skeleton { overflow:hidden; display:block; }
+.skeleton-user { display:flex; justify-content:flex-end; padding:12px 0; }
+.skeleton-bubble { height:52px; width:55%; border-radius:18px 18px 4px 18px; }
+.skeleton-bubble.narrow { width:38%; }
+.skeleton-assistant { display:flex; gap:12px; padding:12px 0 20px; }
+.skeleton-avatar { width:36px; height:36px; flex-shrink:0; border-radius:50%; }
+.history-skeleton { display:flex; flex-direction:column; gap:8px; padding:4px 10px; }
+.skeleton-history { height:20px; width:100%; border-radius:6px; }
+.history-skeleton .skeleton-history:nth-child(2) { width:80%; }
+.history-skeleton .skeleton-history:nth-child(3) { width:60%; }
+@media (max-width:767px) { .skeleton-row { padding:16px; } .skeleton-icon { display:none; } }
+@media (prefers-reduced-motion:reduce) { [data-slot=skeleton] { animation:none!important; } }
+
 @media (min-width:768px) and (max-width:1100px) {
  .helpdesk-shell { --sidebar-width:232px!important; }
  .topbar { padding:0 24px; gap:12px; }

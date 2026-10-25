@@ -5,6 +5,7 @@ import { Card } from './ui/card';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
 import { Button } from './ui/button';
+import { Skeleton } from './ui/skeleton';
 import { api, ApiError } from '../api';
 import { clearAccess } from '../access';
 import type { Account } from '../access';
@@ -39,7 +40,7 @@ export default function AccessGate({ children }: { children: ReactNode }) {
   return <main className="staff-login-page access-page">
     <div className="login-heading"><div className="login-brand"><span className="brand-mark" aria-hidden="true">CH</span><div>Campus Helpdesk<span>VIT Vellore</span></div></div><h1>Sign in</h1><p>Use your student or staff account.</p></div>
     <Card className="login-card">
-      {checking ? <p role="status">Checking your session…</p> : <form onSubmit={submit}>
+      {checking ? <div role="status" aria-busy="true"><span className="sr-only">Checking your session…</span><div aria-hidden="true"><Skeleton className="skeleton-line short"/><Skeleton className="skeleton-field"/><Skeleton className="skeleton-line short"/><Skeleton className="skeleton-field"/><Skeleton className="skeleton-button"/></div></div> : <form onSubmit={submit}>
         <Label htmlFor="username">Username</Label>
         <Input id="username" autoComplete="username" value={username} onChange={e => setUsername(e.target.value)} required maxLength={100} />
         <Label htmlFor="access-password">Password</Label>
